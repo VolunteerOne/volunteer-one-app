@@ -255,3 +255,9 @@ google-services.json
 *.hprof
 
 # End of https://www.toptal.com/developers/gitignore/api/reactnative
+
+### macOS ###
+# General
+.DS_Store
+.AppleDouble
+.LSOverride
