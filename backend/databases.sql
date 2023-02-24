@@ -1,14 +1,14 @@
 CREATE TABLE `users`
 (
  `id`         int NOT NULL ,
- `handle`     linestring NOT NULL ,
- `email`      linestring NOT NULL ,
- `password`   linestring NOT NULL ,
+ `handle`     VARCHAR(255) NOT NULL ,
+ `email`      VARCHAR(255) NOT NULL ,
+ `password`   VARCHAR(255) NOT NULL ,
  `birthdate`  date NOT NULL ,
- `firstName`  linestring NOT NULL ,
- `lastName`   linestring NOT NULL ,
+ `firstName`  VARCHAR(255) NOT NULL ,
+ `lastName`   VARCHAR(255) NOT NULL ,
  `profilePic` mediumblob,
- `interests`  text ,
+ `interests`  VARCHAR(255) ,
 
 PRIMARY KEY (`id`)
 );
