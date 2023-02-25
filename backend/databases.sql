@@ -9,6 +9,7 @@ CREATE TABLE `users`
  `lastName`   VARCHAR(255) NOT NULL ,
  `profilePic` mediumblob,
  `interests`  VARCHAR(255) ,
+ `verified`   tinyint,
 
 PRIMARY KEY (`id`)
 );
