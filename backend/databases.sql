@@ -13,3 +13,16 @@ CREATE TABLE `users`
 
 PRIMARY KEY (`id`)
 );
+
+CREATE TABLE `events` (
+  `id` int NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `organization_id` int NOT NULL,
+  `address` varchar(255),
+  `date` date NOT NULL,
+  `time` time NOT NULL,
+  `description` text,
+
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`organization_id`) REFERENCES `volunteer_req` (`event_id`)
+);
