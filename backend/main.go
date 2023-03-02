@@ -10,8 +10,8 @@ import (
 )
 
 func main() {
-	database.Init()
-	server.Init()
+	database.Init() // Connect database
+	server.Init()   // Start Server
 }
 
 // Runs before main
