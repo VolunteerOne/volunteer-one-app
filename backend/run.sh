@@ -1,0 +1,1 @@
+compiledaemon -command="./backend"

@@ -13,13 +13,19 @@ import Elements from "../screens/Elements";
 import Home from "../screens/Home";
 import Onboarding from "../screens/Onboarding";
 import Profile from "../screens/Profile";
-import Friends from "../screens/Friends"
+import Friends from "../screens/Friends";
+import CreateAccount from "../screens/Onboarding/CreateAccount";
 import Register from "../screens/Onboarding/Register";
-import Pro from "../screens/Pro"
+import Login from "../screens/Onboarding/Login";
+import ForgotPassword from "../screens/Onboarding/ForgotPassword";
+import NewPassword from "../screens/Onboarding/NewPassword";
+import Pro from "../screens/Pro";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+
+/** ==================================== Routing ==================================== **/
 
 const { width } = Dimensions.get("screen");
 
@@ -37,7 +43,7 @@ function FriendsStack(props) {
         name="Elements"
         component={Friends}
         options={{
-          header: ({  navigation, scene }) => (
+          header: ({ navigation, scene }) => (
             <Header title="Friends" navigation={navigation} scene={scene} />
           ),
           cardStyle: { backgroundColor: "#F8F9FE" },
@@ -58,7 +64,7 @@ function FriendsStack(props) {
           ),
           cardStyle: { backgroundColor: "#FFFFFF" },
           headerTransparent: true,
-          headerShown: false
+          headerShown: false,
         }}
       />
     </Stack.Navigator>
@@ -106,7 +112,7 @@ function ProfileStack(props) {
           ),
           cardStyle: { backgroundColor: "#FFFFFF" },
           headerTransparent: true,
-          headerShown: false
+          headerShown: false,
         }}
       />
     </Stack.Navigator>
@@ -181,7 +187,138 @@ function HomeStack(props) {
           ),
           cardStyle: { backgroundColor: "#FFFFFF" },
           headerTransparent: true,
-          headerShown: false
+          headerShown: false,
+        }}
+      />
+      {/* delete later - testing onboarding screens */}
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              transparent
+              white
+              title="Login"
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#FFFFFF" },
+          headerTransparent: true,
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="CreateAccount"
+        component={CreateAccount}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              transparent
+              white
+              title="Create Account"
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#FFFFFF" },
+          headerTransparent: true,
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="Register"
+        component={Register}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              transparent
+              white
+              title="Register"
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#FFFFFF" },
+          headerTransparent: true,
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="ForgotPassword"
+        component={ForgotPassword}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              transparent
+              white
+              title="Forgot Password"
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#FFFFFF" },
+          headerTransparent: true,
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="NewPassword"
+        component={NewPassword}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              transparent
+              white
+              title="New Password"
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          cardStyle: { backgroundColor: "#FFFFFF" },
+          headerTransparent: true,
+          headerShown: false,
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function LoginStack(props) {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        mode: "card",
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        option={{
+          headerTransparent: true,
+        }}
+      />
+      <Stack.Screen
+        name="CreateAccount"
+        component={CreateAccount}
+        option={{
+          headerTransparent: true,
+        }}
+      />
+      <Stack.Screen
+        name="Register"
+        component={Register}
+        option={{
+          headerTransparent: true,
+        }}
+      />
+      <Stack.Screen
+        name="ForgotPassword"
+        component={ForgotPassword}
+        option={{
+          headerTransparent: true,
         }}
       />
     </Stack.Navigator>
@@ -204,16 +341,13 @@ export default function OnboardingStack(props) {
         }}
       />
       <Stack.Screen
-        name="Register"
-        component={Register}
+        name="Login"
+        component={LoginStack}
         option={{
           headerTransparent: true,
         }}
       />
-      <Stack.Screen 
-        name="App" 
-        component={BottomNav} 
-      />
+      <Stack.Screen name="App" component={BottomNav} />
     </Stack.Navigator>
   );
 }
@@ -223,7 +357,7 @@ function BottomNav() {
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={{
-        tabBarActiveTintColor: '#e91e63',
+        tabBarActiveTintColor: "#e91e63",
       }}
     >
       <Tab.Screen
@@ -231,7 +365,7 @@ function BottomNav() {
         component={HomeStack}
         options={{
           headerShown: false,
-          tabBarLabel: 'Home',
+          tabBarLabel: "Home",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" color={color} size={size} />
           ),
@@ -242,7 +376,7 @@ function BottomNav() {
         component={ExploreStack}
         options={{
           headerShown: false,
-          tabBarLabel: 'Explore',
+          tabBarLabel: "Explore",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="bell" color={color} size={size} />
           ),
@@ -254,9 +388,13 @@ function BottomNav() {
         component={FriendsStack}
         options={{
           headerShown: false,
-          tabBarLabel: 'Friends',
+          tabBarLabel: "Friends",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account-group" color={color} size={size} />
+            <MaterialCommunityIcons
+              name="account-group"
+              color={color}
+              size={size}
+            />
           ),
           tabBarBadge: 3,
         }}
@@ -266,7 +404,7 @@ function BottomNav() {
         component={ProfileStack}
         options={{
           headerShown: false,
-          tabBarLabel: 'Profile',
+          tabBarLabel: "Profile",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="account" color={color} size={size} />
           ),
