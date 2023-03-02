@@ -4,11 +4,13 @@ import (
 	"log"
 	"os"
 
+	"github.com/VolunteerOne/volunteer-one-app/backend/database"
 	"github.com/VolunteerOne/volunteer-one-app/backend/server"
 	"github.com/joho/godotenv"
 )
 
 func main() {
+	database.Init()
 	server.Init()
 }
 
