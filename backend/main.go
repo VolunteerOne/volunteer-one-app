@@ -4,12 +4,20 @@ import (
 	"log"
 	"os"
 
+	"github.com/VolunteerOne/volunteer-one-app/backend/database"
+	"github.com/VolunteerOne/volunteer-one-app/backend/models"
 	"github.com/VolunteerOne/volunteer-one-app/backend/server"
 	"github.com/joho/godotenv"
 )
 
 func main() {
-	server.Init()
+	database.Init() // Connect database
+
+	if os.Getenv("DB_MIGRATION") != "" {
+		models.Init()
+	}
+
+	server.Init() // Start Server
 }
 
 // Runs before main
