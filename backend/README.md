@@ -9,7 +9,8 @@ DB_USER=testuser
 DB_PASSWORD=Password@123
 DB_HOST=db              
 DB_PORT=3306            
-DB_NAME=volunteerone    
+DB_NAME=volunteerone
+DB_MIGRATION=true
 ENVIRONMENT=local           
 ```
 
