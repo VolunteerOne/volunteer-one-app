@@ -3,7 +3,7 @@ import { StyleSheet, Dimensions, ScrollView } from 'react-native';
 // import { Block, theme } from 'galio-framework';
 
 import { Card } from '../../components';
-import articles from '../../constants/articles';
+// import articles from '../../constants/articles';
 import notifications from '../../constants/notifications';
 
 // <matt>
@@ -17,7 +17,7 @@ class Home extends React.Component {
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.articles}>
+        contentContainerStyle={styles.notifications}>
 
         {/* <matt> */}
         <Block>
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   home: {
     width: width,    
   },
-  articles: {
+  notifications: {
     width: width - theme.SIZES.BASE * 2,
     paddingVertical: theme.SIZES.BASE,
   },
