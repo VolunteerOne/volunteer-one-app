@@ -27,19 +27,26 @@ class NotificationItem extends React.Component {
     ];
 
     return (
+      <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}> 
       <Block row={horizontal} card flex style={cardContainer}>
-        <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}>
+        
+
+
+
           <Block flex style={imgContainer}>
-            <Image source={{uri: item.image}} style={imageStyles} />
+            <Image source={{uri: item.image}} 
+            style={imageStyles} />
           </Block>
-        </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}>
+
+         
+
           <Block flex space="between" style={styles.cardDescription}>
             <Text size={14} style={styles.cardTitle}>{item.title}</Text>
             <Text size={12} muted={!ctaColor} color={ctaColor || argonTheme.COLORS.ACTIVE} bold>{item.time}h ago</Text>
           </Block>
-        </TouchableWithoutFeedback>
+        
       </Block>
+      </TouchableWithoutFeedback>
     );
   }
 }
@@ -69,20 +76,28 @@ const styles = StyleSheet.create({
     padding: theme.SIZES.BASE / 2
   },
   imageContainer: {
-    borderRadius: 3,
-    elevation: 1,
-    overflow: 'hidden',
+    borderRadius: 62,
+    // elevation: 1,
+    // overflow: 'hidden',
+    marginTop: 17,
+    marginBottom: 17,
+    marginLeft: 17,
+    marginRight: 10,
   },
   image: {
-    // borderRadius: 3,
+    // width: 124,
+    // height: 124,
+    // borderRadius: 62,
+    // borderWidth: 0
   },
   horizontalImage: {
-    height: 122,
-    width: 'auto',
+    height: 62,
+    width: 62,
+    borderRadius: 62,
   },
   horizontalStyles: {
-    borderTopRightRadius: 0,
-    borderBottomRightRadius: 0,
+    borderTopRightRadius: 62,
+    borderBottomRightRadius: 62,
   },
   verticalStyles: {
     borderBottomRightRadius: 0,
