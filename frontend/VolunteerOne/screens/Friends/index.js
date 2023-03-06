@@ -5,6 +5,7 @@ import { Button } from "../../components";
 
 // import { Card } from '../../components';
 import NotificationItem from '../../components/NotificationItem';
+import ProfileItem from '../../components/ProfileItem';
 // import articles from '../../constants/articles';
 import notifications from '../../constants/notifications';
 
@@ -22,11 +23,11 @@ class Home extends React.Component {
         contentContainerStyle={styles.notifications}>
  
         <Block flex>
-          <NotificationItem item={notifications[0]} horizontal  />
-          <NotificationItem item={notifications[1]} horizontal />
-          <NotificationItem item={notifications[2]} horizontal />
-          <NotificationItem item={notifications[3]} horizontal />
-          <NotificationItem item={notifications[4]} horizontal />
+          <ProfileItem item={notifications[0]} horizontal  />
+          <ProfileItem item={notifications[1]} horizontal />
+          <ProfileItem item={notifications[2]} horizontal />
+          <ProfileItem item={notifications[3]} horizontal />
+          <ProfileItem item={notifications[4]} horizontal />
 
         </Block>
     

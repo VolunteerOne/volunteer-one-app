@@ -27,12 +27,6 @@ class Home extends React.Component {
           <NotificationItem item={notifications[2]} horizontal />
           <NotificationItem item={notifications[3]} horizontal />
           <NotificationItem item={notifications[4]} horizontal />
-          {/* <Block flex row>
-            <NotificationItem item={notifications[1]} style={{ marginRight: theme.SIZES.BASE }} />
-            <NotificationItem item={notifications[2]} />
-          </Block> */}
-          {/* <NotificationItem item={notifications[3]} horizontal /> */}
-          {/* <NotificationItem item={notifications[4]} full /> */}
         </Block>
     
       </ScrollView>
