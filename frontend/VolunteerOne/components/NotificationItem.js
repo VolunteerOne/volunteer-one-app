@@ -59,13 +59,9 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: theme.COLORS.WHITE,
     marginVertical: theme.SIZES.BASE /2,
-    // borderWidth: 0,
     minHeight: 96,
-    // marginBottom: 16,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    // backgroundColor: 'red',
-
   },
   cardTitle: {
     flex: 1,
@@ -78,28 +74,17 @@ const styles = StyleSheet.create({
     paddingRight: theme.SIZES.BASE,  
     paddingTop: theme.SIZES.BASE * 1.4,  
     paddingBottom: theme.SIZES.BASE,  
-    // backgroundColor: 'red',
     borderRadius: 3,
     elevation: 1,
     overflow: 'hidden',
   },
-  // imageContainer: {
-  //   // borderRadius: 3,
-  //   margin: 10,
-  //   elevation: 1,
-  //   overflow: 'hidden',
-  //   backgroundColor: 'blue',
-  // },
   image: {
-    // borderRadius: 3,
   },
   horizontalImage: {
     height: 62,
     width: 62,
     borderRadius: 62,
     margin: 10,
-    // alignItems: 'center'
-    // width: 'auto',
   },
   horizontalStyles: {
     borderTopRightRadius: 0,
