@@ -1,14 +1,50 @@
 import React from "react";
 import { StyleSheet, Dimensions, ScrollView } from "react-native";
 import { Block, theme } from "galio-framework";
-
-import { Button, Card } from "../../components";
-import articles from "../../constants/articles";
+import EventCard from "../../components/EventCard";
 const { width } = Dimensions.get("screen");
+
+const dataList = [
+  {
+    id: 0,
+    organization: "American Red Cross",
+    name: "New Event",
+    subject: "Help pack disaster relief bags",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    date: "",
+    location: "",
+    timePosted: new Date("2023-03-01T00:00:00"),
+    type: "event",
+  },
+  {
+    id: 1,
+    organization: "Habitat for Humanity",
+    name: "New Event",
+    subject: "Build and improve homes",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    date: "",
+    location: "",
+    timePosted: new Date("2023-02-02T00:00:00"),
+    type: "event",
+  },
+  {
+    id: 2,
+    organization: "Global Volunteers",
+    announcement:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et enim ad minim veniam, quis nostrud exercitation ullamco laboris ",
+    type: "announcment",
+    timePosted: new Date("2021-03-01T00:00:00"),
+  },
+];
 
 class Home extends React.Component {
   renderArticles = () => {
     const { navigation } = this.props;
+    var eventsList = dataList.map(function (data) {
+      return <EventCard key={data["id"]} data={data} />;
+    });
 
     return (
       <ScrollView
@@ -16,49 +52,7 @@ class Home extends React.Component {
         contentContainerStyle={styles.articles}
       >
         <Block flex center>
-          {/* delete later - testing */}
-          <Button
-            shadowless
-            style={styles.tab}
-            onPress={() => navigation.navigate("Login")}
-          >
-            Login Screen
-          </Button>
-          <Button
-            shadowless
-            style={styles.tab}
-            onPress={() => navigation.navigate("CreateAccount")}
-          >
-            Create Account Screen
-          </Button>
-          <Button
-            shadowless
-            style={styles.tab}
-            onPress={() => navigation.navigate("Register")}
-          >
-            Register Screen
-          </Button>
-          <Button
-            shadowless
-            style={styles.tab}
-            onPress={() => navigation.navigate("Login")}
-          >
-            Forgot Password Screen
-          </Button>
-          <Button
-            shadowless
-            style={styles.tab}
-            onPress={() => navigation.navigate("Login")}
-          >
-            New Password Screen
-          </Button>
-          {/* <Card item={articles[0]} horizontal  />
-          <Block flex row>
-            <Card item={articles[1]} style={{ marginRight: theme.SIZES.BASE }} />
-            <Card item={articles[2]} />
-          </Block>
-          <Card item={articles[3]} horizontal />
-          <Card item={articles[4]} full /> */}
+          {eventsList}
         </Block>
       </ScrollView>
     );

@@ -123,7 +123,7 @@ class Header extends React.Component {
               color={argonTheme.COLORS.ICON}
             />
             <Text size={16} style={styles.tabTitle}>
-              {optionLeft || "Home"}
+              {optionLeft || "Following"}
             </Text>
           </Block>
         </Button>
