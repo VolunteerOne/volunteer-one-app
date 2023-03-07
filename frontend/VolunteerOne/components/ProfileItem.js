@@ -40,14 +40,17 @@ class ProfileItem extends React.Component {
             <Text size={12} style={styles.cardTitle} bold>{item.username}</Text>
           </Block>
 
-          {/* remove button */}
-          <Block flex style={styles.cardDescription}>
+          {/* buttons */}
+          <Block row={horizontal} style={styles.buttons}>
+            {/* remove button */}
             <Button
               small
               style={{ backgroundColor: 'grey' }}
             >
               Remove
             </Button>
+            {/*  options button (3 dots) */}
+            <Text size={12} style={styles.cardTitle} bold>•••</Text>
           </Block>
 
 
@@ -82,6 +85,13 @@ const styles = StyleSheet.create({
     // justifyContent: 'center',
     // alignItems: 'center', // matt
     // textAlignVertical: 'center',
+  },
+  buttons: {
+
+    // borderRadius: 3,
+    // elevation: 1,
+    // overflow: 'hidden',
+    // backgroundColo,r: 'green'
   },
   cardDescription: {
     // paddingLeft: theme.SIZES.BASE / 5,  
