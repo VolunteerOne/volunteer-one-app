@@ -8,6 +8,7 @@ import NotificationItem from '../../components/NotificationItem';
 import ProfileItem from '../../components/ProfileItem';
 // import articles from '../../constants/articles';
 import notifications from '../../constants/notifications';
+import profiles from '../../constants/profiles';
 
 // <matt>
 // import { Block, Button, Text, theme } from "galio-framework";
@@ -23,11 +24,11 @@ class Home extends React.Component {
         contentContainerStyle={styles.notifications}>
  
         <Block flex>
-          <ProfileItem item={notifications[0]} horizontal  />
-          <ProfileItem item={notifications[1]} horizontal />
-          <ProfileItem item={notifications[2]} horizontal />
-          <ProfileItem item={notifications[3]} horizontal />
-          <ProfileItem item={notifications[4]} horizontal />
+          <ProfileItem item={profiles[0]} horizontal  />
+          <ProfileItem item={profiles[1]} horizontal />
+          <ProfileItem item={profiles[2]} horizontal />
+          <ProfileItem item={profiles[3]} horizontal />
+          <ProfileItem item={profiles[4]} horizontal />
 
         </Block>
     

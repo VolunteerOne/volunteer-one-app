@@ -37,8 +37,9 @@ class ProfileItem extends React.Component {
 
           {/* notifcation description */}
           <Block flex style={styles.cardDescription}>
-            <Text size={12} style={styles.cardTitle}>{item.title}</Text>
-            <Text size={12} muted={!ctaColor} color={ctaColor || argonTheme.COLORS.ACTIVE}>{item.time}h ago</Text>
+            <Text size={12} style={styles.cardTitle} bold>{item.username}</Text>
+            
+            {/* <Text size={12} muted={!ctaColor} color={ctaColor || argonTheme.COLORS.ACTIVE}>{item.time}h ago</Text> */}
           </Block>
        
       </Block>
@@ -57,34 +58,41 @@ ProfileItem.propTypes = {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: theme.COLORS.WHITE,
+    // backgroundColor: theme.COLORS.WHITE,
+    // backgroundColor: 'blue',
     marginVertical: theme.SIZES.BASE /2,
     minHeight: 96,
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
   cardTitle: {
-    flex: 1,
-    flexWrap: 'wrap',
-    paddingBottom: 10,
-    
+    // flex: 1,
+    // flexWrap: 'wrap',
+    // paddingBottom: 10,
+    // backgroundColor: 'red',
+    // justifyContent: 'center',
+    // alignItems: 'center', // matt
+    // textAlignVertical: 'center',
   },
   cardDescription: {
-    paddingLeft: theme.SIZES.BASE / 5,  
-    paddingRight: theme.SIZES.BASE,  
-    paddingTop: theme.SIZES.BASE * 1.4,  
-    paddingBottom: theme.SIZES.BASE,  
+    // paddingLeft: theme.SIZES.BASE / 5,  
+
+    // paddingRight: theme.SIZES.BASE,  
+    // paddingTop: theme.SIZES.BASE * 1.4,  
+    // paddingBottom: theme.SIZES.BASE,  
+    
     borderRadius: 3,
     elevation: 1,
     overflow: 'hidden',
+    backgroundColor: 'green'
   },
   image: {
   },
   horizontalImage: {
-    height: 62,
-    width: 62,
+    height: 50,
+    width: 50,
     borderRadius: 62,
-    margin: 10,
+    margin: 20,
   },
   horizontalStyles: {
     borderTopRightRadius: 0,
