@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     elevation: 1,
     overflow: 'hidden',
+    padding: 6
   },
   horizontalImage: {
     height: 122,
