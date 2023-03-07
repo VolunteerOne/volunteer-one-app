@@ -19,7 +19,7 @@ class PostWithoutImage extends React.Component {
         <Block style={[ styles.cardContainer, { flexDirection: 'column', } ]}>  
         {/* Displays info. about the post author. */}
           <Block style={[profileImageContainer , {flexDirection: 'row', } ]}>
-            <Image source={{uri: item.profileImage}} style={styles.fullImage} />
+            <Image source={{uri: item.profileImage}} style={styles.profileImage} />
             <Block style={styles.cardTitleContainer}>            
               <Text size={18} bold style={styles.cardTitle}>{item.author}</Text>
               <Text size={14} style={styles.cardTitle}>{item.date}</Text>
@@ -37,8 +37,6 @@ class PostWithoutImage extends React.Component {
 
 PostWithoutImage.propTypes = {
   item: PropTypes.object,
-  horizontal: PropTypes.bool,
-  full: PropTypes.bool,
   ctaColor: PropTypes.string,
   imageStyle: PropTypes.any,
 }
@@ -62,7 +60,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingTop: 10
   },
-  fullImage: {
+  profileImage: {
     width: 70,
     height: 70,
     borderRadius: 70/2
