@@ -29,27 +29,27 @@ class ProfileItem extends React.Component {
     return (
       <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}>
       <Block row={horizontal} card style={cardContainer}>
-
-          {/* profile image */}
+          
+          {/*================== profile image ==================*/}
           <Block>
             <Image source={{uri: item.image}} style={imageStyles} />
           </Block>
 
-          {/* username */}
+          {/*================== username ==================*/}
           <Block flex>
             <Text size={12} style={styles.cardTitle} bold>{item.username}</Text>
           </Block>
 
-          {/* buttons */}
+          {/*================== buttons ==================*/}
           <Block row={horizontal} style={styles.cardDescription}>
-            {/* remove button */}
+            {/*================== remove button ==================*/}
             <Button
               small
-              style={{ backgroundColor: 'grey' }}
-            >
+              style={{ backgroundColor: 'grey' }}>
               Remove
             </Button>
-            {/*  options button (3 dots) */}
+
+            {/*================== options button (3 dots) ==================*/}
             <Text size={12} style={styles.cardDescription} bold>•••</Text>
           </Block>
 
@@ -70,45 +70,20 @@ ProfileItem.propTypes = {
 
 const styles = StyleSheet.create({
   card: {
-    // backgroundColor: theme.COLORS.WHITE,
-    // backgroundColor: 'blue',
+    backgroundColor: theme.COLORS.WHITE,
     marginVertical: theme.SIZES.BASE /2,
     minHeight: 96,
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
   cardTitle: {
-    // flex: 1,
-    // flexWrap: 'wrap',
-    // paddingBottom: 10,
-    // backgroundColor: 'red',
-    // justifyContent: 'center',
-    // alignItems: 'center', // matt
-    // textAlignVertical: 'center',
-
-  },
-  buttons: {
-
-    // borderRadius: 3,
-    // elevation: 1,
-    // overflow: 'hidden',
-    // backgroundColo,r: 'green'
   },
   cardDescription: {
-    // paddingLeft: theme.SIZES.BASE / 5,  
-
-    // paddingRight: theme.SIZES.BASE,  
-    // paddingTop: theme.SIZES.BASE * 1.4,  
-    // paddingBottom: theme.SIZES.BASE,  
-    // justifyContent: 'center', //Centered horizontally
-    alignItems: 'center', //Centered vertically
+    alignItems: 'center', // Centered vertically - 3 dots
     flex:1,
-   
-    // flex:1
     borderRadius: 3,
     elevation: 1,
     overflow: 'hidden',
-    // backgroundColor: 'green'
   },
   image: {
   },
