@@ -36,12 +36,12 @@ class ProfileItem extends React.Component {
           </Block>
 
           {/* username */}
-          <Block flex style={styles.cardDescription}>
+          <Block flex>
             <Text size={12} style={styles.cardTitle} bold>{item.username}</Text>
           </Block>
 
           {/* buttons */}
-          <Block row={horizontal} style={styles.buttons}>
+          <Block row={horizontal} style={styles.cardDescription}>
             {/* remove button */}
             <Button
               small
@@ -50,7 +50,7 @@ class ProfileItem extends React.Component {
               Remove
             </Button>
             {/*  options button (3 dots) */}
-            <Text size={12} style={styles.cardTitle} bold>•••</Text>
+            <Text size={12} style={styles.cardDescription} bold>•••</Text>
           </Block>
 
 
@@ -81,10 +81,11 @@ const styles = StyleSheet.create({
     // flex: 1,
     // flexWrap: 'wrap',
     // paddingBottom: 10,
-    // backgroundColor: 'red',
+    backgroundColor: 'red',
     // justifyContent: 'center',
     // alignItems: 'center', // matt
     // textAlignVertical: 'center',
+    alignItems: 'center', //Centered vertically
   },
   buttons: {
 
@@ -99,11 +100,15 @@ const styles = StyleSheet.create({
     // paddingRight: theme.SIZES.BASE,  
     // paddingTop: theme.SIZES.BASE * 1.4,  
     // paddingBottom: theme.SIZES.BASE,  
-    
+    // justifyContent: 'center', //Centered horizontally
+    alignItems: 'center', //Centered vertically
+    flex:1,
+   
+    // flex:1
     borderRadius: 3,
     elevation: 1,
     overflow: 'hidden',
-    // backgroundColor: 'green'
+    backgroundColor: 'green'
   },
   image: {
   },
