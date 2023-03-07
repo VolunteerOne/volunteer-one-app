@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { Block, theme } from 'galio-framework';
 
-import { PostWithoutImage } from '../../components';
+import { PostWithoutImage, PostWithImage } from '../../components';
 import posts from '../../constants/posts';
 
 const { width } = Dimensions.get('screen');
@@ -15,6 +15,9 @@ class Home extends React.Component {
         contentContainerStyle={styles.posts}>
         <Block flex>
           <PostWithoutImage item={posts[0]} />
+        </Block>
+        <Block flex>
+          <PostWithImage item={posts[1]} />
         </Block>
       </ScrollView>
     )

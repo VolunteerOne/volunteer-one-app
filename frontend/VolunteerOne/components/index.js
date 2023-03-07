@@ -7,6 +7,7 @@ import Input from './Input';
 import Switch from './Switch';
 import Select from './Select';
 import PostWithoutImage from './PostWithoutImage';
+import PostWithImage from './PostWithImage';
 
 
 export {
@@ -18,5 +19,6 @@ export {
   Header,
   Switch, 
   Select,
-  PostWithoutImage
+  PostWithoutImage,
+  PostWithImage
 };
