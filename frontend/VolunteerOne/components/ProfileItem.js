@@ -81,11 +81,11 @@ const styles = StyleSheet.create({
     // flex: 1,
     // flexWrap: 'wrap',
     // paddingBottom: 10,
-    backgroundColor: 'red',
+    // backgroundColor: 'red',
     // justifyContent: 'center',
     // alignItems: 'center', // matt
     // textAlignVertical: 'center',
-    alignItems: 'center', //Centered vertically
+
   },
   buttons: {
 
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     elevation: 1,
     overflow: 'hidden',
-    backgroundColor: 'green'
+    // backgroundColor: 'green'
   },
   image: {
   },
