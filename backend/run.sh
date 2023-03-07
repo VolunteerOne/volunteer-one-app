@@ -1,1 +1,1 @@
-compiledaemon -command="./backend"
+docker compose up --build
