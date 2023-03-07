@@ -27,19 +27,25 @@ class ProfileItem extends React.Component {
     ];
 
     return (
-      <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}>
+      
       <Block row={horizontal} card style={cardContainer}>
           
           {/*================== profile image ==================*/}
-          <Block>
-            <Image source={{uri: item.image}} style={imageStyles} />
-          </Block>
+          {/* TODO: link to profile  */}
+          <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}>
+            <Block>
+              <Image source={{uri: item.image}} style={imageStyles} />
+            </Block>
+          </TouchableWithoutFeedback>
 
           {/*================== username ==================*/}
-          <Block flex>
-            <Text size={12} style={styles.cardTitle} bold>{item.username}</Text>
-          </Block>
-
+          {/* TODO: link to profile */}
+          <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}>
+            <Block flex>
+              <Text size={12} style={styles.cardTitle} bold>{item.username}</Text>
+            </Block>
+          </TouchableWithoutFeedback>
+          
           {/*================== buttons ==================*/}
           <Block row={horizontal} style={styles.cardDescription}>
             {/*================== remove button ==================*/}
@@ -50,12 +56,15 @@ class ProfileItem extends React.Component {
             </Button>
 
             {/*================== options button (3 dots) ==================*/}
-            <Text size={12} style={styles.cardDescription} bold>•••</Text>
+            {/* TODO: will need to change this touchable to a popup */}
+            <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}>
+              <Text size={12} style={styles.cardDescription} bold>•••</Text>
+            </TouchableWithoutFeedback>
           </Block>
 
 
       </Block>
-      </TouchableWithoutFeedback>
+     
     );
   }
 }
