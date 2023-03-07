@@ -10,7 +10,7 @@ import { StyleSheet, Dimensions, Image, TouchableWithoutFeedback } from 'react-n
 import { Block, Text, theme } from 'galio-framework';
 
 import { argonTheme } from '../constants';
-
+import { Button } from "../components";
 
 class ProfileItem extends React.Component {
   render() {
@@ -35,13 +35,22 @@ class ProfileItem extends React.Component {
             <Image source={{uri: item.image}} style={imageStyles} />
           </Block>
 
-          {/* notifcation description */}
+          {/* username */}
           <Block flex style={styles.cardDescription}>
             <Text size={12} style={styles.cardTitle} bold>{item.username}</Text>
-            
-            {/* <Text size={12} muted={!ctaColor} color={ctaColor || argonTheme.COLORS.ACTIVE}>{item.time}h ago</Text> */}
           </Block>
-       
+
+          {/* remove button */}
+          <Block flex style={styles.cardDescription}>
+            <Button
+              small
+              style={{ backgroundColor: 'grey' }}
+            >
+              Remove
+            </Button>
+          </Block>
+
+
       </Block>
       </TouchableWithoutFeedback>
     );
@@ -84,7 +93,7 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     elevation: 1,
     overflow: 'hidden',
-    backgroundColor: 'green'
+    // backgroundColor: 'green'
   },
   image: {
   },
