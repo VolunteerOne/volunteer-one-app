@@ -15,11 +15,15 @@ import argonTheme from "../constants/Theme";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
+/** ==================================== Header Constants Component ==================================== **/
+
 const { height, width } = Dimensions.get("window");
+
 const iPhoneX = () =>
   Platform.OS === "ios" &&
   (height === 812 || width === 812 || height === 896 || width === 896);
 
+// icon constants
 const BellButton = ({ isWhite, style, navigation }) => (
   <TouchableOpacity
     style={[styles.button, style]}
@@ -48,19 +52,36 @@ const SettingsButton = ({ isWhite, style, navigation }) => (
   </TouchableOpacity>
 );
 
+/** ==================================== Header Component ==================================== **/
+
 class Header extends React.Component {
+  
+  // left icon on header is back button
+  handleLeftPress = () => {
+    const { navigation } = this.props;
+    return navigation.goBack();
+  };
+
+  renderLeft = () => {
+    const { white, back } = this.props;
+
+    if (back) {
+      return (
+        <Icon
+          name="chevron-left"
+          family="entypo"
+          size={20}
+          onPress={this.handleLeftPress}
+          color={argonTheme.COLORS[white ? "WHITE" : "ICON"]}
+          style={{ marginTop: 2 }}
+        />
+      );
+    }
+  };
+
+  // gets the right icon for header of screen
   renderRight = () => {
     const { white, title, navigation } = this.props;
-
-    if (title === "Title") {
-      return [
-        <BellButton
-          key="notification-title"
-          navigation={navigation}
-          isWhite={white}
-        />,
-      ];
-    }
 
     switch (title) {
       case "Profile":
@@ -72,9 +93,8 @@ class Header extends React.Component {
           />,
         ];
       case "Home":
-      case "Search":
-      case "Settings":
-      default:
+      case "Explore":
+      case "Friends":
         return [
           <BellButton
             key="notification"
@@ -82,8 +102,12 @@ class Header extends React.Component {
             isWhite={white}
           />,
         ];
+      default:
+        break;
     }
   };
+
+  /** (@carmen) Search, Tabs, Options - may need to reimplement later 
   renderSearch = () => {
     const { navigation } = this.props;
     return (
@@ -174,6 +198,8 @@ class Header extends React.Component {
       );
     }
   };
+  */
+
   render() {
     const {
       back,
@@ -213,6 +239,7 @@ class Header extends React.Component {
           transparent={transparent}
           right={this.renderRight()}
           rightStyle={{ alignItems: "center" }}
+          left={this.renderLeft()}
           leftStyle={{ paddingVertical: 12, flex: 0.2 }}
           titleStyle={[
             styles.title,
@@ -221,7 +248,7 @@ class Header extends React.Component {
           ]}
           {...props}
         />
-        {this.renderHeader()}
+        {/* {this.renderHeader()} */}
       </Block>
     );
   }
