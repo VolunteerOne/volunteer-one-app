@@ -1,3 +1,6 @@
+DROP DATABASE IF EXISTS volunteerone;
+CREATE DATABASE volunteerone;
+USE volunteerone;
 CREATE TABLE `users`
 (
  `id`         int NOT NULL ,
