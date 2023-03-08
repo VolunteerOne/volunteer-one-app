@@ -13,3 +13,27 @@ CREATE TABLE `users`
 
 PRIMARY KEY (`id`)
 );
+
+CREATE TABLE `organizations`
+(
+ `id`           int NOT NULL ,
+ `name`         VARCHAR(255) NOT NULL ,
+ `description`  VARCHAR(255) ,
+ `verified`     tinyint ,
+ `interests`    VARCHAR(255) ,
+
+PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `org_roles`
+(
+ `id`           int NOT NULL ,
+ `admin_id`     int NOT NULL ,
+ `org_id`       int NOT NULL ,
+ `role`         set('owner', 'manager', 'member') NOT NULL ,
+
+PRIMARY KEY (`id`) ,
+FOREIGN KEY (`admin_id`) REFERENCES `users` (`id`) ,
+FOREIGN KEY (`org_id`) REFERENCES `organizations` (`id`)
+);
+
