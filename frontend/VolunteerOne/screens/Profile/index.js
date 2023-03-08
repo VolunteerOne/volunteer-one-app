@@ -13,6 +13,7 @@ import { Button } from "../../components";
 import { Images, argonTheme } from "../../constants";
 import { HeaderHeight } from "../../constants/utils";
 import RecentActivityCard from "../../components/RecentActivityCard";
+import UpcomingEventsCard from "../../components/UpcomingEventsCard";
 
 // constants
 import mockData from "../../constants/profiles";
@@ -24,6 +25,11 @@ const thumbMeasure = (width - 48 - 32) / 3;
 /** ==================================== Profile Screen ==================================== **/
 
 const ProfileScreen = ({ navigation }) => {
+  let isVolunteer = true;
+  if (mockData.userType == "organization") {
+    isVolunteer = false;
+  }
+
   const handleConnectBtnPress = () => {
     console.log("connect btn pressed");
   };
@@ -33,6 +39,10 @@ const ProfileScreen = ({ navigation }) => {
 
   const handleViewAllRecentActivityBtn = () => {
     console.log("handleViewAllRecentActivityBtn");
+  };
+
+  const handleViewAllUpcomingEventsBtn = () => {
+    console.log("handleViewAllUpcomingEventsBtn");
   };
 
   return (
@@ -67,70 +77,78 @@ const ProfileScreen = ({ navigation }) => {
                       style={{ backgroundColor: argonTheme.COLORS.INFO }}
                       onPress={handleConnectBtnPress}
                     >
-                      CONNECT
+                      {isVolunteer ? "CONNECT" : "JOIN"}
                     </Button>
                     <Button
                       small
                       style={{ backgroundColor: argonTheme.COLORS.DEFAULT }}
                       onPress={handleMessageBtnPress}
                     >
-                      MESSAGE
+                      {isVolunteer ? "MESSAGE" : "FOLLOW"}
                     </Button>
                   </Block>
-                  <Block row flex space="between">
-                    <Block middle>
-                      <Text
-                        bold
-                        size={18}
-                        color="#525F7F"
-                        style={{ marginBottom: 4 }}
+                  {isVolunteer && (
+                    <Block
+                      row
+                      flex
+                      space="between"
+                      style={{ marginBottom: 35 }}
+                    >
+                      <Block middle>
+                        <Text
+                          bold
+                          size={18}
+                          color="#525F7F"
+                          style={{ marginBottom: 4 }}
+                        >
+                          {mockData.hours}
+                        </Text>
+                        <Text size={12} color={argonTheme.COLORS.TEXT}>
+                          Hours
+                        </Text>
+                      </Block>
+                      <TouchableOpacity
+                        onPress={() => navigation.navigate("Pro")}
                       >
-                        {mockData.hours}
-                      </Text>
-                      <Text size={12} color={argonTheme.COLORS.TEXT}>
-                        Hours
-                      </Text>
+                        <Block middle>
+                          <Text
+                            bold
+                            color="#525F7F"
+                            size={18}
+                            style={{ marginBottom: 4 }}
+                          >
+                            {mockData.friends}
+                          </Text>
+                          <Text size={12} color={argonTheme.COLORS.TEXT}>
+                            Friends
+                          </Text>
+                        </Block>
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        onPress={() => navigation.navigate("Pro")}
+                      >
+                        <Block middle>
+                          <Text
+                            bold
+                            color="#525F7F"
+                            size={18}
+                            style={{ marginBottom: 4 }}
+                          >
+                            {mockData.following}
+                          </Text>
+                          <Text size={12} color={argonTheme.COLORS.TEXT}>
+                            Following
+                          </Text>
+                        </Block>
+                      </TouchableOpacity>
                     </Block>
-                    <TouchableOpacity
-                      onPress={() => navigation.navigate("Pro")}
-                    >
-                      <Block middle>
-                        <Text
-                          bold
-                          color="#525F7F"
-                          size={18}
-                          style={{ marginBottom: 4 }}
-                        >
-                          {mockData.friends}
-                        </Text>
-                        <Text size={12} color={argonTheme.COLORS.TEXT}>
-                          Friends
-                        </Text>
-                      </Block>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => navigation.navigate("Pro")}
-                    >
-                      <Block middle>
-                        <Text
-                          bold
-                          color="#525F7F"
-                          size={18}
-                          style={{ marginBottom: 4 }}
-                        >
-                          {mockData.following}
-                        </Text>
-                        <Text size={12} color={argonTheme.COLORS.TEXT}>
-                          Following
-                        </Text>
-                      </Block>
-                    </TouchableOpacity>
-                  </Block>
+                  )}
                 </Block>
                 <Block flex>
                   <Block middle style={styles.nameInfo}>
                     <Text bold size={28} color="#32325D">
-                      {mockData.name}, {mockData.age}
+                      {mockData.name}
+                      {isVolunteer && `, ${mockData.age}`}
                     </Text>
                     <Text size={16} color="#32325D" style={{ marginTop: 10 }}>
                       {mockData.city}, {mockData.country}
@@ -139,7 +157,17 @@ const ProfileScreen = ({ navigation }) => {
                   <Block middle style={{ marginTop: 30, marginBottom: 16 }}>
                     <Block style={styles.divider} />
                   </Block>
-                  <Block middle>
+                  <Block middle style={{ marginBottom: 30 }}>
+                    {!isVolunteer && (
+                      <Text
+                        bold
+                        size={14}
+                        color={argonTheme.COLORS.PRIMARY}
+                        style={{ marginBottom: 10 }}
+                      >
+                        Mission Statement
+                      </Text>
+                    )}
                     <Text
                       size={14}
                       color="#525F7F"
@@ -147,21 +175,41 @@ const ProfileScreen = ({ navigation }) => {
                     >
                       {mockData.description}
                     </Text>
-                    <Button
-                      color="transparent"
-                      textStyle={{
-                        color: "#233DD2",
-                        fontWeight: "500",
-                        fontSize: 16,
-                      }}
-                      onPress={() =>
-                        console.log("this btn does not do anything")
-                      }
-                    >
-                      Show more
-                    </Button>
                   </Block>
-                  <Block row space="between">
+                  {!isVolunteer && (
+                    <>
+                      <Block row space="between">
+                        <Text
+                          bold
+                          size={16}
+                          color="#525F7F"
+                          style={{ marginTop: 12 }}
+                        >
+                          Upcoming Events
+                        </Text>
+                        <Button
+                          small
+                          color="transparent"
+                          textStyle={{
+                            color: "#5E72E4",
+                            fontSize: 12,
+                            marginLeft: 24,
+                          }}
+                          onPress={handleViewAllUpcomingEventsBtn}
+                        >
+                          View all
+                        </Button>
+                      </Block>
+                      <Block style={{ paddingBottom: -HeaderHeight * 2 }}>
+                        <Block row space="between" style={{ flexWrap: "wrap" }}>
+                          {mockData.upcomingEvents.map((post) => (
+                            <UpcomingEventsCard data={post} />
+                          ))}
+                        </Block>
+                      </Block>
+                    </>
+                  )}
+                  <Block row space="between" style={{ marginTop: 12 }}>
                     <Text
                       bold
                       size={16}
@@ -231,7 +279,7 @@ const styles = StyleSheet.create({
     zIndex: 2,
   },
   info: {
-    paddingHorizontal: 40,    // this makes the friends count not centered
+    paddingHorizontal: 40, // this makes the friends count not centered
   },
   avatarContainer: {
     position: "relative",
@@ -242,9 +290,6 @@ const styles = StyleSheet.create({
     height: 124,
     borderRadius: 62,
     borderWidth: 0,
-  },
-  nameInfo: {
-    marginTop: 35,
   },
   divider: {
     width: "90%",
