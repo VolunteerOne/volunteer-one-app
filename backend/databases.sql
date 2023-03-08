@@ -47,5 +47,20 @@ CREATE TABLE `events` (
   `description` text,
 
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`organization_id`) REFERENCES `volunteer_req` (`event_id`)
+  FOREIGN KEY (`organization_id`) REFERENCES `organizations` (`id`)
 );
+
+
+CREATE TABLE `volunteer_req`
+(
+ `id`           int NOT NULL AUTO_INCREMENT,
+ `volunteer_id` int NOT NULL,
+ `event_id`     int NOT NULL,
+ `status`       enum('pending', 'accepted', 'rejected') NOT NULL,
+ `created`      datetime NOT NULL,
+
+ PRIMARY KEY (`id`),
+ FOREIGN KEY (`volunteer_id`) REFERENCES `users` (`id`),
+ FOREIGN KEY (`event_id`) REFERENCES `events` (`id`)
+);
+
