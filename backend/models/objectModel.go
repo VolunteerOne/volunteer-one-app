@@ -10,17 +10,17 @@ type Object struct {
 	Value string
 }
 
-// type Users struct {
-// 	gorm.Model
-// 	id       uint   `gorm:"unique; autoincrement;primaryKey"`
-// 	handle   string `gorm: "not null"`
-// 	email    string `gorm: "NOT NULL"`
-// 	password string `gorm: "NOT NULL"`
-// 	// birthdate datatypes.Date `gorm: "NOT NULL"`
-// 	birthdate string `gorm: "NOT NULL"`
-// 	firstName string `gorm: "NOT NULL"`
-// 	lastName  string `gorm: "NOT NULL"`
-// 	// profilePic mediumblob,
-// 	interests string
-// 	verified  uint
-// }
+type Users struct {
+	gorm.Model
+	id       uint   `gorm:"unique; autoincrement;primaryKey"`
+	Handle   string `gorm: "not null"`
+	Email    string `gorm: "NOT NULL"`
+	Password string `gorm: "NOT NULL"`
+	// birthdate datatypes.Date `gorm: "NOT NULL"`
+	Birthdate string `gorm: "NOT NULL"`
+	FirstName string `gorm: "NOT NULL"`
+	LastName  string `gorm: "NOT NULL"`
+	// profilePic mediumblob,
+	Interests string
+	Verified  uint
+}
