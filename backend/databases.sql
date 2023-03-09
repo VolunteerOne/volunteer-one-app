@@ -37,3 +37,14 @@ FOREIGN KEY (`admin_id`) REFERENCES `users` (`id`) ,
 FOREIGN KEY (`org_id`) REFERENCES `organizations` (`id`)
 );
 
+CREATE TABLE `friends`
+(
+ `id`           int NOT NULL AUTO_INCREMENT ,
+ `sender_id`    int NOT NULL ,
+ `receiver_id`  int NOT NULL ,
+ `status`       set('accepted','pending','rejected') DEFAULT 'pending' NOT NULL ,
+
+ PRIMARY KEY (`id`),
+ FOREIGN KEY (`sender_id`) REFERENCES `users`(`id`),
+ FOREIGN KEY (`sender_id`) REFERENCES `users`(`id`)
+);
