@@ -48,3 +48,15 @@ CREATE TABLE `friends`
  FOREIGN KEY (`sender_id`) REFERENCES `users`(`id`),
  FOREIGN KEY (`sender_id`) REFERENCES `users`(`id`)
 );
+
+CREATE TABLE `user_social`
+(
+ `id`           int NOT NULL AUTO_INCREMENT ,
+ `user_id`      int NOT NULL ,
+ `created_at`   datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+ `content`      text NOT NULL ,
+ `hidden`       tinyint NOT NULL DEFAULT 0 ,
+
+ PRIMARY KEY (`id`),
+ FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
+);
