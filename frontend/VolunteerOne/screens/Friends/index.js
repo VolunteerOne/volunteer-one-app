@@ -24,12 +24,9 @@ class Home extends React.Component {
         contentContainerStyle={styles.notifications}>
  
         <Block flex>
-          <ProfileItem item={profiles[0]} horizontal  />
-          <ProfileItem item={profiles[1]} horizontal />
-          <ProfileItem item={profiles[2]} horizontal />
-          <ProfileItem item={profiles[3]} horizontal />
-          <ProfileItem item={profiles[4]} horizontal />
-
+          {profiles.map(profile => (
+             <ProfileItem item={profile} horizontal />
+          ))}
         </Block>
     
       </ScrollView>
