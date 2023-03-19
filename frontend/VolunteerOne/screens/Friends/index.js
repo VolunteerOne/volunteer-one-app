@@ -1,22 +1,14 @@
 import React from 'react';
 import { StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { Block, theme } from 'galio-framework';
-import { Button } from "../../components";
-
-// import { Card } from '../../components';
-import NotificationItem from '../../components/NotificationItem';
 import ProfileItem from '../../components/ProfileItem';
-// import articles from '../../constants/articles';
-import notifications from '../../constants/notifications';
 import profiles from '../../constants/profiles';
 
-// <matt>
-// import { Block, Button, Text, theme } from "galio-framework";
-// </matt>
+// ================================= View Friends Page ================================= //
 
 const { width } = Dimensions.get('screen');
 
-class Home extends React.Component {
+class ViewFriendsPage extends React.Component {
   renderNotifications = () => {
     return (
       <ScrollView
@@ -33,7 +25,6 @@ class Home extends React.Component {
     )
   }
 
-
   render() {
     return (
       <Block flex center style={styles.home}>
@@ -41,8 +32,6 @@ class Home extends React.Component {
       </Block>
     );
   }
-
-
 }
 
 const styles = StyleSheet.create({
@@ -55,4 +44,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default ViewFriendsPage;
