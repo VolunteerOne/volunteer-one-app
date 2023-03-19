@@ -4,7 +4,7 @@ import { Block, theme } from 'galio-framework';
 import NotificationItem from '../../components/NotificationItem';
 import notifications from '../../constants/notifications';
 
-
+/** ==================================== Notifications Page ==================================== **/ 
 const { width } = Dimensions.get('screen');
 
 class NotificationsPage extends React.Component {
