@@ -25,7 +25,6 @@ class NotificationsPage extends React.Component {
     )
   }
 
-
   render() {
     return (
       <Block flex center style={styles.home}>
@@ -33,8 +32,6 @@ class NotificationsPage extends React.Component {
       </Block>
     );
   }
-
-
 }
 
 const styles = StyleSheet.create({
