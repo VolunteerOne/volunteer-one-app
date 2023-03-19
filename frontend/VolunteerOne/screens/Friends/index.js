@@ -15,19 +15,19 @@ import notifications from '../../constants/notifications';
 const { width } = Dimensions.get('screen');
 
 class Home extends React.Component {
+
+
   renderNotifications = () => {
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.notifications}>
- 
+        
+        {/* map all notifications using loop */}
         <Block flex>
-          <NotificationItem item={notifications[0]} horizontal  />
-          <NotificationItem item={notifications[1]} horizontal />
-          <NotificationItem item={notifications[2]} horizontal />
-          <NotificationItem item={notifications[3]} horizontal />
-          <NotificationItem item={notifications[4]} horizontal />
-
+          {notifications.map(notification => (
+           <NotificationItem item={notification} horizontal />
+          ))}
         </Block>
     
       </ScrollView>
@@ -45,6 +45,7 @@ class Home extends React.Component {
 
 
 }
+
 
 const styles = StyleSheet.create({
   home: {

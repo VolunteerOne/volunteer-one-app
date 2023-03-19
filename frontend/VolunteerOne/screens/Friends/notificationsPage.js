@@ -4,7 +4,7 @@ import { Block, theme } from 'galio-framework';
 import NotificationItem from '../../components/NotificationItem';
 import notifications from '../../constants/notifications';
 
-/** ==================================== Notifications Page ==================================== **/ 
+/** ============================== Notifications Page ============================== **/ 
 const { width } = Dimensions.get('screen');
 
 class NotificationsPage extends React.Component {
@@ -13,14 +13,12 @@ class NotificationsPage extends React.Component {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.notifications}>
- 
+        
+        {/* map all notifications using loop */}
         <Block flex>
-          <NotificationItem item={notifications[0]} horizontal  />
-          <NotificationItem item={notifications[1]} horizontal />
-          <NotificationItem item={notifications[2]} horizontal />
-          <NotificationItem item={notifications[3]} horizontal />
-          <NotificationItem item={notifications[4]} horizontal />
-
+          {notifications.map(notification => (
+           <NotificationItem item={notification} horizontal />
+          ))}
         </Block>
     
       </ScrollView>
