@@ -20,6 +20,16 @@ func NewRouter() *gin.Engine {
 		objectGroup.PUT("/:id", object.Update)
 	}
 
+	userGroup := router.Group("user")
+	{
+		user := new(controllers.UsersController)
+		userGroup.POST("/", user.Create)
+		userGroup.GET("/", user.All)
+		userGroup.GET("/:id", user.One)
+		userGroup.DELETE("/:id", user.Delete)
+		userGroup.PUT("/:id", user.Update)
+	}
+
 	// router.Use(middlewares.AuthMiddleware())
 
 	// root := new(controllers.RootController)

@@ -8,28 +8,29 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type usersController struct{}
+type UsersController struct{}
 
-var userstModel = new(models.Users)
+var usersModel = new(models.Users)
 
 // Create ...
-func (controller usersController) Create(c *gin.Context) {
+func (controller UsersController) Create(c *gin.Context) {
 	var err error
+
 	db := database.GetDatabase()
 
 	// Declare a struct for the desired request body
 	var body struct {
-		id       uint
-		handle   string
-		email    string
-		password string
+		Id       uint
+		Handle   string
+		Email    string
+		Password string
 		// birthdate datatypes.Date `gorm: "NOT NULL"`
-		birthdate string
-		firstName string
-		lastName  string
+		Birthdate string
+		FirstName string
+		LastName  string
 		// profilePic mediumblob,
-		interests string
-		verified  uint
+		Interests string
+		Verified  uint
 	}
 
 	// Bind struct to context and check for error
@@ -44,20 +45,21 @@ func (controller usersController) Create(c *gin.Context) {
 
 	// Create the object in the database
 	object := models.Users{
-		Handle:    body.handle,
-		Email:     body.email,
-		Password:  body.password,
-		Birthdate: body.birthdate,
-		FirstName: body.firstName,
-		LastName:  body.lastName,
+		Handle:    body.Handle,
+		Email:     body.Email,
+		Password:  body.Password,
+		Birthdate: body.Birthdate,
+		FirstName: body.FirstName,
+		LastName:  body.LastName,
 		// ProfilePic: body.profilePic,
-		Interests: body.interests,
-		Verified:  body.verified,
+		Interests: body.Interests,
+		Verified:  body.Verified,
 	}
 
 	result := db.Create(&object)
 
 	if result.Error != nil {
+
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Creation failed",
 		})
@@ -69,7 +71,7 @@ func (controller usersController) Create(c *gin.Context) {
 	c.JSON(http.StatusOK, object)
 }
 
-func (controller usersController) All(c *gin.Context) {
+func (controller UsersController) All(c *gin.Context) {
 	// var err error
 	db := database.GetDatabase()
 	var objects []models.Users
@@ -90,7 +92,7 @@ func (controller usersController) All(c *gin.Context) {
 
 }
 
-func (controller usersController) One(c *gin.Context) {
+func (controller UsersController) One(c *gin.Context) {
 	db := database.GetDatabase()
 
 	// Get the id
@@ -112,7 +114,7 @@ func (controller usersController) One(c *gin.Context) {
 	c.JSON(http.StatusAccepted, object)
 }
 
-func (controller usersController) Update(c *gin.Context) {
+func (controller UsersController) Update(c *gin.Context) {
 
 	db := database.GetDatabase()
 
@@ -131,17 +133,17 @@ func (controller usersController) Update(c *gin.Context) {
 
 	// Get updates from the body
 	var body struct {
-		id       uint
-		handle   string
-		email    string
-		password string
+		Id       uint
+		Handle   string
+		Email    string
+		Password string
 		// birthdate datatypes.Date `gorm: "NOT NULL"`
-		birthdate string
-		firstName string
-		lastName  string
+		Birthdate string
+		FirstName string
+		LastName  string
 		// profilePic mediumblob,
-		interests string
-		verified  uint
+		Interests string
+		Verified  uint
 	}
 	if err := c.Bind(&body); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -151,15 +153,15 @@ func (controller usersController) Update(c *gin.Context) {
 		return
 	}
 
-	object.Handle = body.handle
-	object.Email = body.email
-	object.Password = body.password
-	object.Birthdate = body.birthdate
-	object.FirstName = body.firstName
-	object.LastName = body.lastName
+	object.Handle = body.Handle
+	object.Email = body.Email
+	object.Password = body.Password
+	object.Birthdate = body.Birthdate
+	object.FirstName = body.FirstName
+	object.LastName = body.LastName
 	// object.ProfilePic = body.profilePic
-	object.Interests = body.interests
-	object.Verified = body.verified
+	object.Interests = body.Interests
+	object.Verified = body.Verified
 
 	// Update the object
 	result = db.Save(&object)
@@ -175,7 +177,7 @@ func (controller usersController) Update(c *gin.Context) {
 	c.JSON(http.StatusOK, object)
 }
 
-func (controller usersController) Delete(c *gin.Context) {
+func (controller UsersController) Delete(c *gin.Context) {
 	db := database.GetDatabase()
 
 	// Get the existing object
