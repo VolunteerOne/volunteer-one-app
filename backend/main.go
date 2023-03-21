@@ -4,23 +4,27 @@ import (
 	"log"
 	"os"
 
-	"github.com/VolunteerOne/volunteer-one-app/backend/handlers"
-	"github.com/gin-gonic/gin"
+	"github.com/VolunteerOne/volunteer-one-app/backend/database"
+	"github.com/VolunteerOne/volunteer-one-app/backend/models"
+	"github.com/VolunteerOne/volunteer-one-app/backend/server"
 	"github.com/joho/godotenv"
 )
 
 func main() {
-	r := gin.Default()
-	r.GET("/", handlers.RootHandler)
-	r.GET("/Example", handlers.ExampleHandler)
+	database.Init() // Connect database
 
-	r.Run()
+	if os.Getenv("DB_MIGRATION") != "" {
+		models.Init()
+	}
+
+	server.Init() // Start Server
 }
 
 // Runs before main
 func init() {
 	// Load Environment Variables
 	err := godotenv.Load()
+
 	if err != nil {
 		log.Fatal("Could not load environment variables")
 	}
