@@ -22,7 +22,6 @@ class Onboarding extends React.Component {
         <StatusBar hidden />
         <Block flex center>
         <ImageBackground
-            source={Images.Onboarding}
             style={{ height, width, zIndex: 1 }}
           />
         </Block>
@@ -33,18 +32,18 @@ class Onboarding extends React.Component {
             <Block flex space="around" style={{ zIndex: 2 }}>
               <Block style={styles.title}>
                 <Block>
-                  <Text color="white" size={60}>
-                    Design
+                  <Text color="white" style={{fontWeight: 'bold'} }size={75}>
+                    Volunteer
+                  </Text>
+                  <Text color="white" style={{fontWeight: 'bold'}} size={75}>
+                    One
                   </Text>
                 </Block>
                 <Block>
-                  <Text color="white" size={60}>
-                    System
-                  </Text>
                 </Block>
                 <Block style={styles.subTitle}>
-                  <Text color="white" size={16}>
-                    Fully coded React Native components.
+                <Text color="white" size={25}>
+                    Connecting volunteers to their communities
                   </Text>
                 </Block>
               </Block>
@@ -82,11 +81,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0
   },
   logo: {
-    width: 200,
-    height: 60,
+    width: 340,
+    height: 302,
     zIndex: 2,
     position: 'relative',
-    marginTop: '-50%'
+    marginTop: '-60%'
   },
   title: {
     marginTop:'-5%'
