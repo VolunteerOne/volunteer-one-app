@@ -48,9 +48,9 @@ const Login = ({ navigation }) => {
           <Block style={styles.loginContainer}>
             <Block flex>
               <Block flex={0.5} middle style={styles.instructionText}>
-              <Block center>
-          <Image source={Images.VolunteerOneIcon} style={styles.logo} />
-        </Block>
+                <Block center>
+                  <Image source={Images.VolunteerOneIcon} style={styles.logo} />
+                </Block>
               </Block>
               <Block flex={0.17} middle style={styles.instructionText}>
                 <TouchableOpacity
