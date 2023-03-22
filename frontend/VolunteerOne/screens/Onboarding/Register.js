@@ -17,7 +17,7 @@ import { Images, argonTheme } from "../../constants";
 
 const { width, height } = Dimensions.get("screen");
 
-import logo from "../../assets/imgs/argon-logo.png";
+import logo from "../../assets/logo/logo2.png";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 

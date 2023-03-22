@@ -5,8 +5,8 @@ const RegisterBackground = require("../assets/imgs/register-bg.png");
 const Pro = require("../assets/imgs/getPro-bg.png");
 const iOSLogo = require("../assets/imgs/ios.png");
 const androidLogo = require("../assets/imgs/android.png");
-const volunteerOneIcon = require("../assets/logo/logo.png");
-const volunteerOneLogo = require("../assets/logo/logo2.png");
+const VolunteerOneIcon = require("../assets/logo/logo.png");
+const VolunteerOneLogo = require("../assets/logo/logo2.png");
 
 // internet imgs
 
@@ -34,5 +34,7 @@ export default {
   Products,
   Pro,
   iOSLogo,
-  androidLogo
+  androidLogo,
+  VolunteerOneIcon,
+  VolunteerOneLogo
 };

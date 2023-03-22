@@ -15,7 +15,7 @@ import { Block, Text } from "galio-framework";
 import { Button } from "../../components";
 import { Images, argonTheme } from "../../constants";
 
-import logo from "../../assets/imgs/argon-logo.png";
+import logo from "../../assets/logo/logo2.png";
 
 const { width, height } = Dimensions.get("screen");
 

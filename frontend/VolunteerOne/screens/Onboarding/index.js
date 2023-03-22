@@ -27,7 +27,7 @@ class Onboarding extends React.Component {
           />
         </Block>
         <Block center>
-          <Image source={Images.LogoOnboarding} style={styles.logo} />
+          <Image source={Images.VolunteerOneLogo} style={styles.logo} />
         </Block>
         <Block flex space="between" style={styles.padded}>
             <Block flex space="around" style={{ zIndex: 2 }}>
