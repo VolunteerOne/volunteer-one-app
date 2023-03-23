@@ -2,8 +2,8 @@
 import React from 'react';
 import { StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { Block, theme } from 'galio-framework';
-import ProfileItem from '../../components/ProfileItem';
-import profiles from '../../constants/profiles';
+import { Button } from "../../components";
+
 
 // ================================= View Friends Page ================================= //
 
@@ -16,13 +16,13 @@ class ViewFriendsPage extends React.Component {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.notifications}>
         
-        {/* map all notifications using loop */}
-        <Block flex>
-          {profiles.map(profile => (
-             <ProfileItem item={profile} horizontal />
-          ))}
-        </Block>
-    
+        <Button
+          // onPress={handleOpenModalBtn}
+      >
+        Open Modal
+      </Button>
+
+ 
       </ScrollView>
     )
   }
