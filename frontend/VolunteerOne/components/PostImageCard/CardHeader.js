@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { Block, Text, Image } from "galio-framework";
+import { Avatar } from "@react-native-material/core";
 
 /*this function gets the difference between the current date and the date the event was posted. It then formats
 the time displayed accordingly */
@@ -57,12 +58,14 @@ const CardHeader = ({ author, timePosted, profileImage}) => {
   //getting time to display
   const timeDisplayed = getDateDiff(new Date(), timePosted);
   return (
-    <Block style={styles.header}>
+    
+    <Block style={styles.header}> 
+      <Avatar image={{ uri: profileImage }} />
       <Block style={styles.headerTitle}> 
-      <Text style={styles.titleText}> {author} </Text>
+        <Text style={styles.titleText}> {author} </Text>
         <Text style={styles.timeText}>{timeDisplayed}</Text>
       </Block>
-    </Block>
+    </Block> 
   );
 };
 

@@ -17,6 +17,7 @@ const PostImageCard = ({ data }) => {
       <CardHeader
         author={data["author"]}
         timePosted={data["timePosted"]}
+        profileImage={data["profileImage"]}
       />
       <CardBody data={data} />
     </Block>
