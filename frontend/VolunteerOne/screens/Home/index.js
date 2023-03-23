@@ -48,7 +48,7 @@ class Home extends React.Component {
           <Button
             shadowless
             style={styles.tab}
-            onPress={() => navigation.navigate("Login")}
+            onPress={() => navigation.navigate("NewPassword")}
           >
             New Password Screen
           </Button>
