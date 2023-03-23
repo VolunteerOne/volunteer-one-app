@@ -17,19 +17,19 @@ const CardBody = ({ data }) => {
       <Block>
         <Text>
           {data["description"]}
-          {"\n\n"}
+          {"\n"}
         </Text>
         <Image
-        style={{width: '100%', height: '50%'}}
+        style={styles.imageStyles}
         source={{uri:data['image']}}></Image>
       </Block>
     );
 };
 
 const styles = StyleSheet.create({
-  eventName: {
-    fontWeight: "bold",
-    color: "#32325D",
+  imageStyles: {
+    height: 250,
+    width: 'auto',
   }
 });
 
