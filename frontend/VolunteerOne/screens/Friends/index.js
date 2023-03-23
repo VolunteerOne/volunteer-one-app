@@ -3,6 +3,7 @@ import React from 'react';
 import { StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { Block, theme } from 'galio-framework';
 import { Button } from "../../components";
+import NewAnouncementModal from "../../components/NewAnnouncementModal"
 
 
 // ================================= View Friends Page ================================= //
@@ -16,13 +17,8 @@ class ViewFriendsPage extends React.Component {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.notifications}>
         
-        <Button
-          // onPress={handleOpenModalBtn}
-      >
-        Open Modal
-      </Button>
-
- 
+      <NewAnouncementModal></NewAnouncementModal>
+       
       </ScrollView>
     )
   }
