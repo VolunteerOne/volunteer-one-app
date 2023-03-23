@@ -27,7 +27,7 @@ const iPhoneX = () =>
 const BellButton = ({ isWhite, style, navigation }) => (
   <TouchableOpacity
     style={[styles.button, style]}
-    onPress={() => navigation.navigate("Pro")}
+    onPress={() => navigation.navigate("ViewNotifications")}
   >
     <Icon
       family="ArgonExtra"

@@ -14,6 +14,8 @@ import Home from "../screens/Home";
 import Onboarding from "../screens/Onboarding";
 import Profile from "../screens/Profile";
 import Friends from "../screens/Friends";
+import ViewFriends from "../screens/Profile/ViewFriendsPage";
+import ViewNotifications from "../screens/notificationsPage"
 import CreateAccount from "../screens/Onboarding/CreateAccount";
 import Register from "../screens/Onboarding/Register";
 import Login from "../screens/Onboarding/Login";
@@ -57,6 +59,22 @@ function HomeStack(props) {
         }}
       />
       <Stack.Screen
+        name="ViewNotifications"
+        component={ViewNotifications}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              back
+              title="Notifications"
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          headerTransparent: false,
+          headerShown: true,
+        }}
+      />
+      <Stack.Screen
         name="Pro"
         component={Pro}
         options={{
@@ -93,6 +111,22 @@ function FriendsStack(props) {
             <Header title="Friends" navigation={navigation} scene={scene} />
           ),
           cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
+      <Stack.Screen
+        name="ViewNotifications"
+        component={ViewNotifications}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              back
+              title="Notifications"
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          headerTransparent: false,
+          headerShown: true,
         }}
       />
       <Stack.Screen
@@ -134,6 +168,23 @@ function ProfileStack(props) {
             <Header
               transparent
               white
+              title="Profile"
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          headerTransparent: true,
+        }}
+      />
+      <Stack.Screen
+        name="ViewFriends"
+        component={ViewFriends}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              back
+              transparent
+              white
               title=""
               navigation={navigation}
               scene={scene}
@@ -173,6 +224,22 @@ function ExploreStack(props) {
         headerShown: "screen",
       }}
     >
+      <Stack.Screen
+        name="ViewNotifications"
+        component={ViewNotifications}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              back
+              title="Notifications"
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          headerTransparent: false,
+          headerShown: true,
+        }}
+      />
       <Stack.Screen
         name="Explore"
         component={Pro}
@@ -341,7 +408,11 @@ function BottomNav() {
           headerShown: false,
           tabBarLabel: "Friends",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account-group" color={color} size={size} />
+            <MaterialCommunityIcons
+              name="account-group"
+              color={color}
+              size={size}
+            />
           ),
           tabBarBadge: 3,
         }}

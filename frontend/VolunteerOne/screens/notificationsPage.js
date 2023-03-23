@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { Block, theme } from 'galio-framework';
-import NotificationItem from '../../components/NotificationItem';
-import notifications from '../../constants/notifications';
+import NotificationItem from '../components/NotificationItem';
+import notifications from '../constants/notifications';
 
 /** ============================== Notifications Page ============================== **/ 
 const { width } = Dimensions.get('screen');
