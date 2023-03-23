@@ -15,7 +15,6 @@ import { Block, Text } from "galio-framework";
 import { Button } from "../../components";
 import { Images, argonTheme } from "../../constants";
 
-import logo from "../../assets/imgs/argon-logo.png";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -49,11 +48,13 @@ const Login = ({ navigation }) => {
           <Block style={styles.loginContainer}>
             <Block flex>
               <Block flex={0.5} middle style={styles.instructionText}>
-                <Image source={logo} />
+                <Block center>
+                  <Image source={Images.VolunteerOneIcon} style={styles.logo} />
+                </Block>
               </Block>
               <Block flex={0.17} middle style={styles.instructionText}>
                 <TouchableOpacity
-                  onPress={() => console.log("create account btn")}
+                  onPress={() => navigation.navigate('CreateAccount')}
                 >
                   <Text
                     color="#8898AA"
@@ -93,7 +94,7 @@ const Login = ({ navigation }) => {
                     />
                     <Block row style={styles.passwordCheck}>
                       <TouchableOpacity
-                        onPress={() => console.log("forgot password btn clicked")}
+                        onPress={() => navigation.navigate('ForgotPassword')}
                       >
                         <Text
                           color="#8898AA"
@@ -171,6 +172,14 @@ const styles = StyleSheet.create({
     width: width * 0.5,
     marginTop: 25,
   },
+  logo: {
+    width: 265,
+    height: 50,
+    zIndex: 2,
+    position: 'relative',
+    marginTop: '20%'
+  },
 });
+
 
 export default Login;
