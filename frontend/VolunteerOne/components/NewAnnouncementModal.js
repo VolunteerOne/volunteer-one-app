@@ -39,34 +39,36 @@ class NewAnouncementModal extends React.Component {
                       <Text style={styles.exit}>x</Text>
                   </Pressable>
                 </Text>
-
-                <Text style={styles.secondaryHeader}>
-                  Post title
-                </Text>
-                <Block width={width * 0.8} style={{ marginBottom: 15 }}>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Enter a title"
-                    placeholderTextColor={"lightgrey"}
-                    // onChangeText={handleInput}
-                  />
-                </Block>
-
-                <Text style={styles.secondaryHeader}>
-                  Description
-                </Text>
-                <Block width={width * 0.8}  style={{ marginBottom: 15 }}>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Provide announcement details here"
-                    placeholderTextColor={"lightgrey"}
-                    height={height * 0.3}
-                    // onChangeText={handleInput}
-                  />
-                </Block>
-
               </Block>
-              
+
+              <Text style={styles.secondaryHeader}>
+                Post title
+              </Text>
+
+              <Block width={width * 0.8 - 20} style={{ marginBottom: 15 }}>
+                <TextInput
+                  style={styles.input} 
+                  placeholder="Enter a title"
+                  placeholderTextColor={"lightgrey"}                  
+                  // onChangeText={handleInput}
+                />
+              </Block>
+
+              <Text style={styles.secondaryHeader}>
+                Description
+              </Text>
+              <Block width={width * 0.8 - 20}  style={{ marginBottom: 15 }}>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Provide announcement details here"
+                  placeholderTextColor={"lightgrey"}
+                  height={height * 0.3}
+                  textAlignVertical={'top'}
+                  paddingTop={10}
+                  multiline={true}
+                  // onChangeText={handleInput}
+                />
+              </Block>
 
 
               <Pressable
@@ -101,7 +103,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: 'bold',
     color: "#525F7F",
-    marginBottom: 15,
+    marginBottom: 10,
     marginTop: 10,
   },
   secondaryHeader: {
@@ -124,6 +126,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     elevation: 2,
     paddingLeft: 10,
+   
   },
 
   // matt's added styles above ^^^
@@ -163,7 +166,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#5e72e4',
     // matt---
     // borderRadius: 5,
-    padding: 15,
+    padding: 10,
+    marginTop:10,
     // matt---
   },
   textStyle: {
