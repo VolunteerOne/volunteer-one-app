@@ -17,13 +17,17 @@ import { Images, argonTheme } from "../../constants";
 
 const { width, height } = Dimensions.get("screen");
 
-import logo from "../../assets/imgs/argon-logo.png";
+import logo from "../../assets/logo/logo2.png";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 /** ==================================== Register Screen ==================================== **/
 
-const Register = ({ navigation }) => {
+const Register = ({ route, navigation }) => {
+
+  const { userType } = route.params;
+  console.log('userType passed: ', userType);
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -62,7 +66,9 @@ const Register = ({ navigation }) => {
           <Block style={styles.registerContainer}>
             <Block flex>
               <Block flex={0.5} middle>
-                <Image source={logo} />
+                <Block center>
+                  <Image source={Images.VolunteerOneIcon} style={styles.logo} />
+                </Block>
               </Block>
               <Block flex={0.17} middle>
                 <Text color="#8898AA" size={14}>
@@ -194,6 +200,13 @@ const styles = StyleSheet.create({
   },
   visibleIcon: {
     paddingLeft: 90,
+  },
+  logo: {
+    width: 265,
+    height: 50,
+    zIndex: 2,
+    position: 'relative',
+    marginTop: '20%'
   },
 });
 
