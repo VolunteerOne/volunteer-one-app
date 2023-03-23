@@ -32,7 +32,7 @@ class NewAnouncementModal extends React.Component {
             <View style={styles.modalView}>
               <Block style={styles.header}>
 
-                <Text style={styles.modalText}>
+                <Text style={styles.header}>
                   New Announcement 
                   <Pressable
                       onPress={() => this.setState({modalVisible: !modalVisible})}>
@@ -44,17 +44,26 @@ class NewAnouncementModal extends React.Component {
                   Post title
                 </Text>
                 <Block width={width * 0.8} style={{ marginBottom: 15 }}>
-                    <TextInput
-                      style={styles.input}
-                      placeholder="Enter a title"
-                      // onChangeText={handleInput}
-                    />
-                  </Block>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Enter a title"
+                    placeholderTextColor={"lightgrey"}
+                    // onChangeText={handleInput}
+                  />
+                </Block>
 
                 <Text style={styles.secondaryHeader}>
                   Description
                 </Text>
-                
+                <Block width={width * 0.8}  style={{ marginBottom: 15 }}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Provide announcement details here"
+                    placeholderTextColor={"lightgrey"}
+                    height={height * 0.3}
+                    // onChangeText={handleInput}
+                  />
+                </Block>
 
               </Block>
               
@@ -63,7 +72,7 @@ class NewAnouncementModal extends React.Component {
               <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => this.setState({modalVisible: !modalVisible})}>
-                <Text style={styles.textStyle}>Create Announcement</Text>
+                <Text style={styles.textStyle}>CREATE ANNOUNCEMENT</Text>
               </Pressable>
 
             </View>
@@ -89,12 +98,24 @@ const styles = StyleSheet.create({
     
   },
   header: {
-    
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: "#525F7F",
+    marginBottom: 15,
+    marginTop: 10,
+  },
+  secondaryHeader: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    color: "#525F7F",
+    marginBottom:5,
   },
   
   input: {
-    // borderColor: argonTheme.COLORS.BORDER,
-    borderColor: "#808080",
+    borderColor: argonTheme.COLORS.BORDER,
+    borderWidth: .5,
+    borderRadius: 5,
+    // borderColor: "lightgrey",
     height: 44,
     backgroundColor: "#FFFFFF",
     shadowColor: argonTheme.COLORS.BLACK,
@@ -131,7 +152,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   button: {
-    borderRadius: 20,
+    borderRadius: 5,
     padding: 10,
     elevation: 2,
   },
@@ -139,7 +160,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#F194FF',
   },
   buttonClose: {
-    backgroundColor: '#2196F3',
+    backgroundColor: '#5e72e4',
+    // matt---
+    // borderRadius: 5,
+    padding: 15,
+    // matt---
   },
   textStyle: {
     color: 'white',
