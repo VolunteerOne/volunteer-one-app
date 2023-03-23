@@ -10,7 +10,7 @@ import { Block } from "galio-framework";
 // import CustomDrawerContent from "./Menu";
 import Elements from "../screens/Elements";
 // screens
-import Home from "../screens/Home";
+import Announcements from "../screens/Announcements";
 import Onboarding from "../screens/Onboarding";
 import Profile from "../screens/Profile";
 import Friends from "../screens/Friends";
@@ -158,36 +158,18 @@ function HomeStack(props) {
       }}
     >
       <Stack.Screen
-        name="Announcments"
-        component={Home}
+        name="Announcements"
+        component={Announcements}
         options={{
           header: ({ navigation, scene }) => (
             <Header
-              title="Announcments"
+              title="Announcements"
               options
               navigation={navigation}
               scene={scene}
             />
           ),
           cardStyle: { backgroundColor: "#F8F9FE" },
-        }}
-      />
-      <Stack.Screen
-        name="Pro"
-        component={Pro}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header
-              transparent
-              white
-              title="Profile"
-              navigation={navigation}
-              scene={scene}
-            />
-          ),
-          cardStyle: { backgroundColor: "#FFFFFF" },
-          headerTransparent: true,
-          headerShown: false,
         }}
       />
       {/* delete later - testing onboarding screens */}

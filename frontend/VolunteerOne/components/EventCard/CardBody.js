@@ -32,7 +32,7 @@ const CardBody = ({ data }) => {
       </Block>
     );
     //body for an announcment posting//
-  } else if (type == "announcment") {
+  } else if (type == "announcement") {
     return <Text>{data["announcement"]}</Text>;
     //default
   } else {
