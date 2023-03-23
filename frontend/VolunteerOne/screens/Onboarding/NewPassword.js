@@ -21,98 +21,114 @@ const { width, height } = Dimensions.get("screen");
 
 /** ==================================== New Password Screen ==================================== **/
 
-const NewPassword = () => {
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+const NewPassword = ({ navigation }) => {
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-  const handlePasswordChange = (text) => {
-    setPassword(text);
+  const handleNewPasswordInput = (input) => {
+    setNewPassword(input);
   };
 
-  const handleConfirmPasswordChange = (text) => {
-    setConfirmPassword(text);
+  const handleConfirmPasswordInput = (input) => {
+    setConfirmPassword(input);
   };
 
-  const handleSavePassword = () => {
-    if (password === "") {
-      setPasswordError("Please enter a password");
-      return;
-    }
-
-    if (confirmPassword === "") {
-      setConfirmPasswordError("Please confirm your password");
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setConfirmPasswordError("Passwords do not match");
-      return;
-    }
-
-    // Save password logic goes here
-    console.log("Password saved!");
+  const handleSaveBtnClick = () => {
+    console.log(newPassword, confirmPassword);
+    navigation.navigate('Login');
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Create New Password</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="New Password"
-        onChangeText={handlePasswordChange}
-        value={password}
-        secureTextEntry={true}
-      />
-      <Text style={styles.error}>{passwordError}</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Confirm Password"
-        onChangeText={handleConfirmPasswordChange}
-        value={confirmPassword}
-        secureTextEntry={true}
-      />
-      <Text style={styles.error}>{confirmPasswordError}</Text>
-      <TouchableOpacity style={styles.button} onPress={handleSavePassword}>
-        <Text style={styles.buttonText}>Save Password</Text>
-      </TouchableOpacity>
-    </View>
+    <Block flex middle>
+      <Block style={styles.container}>
+        <Text h4 style={styles.title}>
+          Reset Password
+        </Text>
+        <Block width={width * 0.8} style={styles.inputContainer}>
+          <Text style={styles.inputLabel}>New Password</Text>
+          <Block width={width * 0.8}>
+            <TextInput
+              style={styles.input}
+              secureTextEntry={true}
+              placeholder="New Password"
+              onChangeText={handleNewPasswordInput}
+            />
+          </Block>
+        </Block>
+        <Block width={width * 0.8} style={styles.inputContainer}>
+          <Text style={styles.inputLabel}>Confirm Password</Text>
+          <Block width={width * 0.8}>
+            <TextInput
+              style={styles.input}
+              secureTextEntry={true}
+              placeholder="Confirm Password"
+              onChangeText={handleConfirmPasswordInput}
+            />
+          </Block>
+        </Block>
+        <Block middle>
+          <Button
+            style={styles.button}
+            onPress={handleSaveBtnClick}
+            color="#009688"
+          >
+            <Text style={styles.buttonText}>RESET PASSWORD</Text>
+          </Button>
+        </Block>
+      </Block>
+    </Block>
   );
 };
 // }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
   input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: argonTheme.COLORS.BORDER,
+    height: 44,
+    backgroundColor: "#FFFFFF",
+    shadowColor: argonTheme.COLORS.BLACK,
+    shadowOffset: { width: 0, height: 1 },
+    shadowRadius: 2,
+    shadowOpacity: 0.05,
+    elevation: 2,
+    paddingLeft: 10,
+  },
+  instructionText: {
+    flexDirection: "row",
+  },
+  loginContainer: {
+    width: width * 0.9,
+    height: height * 0.75,
+    backgroundColor: "#F4F5F7",
     borderRadius: 4,
-    padding: 10,
-    marginVertical: 10,
-    minWidth: 300,
+    shadowColor: argonTheme.COLORS.BLACK,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowRadius: 8,
+    shadowOpacity: 0.1,
+    elevation: 1,
+    overflow: "hidden",
   },
-  error: {
-    color: "red",
-    marginBottom: 10,
+  inputIcons: {
+    marginRight: 12,
   },
-  button: {
-    backgroundColor: "blue",
-    padding: 10,
-    borderRadius: 4,
+  passwordCheck: {
+    paddingLeft: 15,
+    paddingTop: 13,
+    paddingBottom: 30,
   },
-  buttonText: {
-    color: "white",
-    fontWeight: "bold",
+  createButton: {
+    width: width * 0.5,
+    marginTop: 25,
+  },
+  logo: {
+    width: 265,
+    height: 50,
+    zIndex: 2,
+    position: 'relative',
+    marginTop: '20%'
   },
 });
 
