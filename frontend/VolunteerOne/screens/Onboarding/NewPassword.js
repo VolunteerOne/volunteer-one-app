@@ -21,110 +21,63 @@ const { width, height } = Dimensions.get("screen");
 
 /** ==================================== New Password Screen ==================================== **/
 
-const NewPassword = ({ navigation }) => {
-  const [email, setEmail] = useState("");
+const NewPassword = () => {
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
-  function handleEmailInput(input) {
-    setEmail(input);
-  }
+  const handlePasswordChange = (text) => {
+    setPassword(text);
+  };
 
-  function handlePasswordInput(input) {
-    setPassword(input);
-  }
+  const handleConfirmPasswordChange = (text) => {
+    setConfirmPassword(text);
+  };
 
-  function handleLoginBtnClick() {
-    console.log(email, password);
-    navigation.navigate("App");
-  }
+  const handleSavePassword = () => {
+    if (password === "") {
+      setPasswordError("Please enter a password");
+      return;
+    }
+
+    if (confirmPassword === "") {
+      setConfirmPasswordError("Please confirm your password");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setConfirmPasswordError("Passwords do not match");
+      return;
+    }
+
+    // Save password logic goes here
+    console.log("Password saved!");
+  };
 
   return (
-    <Block flex middle>
-      <StatusBar hidden />
-      <ImageBackground
-        source={Images.RegisterBackground}
-        style={{ width, height, zIndex: 1 }}
-      >
-        <Block safe flex middle>
-          <Block style={styles.loginContainer}>
-            <Block flex>
-              <Block flex={0.5} middle style={styles.instructionText}>
-                <Image source={logo} />
-              </Block>
-              <Block flex={0.17} middle style={styles.instructionText}>
-                <TouchableOpacity
-                  onPress={() => console.log("create account btn")}
-                >
-                  <Text
-                    color="#8898AA"
-                    size={12}
-                    style={{
-                      fontWeight: "bold",
-                      textDecorationLine: "underline",
-                      paddingRight: 5,
-                    }}
-                  >
-                    Create Account
-                  </Text>
-                </TouchableOpacity>
-                <Text color="#8898AA" size={12}>
-                  or Login with credentials
-                </Text>
-              </Block>
-              <Block flex center>
-                <KeyboardAvoidingView
-                  style={{ flex: 1 }}
-                  behavior="padding"
-                  enabled
-                >
-                  <Block width={width * 0.8} style={{ marginBottom: 15 }}>
-                    <TextInput
-                      style={styles.input}
-                      placeholder="Email"
-                      onChangeText={handleEmailInput}
-                    />
-                  </Block>
-                  <Block width={width * 0.8}>
-                    <TextInput
-                      secureTextEntry={true}
-                      style={styles.input}
-                      placeholder="Password"
-                      onChangeText={handlePasswordInput}
-                    />
-                    <Block row style={styles.passwordCheck}>
-                      <TouchableOpacity
-                        onPress={() => console.log("forgot password btn clicked")}
-                      >
-                        <Text
-                          color="#8898AA"
-                          size={12}
-                          style={{
-                            textDecorationLine: "underline",
-                          }}
-                        >
-                          Forgot Password?
-                        </Text>
-                      </TouchableOpacity>
-                    </Block>
-                  </Block>
-                  <Block middle>
-                    <Button
-                      color="primary"
-                      style={styles.createButton}
-                      onPress={handleLoginBtnClick}
-                    >
-                      <Text bold size={14} color={argonTheme.COLORS.WHITE}>
-                        LOGIN
-                      </Text>
-                    </Button>
-                  </Block>
-                </KeyboardAvoidingView>
-              </Block>
-            </Block>
-          </Block>
-        </Block>
-      </ImageBackground>
-    </Block>
+    <View style={styles.container}>
+      <Text style={styles.title}>Create New Password</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="New Password"
+        onChangeText={handlePasswordChange}
+        value={password}
+        secureTextEntry={true}
+      />
+      <Text style={styles.error}>{passwordError}</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Confirm Password"
+        onChangeText={handleConfirmPasswordChange}
+        value={confirmPassword}
+        secureTextEntry={true}
+      />
+      <Text style={styles.error}>{confirmPasswordError}</Text>
+      <TouchableOpacity style={styles.button} onPress={handleSavePassword}>
+        <Text style={styles.buttonText}>Save Password</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 // }
