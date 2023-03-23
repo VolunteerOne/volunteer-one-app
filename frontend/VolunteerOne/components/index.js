@@ -8,6 +8,7 @@ import Switch from './Switch';
 import Select from './Select';
 import PostWithoutImage from './PostWithoutImage';
 import PostWithImage from './PostWithImage';
+import PostImageCard from './PostImageCard';
 
 
 export {
@@ -20,5 +21,6 @@ export {
   Switch, 
   Select,
   PostWithoutImage,
-  PostWithImage
+  PostWithImage,
+  PostImageCard
 };
