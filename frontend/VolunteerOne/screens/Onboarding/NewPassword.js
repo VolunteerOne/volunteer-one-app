@@ -83,46 +83,36 @@ const NewPassword = () => {
 // }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+  },
   input: {
-    borderColor: argonTheme.COLORS.BORDER,
-    height: 44,
-    backgroundColor: "#FFFFFF",
-    shadowColor: argonTheme.COLORS.BLACK,
-    shadowOffset: { width: 0, height: 1 },
-    shadowRadius: 2,
-    shadowOpacity: 0.05,
-    elevation: 2,
-    paddingLeft: 10,
-  },
-  instructionText: {
-    flexDirection: "row",
-  },
-  loginContainer: {
-    width: width * 0.9,
-    height: height * 0.75,
-    backgroundColor: "#F4F5F7",
+    borderWidth: 1,
+    borderColor: "#ccc",
     borderRadius: 4,
-    shadowColor: argonTheme.COLORS.BLACK,
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowRadius: 8,
-    shadowOpacity: 0.1,
-    elevation: 1,
-    overflow: "hidden",
+    padding: 10,
+    marginVertical: 10,
+    minWidth: 300,
   },
-  inputIcons: {
-    marginRight: 12,
+  error: {
+    color: "red",
+    marginBottom: 10,
   },
-  passwordCheck: {
-    paddingLeft: 15,
-    paddingTop: 13,
-    paddingBottom: 30,
+  button: {
+    backgroundColor: "blue",
+    padding: 10,
+    borderRadius: 4,
   },
-  createButton: {
-    width: width * 0.5,
-    marginTop: 25,
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
   },
 });
 
