@@ -38,7 +38,7 @@ const NewPassword = ({ navigation }) => {
     navigation.navigate('Login');
   };
 
-  return (
+return (
     <Block flex middle>
       <Block style={styles.container}>
         <Text h4 style={styles.title}>
@@ -70,7 +70,7 @@ const NewPassword = ({ navigation }) => {
           <Button
             style={styles.button}
             onPress={handleSaveBtnClick}
-            color="#009688"
+            color="#8898AA"
           >
             <Text style={styles.buttonText}>RESET PASSWORD</Text>
           </Button>
@@ -82,53 +82,51 @@ const NewPassword = ({ navigation }) => {
 // }
 
 const styles = StyleSheet.create({
+  container: {
+      flex: 1,
+      backgroundColor: "#F4F5F7",
+      alignItems: "center",
+      justifyContent: "center",
+  },
+  title: {
+      marginBottom: 30,
+  },
+  inputContainer: {
+      marginVertical: 10,
+  },
+  inputLabel: {
+      marginBottom: 5,
+      fontWeight: "bold",
+  },
   input: {
-    borderColor: argonTheme.COLORS.BORDER,
-    height: 44,
-    backgroundColor: "#FFFFFF",
-    shadowColor: argonTheme.COLORS.BLACK,
-    shadowOffset: { width: 0, height: 1 },
-    shadowRadius: 2,
-    shadowOpacity: 0.05,
-    elevation: 2,
-    paddingLeft: 10,
+      borderColor: argonTheme.COLORS.BORDER,
+      borderWidth: 1,
+      height: 44,
+      backgroundColor: "#FFFFFF",
+      shadowColor: argonTheme.COLORS.BLACK,
+      shadowOffset: {
+          width: 0,
+          height: 1
+      },
+      shadowRadius: 2,
+      shadowOpacity: 0.05,
+      elevation: 2,
+      paddingLeft: 10,
   },
-  instructionText: {
-    flexDirection: "row",
+  button: {
+      width: width * 0.8,
+      marginTop: 25,
+      backgroundColor: argonTheme.COLORS.PRIMARY,
   },
-  loginContainer: {
-    width: width * 0.9,
-    height: height * 0.75,
-    backgroundColor: "#F4F5F7",
-    borderRadius: 4,
-    shadowColor: argonTheme.COLORS.BLACK,
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowRadius: 8,
-    shadowOpacity: 0.1,
-    elevation: 1,
-    overflow: "hidden",
-  },
-  inputIcons: {
-    marginRight: 12,
-  },
-  passwordCheck: {
-    paddingLeft: 15,
-    paddingTop: 13,
-    paddingBottom: 30,
-  },
-  createButton: {
-    width: width * 0.5,
-    marginTop: 25,
+  buttonText: {
+      color: "#FFFFFF",
   },
   logo: {
-    width: 265,
-    height: 50,
-    zIndex: 2,
-    position: 'relative',
-    marginTop: '20%'
+      width: 265,
+      height: 50,
+      zIndex: 2,
+      position: 'relative',
+      marginTop: '20%',
   },
 });
 
