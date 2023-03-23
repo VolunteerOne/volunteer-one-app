@@ -53,7 +53,7 @@ const Login = ({ navigation }) => {
               </Block>
               <Block flex={0.17} middle style={styles.instructionText}>
                 <TouchableOpacity
-                  onPress={() => console.log("create account btn")}
+                  onPress={() => navigation.navigate('CreateAccount')}
                 >
                   <Text
                     color="#8898AA"
@@ -93,7 +93,7 @@ const Login = ({ navigation }) => {
                     />
                     <Block row style={styles.passwordCheck}>
                       <TouchableOpacity
-                        onPress={() => console.log("forgot password btn clicked")}
+                        onPress={() => navigation.navigate('ForgotPassword')}
                       >
                         <Text
                           color="#8898AA"

@@ -37,6 +37,30 @@ FOREIGN KEY (`admin_id`) REFERENCES `users` (`id`) ,
 FOREIGN KEY (`org_id`) REFERENCES `organizations` (`id`)
 );
 
+CREATE TABLE `friends`
+(
+ `id`           int NOT NULL AUTO_INCREMENT ,
+ `sender_id`    int NOT NULL ,
+ `receiver_id`  int NOT NULL ,
+ `status`       set('accepted','pending','rejected') DEFAULT 'pending' NOT NULL ,
+
+ PRIMARY KEY (`id`),
+ FOREIGN KEY (`sender_id`) REFERENCES `users`(`id`),
+ FOREIGN KEY (`sender_id`) REFERENCES `users`(`id`)
+);
+
+CREATE TABLE `user_social`
+(
+ `id`           int NOT NULL AUTO_INCREMENT ,
+ `user_id`      int NOT NULL ,
+ `created_at`   datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+ `content`      text NOT NULL ,
+ `hidden`       tinyint NOT NULL DEFAULT 0 ,
+
+ PRIMARY KEY (`id`),
+ FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
+);
+
 CREATE TABLE `events` (
   `id` int NOT NULL,
   `name` varchar(255) NOT NULL,
@@ -63,4 +87,3 @@ CREATE TABLE `volunteer_req`
  FOREIGN KEY (`volunteer_id`) REFERENCES `users` (`id`),
  FOREIGN KEY (`event_id`) REFERENCES `events` (`id`)
 );
-
