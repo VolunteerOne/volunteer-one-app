@@ -6,8 +6,6 @@ import Header from './Header';
 import Input from './Input';
 import Switch from './Switch';
 import Select from './Select';
-import PostWithoutImage from './PostWithoutImage';
-import PostWithImage from './PostWithImage';
 import PostImageCard from './PostImageCard';
 
 
@@ -20,7 +18,5 @@ export {
   Header,
   Switch, 
   Select,
-  PostWithoutImage,
-  PostWithImage,
   PostImageCard
 };
