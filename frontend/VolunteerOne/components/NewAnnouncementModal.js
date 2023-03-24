@@ -4,16 +4,16 @@
 // it works like a popup.
 
 import React from 'react';
-// import { useState } from "react";
 import {Alert, Modal, StyleSheet, Pressable, View, Dimensions, TextInput, Image} from 'react-native';
 import { Block, Text, theme } from 'galio-framework';
-import { Images, argonTheme } from "../constants";
+import { argonTheme } from "../constants";
 
 const { width, height } = Dimensions.get("screen");
 
-// const [postTitle, setPostTitle] = useState("");
-// const [postDescription, setPostDescription] = useState("");
-function handleCreateAnnBtnClick() {}
+function handleCreateAnnBtnClick() {
+// write function for create announcement button here
+
+}
 
 class NewAnouncementModal extends React.Component {
   state = {
@@ -117,7 +117,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: "#525F7F",
     marginBottom: 20,
-    // marginTop: 10,
   },
   secondaryHeader: {
     fontSize: 17,
@@ -130,7 +129,6 @@ const styles = StyleSheet.create({
     borderColor: argonTheme.COLORS.BORDER,
     borderWidth: .5,
     borderRadius: 5,
-    // borderColor: "lightgrey",
     height: 44,
     backgroundColor: "#FFFFFF",
     shadowColor: argonTheme.COLORS.BLACK,
@@ -144,10 +142,7 @@ const styles = StyleSheet.create({
   modalView: {
     margin: 20,
     backgroundColor: 'white',
-    // borderRadius: 5,
-    // padding: 35,
     paddingTop: 0,
-    // alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -168,21 +163,8 @@ const styles = StyleSheet.create({
   },
 
   modalViewInside: {
-    // margin: 20,
-    // backgroundColor: 'white',
-    // // borderRadius: 5,
     padding: 25,
     paddingTop: 0,
-    // paddingTop: 0,
-    // // alignItems: 'center',
-    // shadowColor: '#000',
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 2,
-    // },
-    // shadowOpacity: 0.25,
-    // shadowRadius: 4,
-    // elevation: 5,
   },
   button: {
     borderRadius: 5,
@@ -194,11 +176,8 @@ const styles = StyleSheet.create({
   },
   buttonClose: {
     backgroundColor: '#5e72e4',
-    // matt---
-    // borderRadius: 5,
     padding: 10,
     marginTop:10,
-    // matt---
   },
   textStyle: {
     color: 'white',
