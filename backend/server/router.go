@@ -19,7 +19,11 @@ func NewRouter() *gin.Engine {
 		objectGroup.DELETE("/:id", object.Delete)
 		objectGroup.PUT("/:id", object.Update)
 	}
-
+	loginGroup := router.Group("login")
+	{
+		login := new(controllers.LoginController)
+		loginGroup.GET("/:email/:password", login.Login)
+	}
 	// router.Use(middlewares.AuthMiddleware())
 
 	// root := new(controllers.RootController)
