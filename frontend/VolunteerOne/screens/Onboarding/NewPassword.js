@@ -15,8 +15,6 @@ import { Block, Text } from "galio-framework";
 import { Button } from "../../components";
 import { Images, argonTheme } from "../../constants";
 
-import logo from "../../assets/logo/logo2.png";
-
 const { width, height } = Dimensions.get("screen");
 
 /** ==================================== New Password Screen ==================================== **/
@@ -40,11 +38,19 @@ const NewPassword = ({ navigation }) => {
 
 return (
     <Block flex middle>
+      <StatusBar hidden />
+      <ImageBackground
+        source={Images.RegisterBackground}
+        style={{ width, height, zIndex: 1 }}
+      >
+      <Block safe flex middle>
       <Block style={styles.container}>
-        <Text h4 style={styles.title}>
-          Reset Password
-        </Text>
-        <Block width={width * 0.8} style={styles.inputContainer}>
+      <Block flex={0.5} middle>
+                <Block center>
+                  <Image source={Images.VolunteerOneIcon} style={styles.logo} />
+                </Block>
+              </Block>
+        <Block style={styles.inputContainer}>
           <Text style={styles.inputLabel}>New Password</Text>
           <Block width={width * 0.8}>
             <TextInput
@@ -76,6 +82,8 @@ return (
           </Button>
         </Block>
       </Block>
+      </Block>
+      </ImageBackground>
     </Block>
   );
 };
@@ -83,13 +91,19 @@ return (
 
 const styles = StyleSheet.create({
   container: {
-      flex: 1,
-      backgroundColor: "#F4F5F7",
-      alignItems: "center",
-      justifyContent: "center",
-  },
-  title: {
-      marginBottom: 30,
+    width: width * 0.9,
+    height: height * 0.75,
+    backgroundColor: "#F4F5F7",
+    borderRadius: 4,
+    shadowColor: argonTheme.COLORS.BLACK,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowRadius: 8,
+    shadowOpacity: 0.1,
+    elevation: 1,
+    overflow: "hidden",
   },
   inputContainer: {
       marginVertical: 10,
@@ -99,19 +113,16 @@ const styles = StyleSheet.create({
       fontWeight: "bold",
   },
   input: {
-      borderColor: argonTheme.COLORS.BORDER,
-      borderWidth: 1,
-      height: 44,
-      backgroundColor: "#FFFFFF",
-      shadowColor: argonTheme.COLORS.BLACK,
-      shadowOffset: {
-          width: 0,
-          height: 1
-      },
-      shadowRadius: 2,
-      shadowOpacity: 0.05,
-      elevation: 2,
-      paddingLeft: 10,
+    borderColor: argonTheme.COLORS.BORDER,
+    height: 44,
+    backgroundColor: "#FFFFFF",
+    shadowColor: argonTheme.COLORS.BLACK,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 2,
+    shadowOpacity: 0.05,
+    elevation: 2,
+    paddingLeft: 10,
+    paddingTop:10,
   },
   button: {
       width: width * 0.8,
