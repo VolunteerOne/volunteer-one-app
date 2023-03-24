@@ -22,6 +22,7 @@ const { width, height } = Dimensions.get("screen");
 /** ==================================== Forgot Password Screen ==================================== **/
 
 const ForgotPassword = ({ navigation }) => {
+
   const [email, setEmail] = useState("");
   
   function handleEmailInput(input) {
@@ -31,6 +32,7 @@ const ForgotPassword = ({ navigation }) => {
   function handleResetBtnClick() {
     console.log(email);
     navigation.navigate("NewPassword");
+
   }
 
   return (
@@ -66,8 +68,8 @@ const ForgotPassword = ({ navigation }) => {
                   <Block width={width * 0.8} style={{ marginBottom: 15 }}>
                     <TextInput
                       style={styles.input}
-                      placeholder="Email"
-                      onChangeText={handleEmailInput}
+                      placeholder="New Password"
+                      onChangeText={handleNewPassInput}
                     />
                   </Block>
                   <Block middle>
