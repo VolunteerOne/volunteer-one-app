@@ -17,7 +17,6 @@ const CardBody = ({ data }) => {
       <Block>
         <Text>
           {data["description"]}
-          {"\n"}
         </Text>
       </Block>
     );
