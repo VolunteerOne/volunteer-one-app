@@ -4,7 +4,7 @@ import { StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { Block, theme } from 'galio-framework';
 
 // ================================= View Friends Page ================================= //
-import { PostImageCard } from '../../components';
+import { PostImageCard, PostNoImageCard } from '../../components';
 import posts from '../../constants/posts';
 
 const { width } = Dimensions.get('screen');
@@ -12,7 +12,10 @@ const { width } = Dimensions.get('screen');
 class Friends extends React.Component {
   renderPosts = () => {
     var postsList = posts.map(function (data) {
-      return <PostImageCard key={data["id"]} data={data} />;
+      if (data["image"] == null)
+        return <PostNoImageCard key={data["id"]} data={data} />;
+      else
+        return <PostImageCard key={data["id"]} data={data} />;
     });
 
     return (
