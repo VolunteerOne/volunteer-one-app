@@ -4,16 +4,22 @@
 // it works like a popup.
 
 import React from 'react';
+// import { useState } from "react";
 import {Alert, Modal, StyleSheet, Pressable, View, Dimensions, TextInput, Image} from 'react-native';
 import { Block, Text, theme } from 'galio-framework';
 import { Images, argonTheme } from "../constants";
 
 const { width, height } = Dimensions.get("screen");
 
+// const [postTitle, setPostTitle] = useState("");
+// const [postDescription, setPostDescription] = useState("");
+function handleCreateAnnBtnClick() {}
+
 class NewAnouncementModal extends React.Component {
   state = {
     modalVisible: false,
   };
+
 
   render() {
     const {modalVisible} = this.state;
@@ -56,7 +62,7 @@ class NewAnouncementModal extends React.Component {
                     style={styles.input} 
                     placeholder="Enter a title"
                     placeholderTextColor={"lightgrey"}                  
-                    // onChangeText={handleInput}
+                    // onChangeText={handleTitleInput}
                   />
                 </Block>
 
@@ -72,13 +78,13 @@ class NewAnouncementModal extends React.Component {
                     textAlignVertical={'top'}
                     paddingTop={10}
                     multiline={true}
-                    // onChangeText={handleInput}
+                    // onChangeText={handleDescriptionInput}
                   />
                 </Block>
 
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
-                  onPress={() => this.setState({modalVisible: !modalVisible})}>
+                  onPress={() => {this.setState({modalVisible: !modalVisible}); handleCreateAnnBtnClick();}}>
                   <Text style={styles.textStyle}>CREATE ANNOUNCEMENT</Text>
                 </Pressable>
 
