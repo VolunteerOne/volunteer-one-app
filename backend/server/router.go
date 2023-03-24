@@ -2,6 +2,9 @@ package server
 
 import (
 	"github.com/VolunteerOne/volunteer-one-app/backend/controllers"
+	"github.com/VolunteerOne/volunteer-one-app/backend/database"
+	"github.com/VolunteerOne/volunteer-one-app/backend/repository"
+	"github.com/VolunteerOne/volunteer-one-app/backend/service"
 	"github.com/gin-gonic/gin"
 )
 
@@ -10,20 +13,39 @@ func NewRouter() *gin.Engine {
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
 
-	objectGroup := router.Group("object")
-	{
-		object := new(controllers.ObjectController)
-		objectGroup.POST("/", object.Create)
-		objectGroup.GET("/", object.All)
-		objectGroup.GET("/:id", object.One)
-		objectGroup.DELETE("/:id", object.Delete)
-		objectGroup.PUT("/:id", object.Update)
-	}
-	loginGroup := router.Group("login")
-	{
-		login := new(controllers.LoginController)
-		loginGroup.GET("/:email/:password", login.Login)
-	}
+    // *********************************************************
+    // INITIALIZE REPOSITORIES HERE -> DB migration is handled in main.go
+    // *********************************************************
+
+    loginRepository := repository.NewLoginRepository(database.GetDatabase())
+
+    // *********************************************************
+    // INITIALIZE SERVICES HERE
+    // *********************************************************
+
+    loginService := service.NewLoginService(loginRepository)
+
+    // *********************************************************
+    // INITIALIZE CONTROLLERS HERE
+    // *********************************************************
+
+    loginController := controllers.NewLoginController(loginService)
+
+    loginGroup := router.Group("login")  
+
+	loginGroup.GET("/:email/:password", loginController.Login)
+
+    
+
+	// objectGroup := router.Group("object")
+	// {
+	// 	object := new(controllers.ObjectController)
+	// 	objectGroup.POST("/", object.Create)
+	// 	objectGroup.GET("/", object.All)
+	// 	objectGroup.GET("/:id", object.One)
+	// 	objectGroup.DELETE("/:id", object.Delete)
+	// 	objectGroup.PUT("/:id", object.Update)
+	// }
 	// router.Use(middlewares.AuthMiddleware())
 
 	// root := new(controllers.RootController)
