@@ -113,7 +113,7 @@ class Header extends React.Component {
         <Button
           shadowless
           style={[styles.tab, styles.divider]}
-          onPress={() => navigation.navigate("Announcements")}
+          onPress={() => navigation.navigate("Announcements", { toggle: true })}
         >
           <Block row middle>
             <Icon
@@ -130,7 +130,9 @@ class Header extends React.Component {
         <Button
           shadowless
           style={styles.tab}
-          onPress={() => navigation.navigate("Announcements")}
+          onPress={() =>
+            navigation.navigate("Announcements", { toggle: false })
+          }
         >
           <Block row middle>
             <Icon

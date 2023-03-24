@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Animated, Dimensions, Easing } from "react-native";
 // header for screens
 import { Header, Icon } from "../components";

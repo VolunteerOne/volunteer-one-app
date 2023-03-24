@@ -1,9 +1,9 @@
-export const dataList = [
+export const all = [
   {
     id: 0,
-    organization: "American Red Cross",
+    organization: "DoSomething",
     name: "New Event",
-    subject: "Help pack disaster relief bags",
+    subject: "Clean up trash in parks",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     date: "",
@@ -13,9 +13,9 @@ export const dataList = [
   },
   {
     id: 1,
-    organization: "Habitat for Humanity",
-    name: "New Event",
-    subject: "Build and improve homes",
+    organization: "American Hiking Society",
+    name: "Fun Run",
+    subject: "5k run for charity",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     date: "",
@@ -25,7 +25,7 @@ export const dataList = [
   },
   {
     id: 2,
-    organization: "Global Volunteers",
+    organization: "Peace Corps",
     announcement:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et enim ad minim veniam, quis nostrud exercitation ullamco laboris ",
     type: "announcement",
