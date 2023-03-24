@@ -22,19 +22,19 @@ const { width, height } = Dimensions.get("screen");
 /** ==================================== Forgot Password Screen ==================================== **/
 
 const ForgotPassword = ({ navigation }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [newPass, setNewPass] = useState("");
+  const [confirmPass, setConfirmNewPass] = useState("");
 
-  function handleEmailInput(input) {
-    setEmail(input);
+  function handleNewPassInput(input) {
+    setNewPass(input);
   }
 
-  function handlePasswordInput(input) {
-    setPassword(input);
+  function handleConfirmPassInput(input) {
+    setConfirmNewPass(input);
   }
 
-  function handleLoginBtnClick() {
-    console.log(email, password);
+  function handleResetBtnClick() {
+    console.log(newPass, confirmPass);
     navigation.navigate("App");
   }
 
@@ -49,27 +49,7 @@ const ForgotPassword = ({ navigation }) => {
           <Block style={styles.loginContainer}>
             <Block flex>
               <Block flex={0.5} middle style={styles.instructionText}>
-                <Image source={logo} />
-              </Block>
-              <Block flex={0.17} middle style={styles.instructionText}>
-                <TouchableOpacity
-                  onPress={() => console.log("create account btn")}
-                >
-                  <Text
-                    color="#8898AA"
-                    size={12}
-                    style={{
-                      fontWeight: "bold",
-                      textDecorationLine: "underline",
-                      paddingRight: 5,
-                    }}
-                  >
-                    Create Account
-                  </Text>
-                </TouchableOpacity>
-                <Text color="#8898AA" size={12}>
-                  or Login with credentials
-                </Text>
+              <Image source={Images.VolunteerOneIcon} style={styles.logo} />
               </Block>
               <Block flex center>
                 <KeyboardAvoidingView
@@ -80,41 +60,26 @@ const ForgotPassword = ({ navigation }) => {
                   <Block width={width * 0.8} style={{ marginBottom: 15 }}>
                     <TextInput
                       style={styles.input}
-                      placeholder="Email"
-                      onChangeText={handleEmailInput}
+                      placeholder="New Password"
+                      onChangeText={handleNewPassInput}
                     />
                   </Block>
                   <Block width={width * 0.8}>
                     <TextInput
                       secureTextEntry={true}
                       style={styles.input}
-                      placeholder="Password"
-                      onChangeText={handlePasswordInput}
+                      placeholder="Confirm New Password"
+                      onChangeText={handleConfirmPassInput}
                     />
-                    <Block row style={styles.passwordCheck}>
-                      <TouchableOpacity
-                        onPress={() => console.log("forgot password btn clicked")}
-                      >
-                        <Text
-                          color="#8898AA"
-                          size={12}
-                          style={{
-                            textDecorationLine: "underline",
-                          }}
-                        >
-                          Forgot Password?
-                        </Text>
-                      </TouchableOpacity>
-                    </Block>
                   </Block>
                   <Block middle>
                     <Button
                       color="primary"
                       style={styles.createButton}
-                      onPress={handleLoginBtnClick}
+                      onPress={handleResetBtnClick}
                     >
                       <Text bold size={14} color={argonTheme.COLORS.WHITE}>
-                        LOGIN
+                        RESET PASSOWRD
                       </Text>
                     </Button>
                   </Block>
@@ -162,14 +127,16 @@ const styles = StyleSheet.create({
   inputIcons: {
     marginRight: 12,
   },
-  passwordCheck: {
-    paddingLeft: 15,
-    paddingTop: 13,
-    paddingBottom: 30,
-  },
   createButton: {
     width: width * 0.5,
     marginTop: 25,
+  },
+  logo: {
+    width: 265,
+    height: 50,
+    zIndex: 2,
+    position: 'relative',
+    marginTop: '20%'
   },
 });
 
