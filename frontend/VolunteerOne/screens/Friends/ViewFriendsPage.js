@@ -1,4 +1,3 @@
-// This page is temporarily being used to test other pages (notifications, friends, etc.) - matt
 import React from 'react';
 import { StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { Block, theme } from 'galio-framework';
@@ -6,35 +5,30 @@ import ProfileItem from '../../components/ProfileItem';
 import profiles from '../../constants/profiles';
 
 // ================================= View Friends Page ================================= //
-import { PostWithoutImage, PostWithImage, PostImageCard } from '../../components';
-import posts from '../../constants/posts';
 
 const { width } = Dimensions.get('screen');
 
-class Home extends React.Component {
-  renderPosts = () => {
-    var postsList = posts.map(function (data) {
-      return <PostImageCard key={data["id"]} data={data} />;
-    });
-
+class ViewFriendsPage extends React.Component {
+  renderNotifications = () => {
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.articles}
-      >
-        <Block flex center>
-          {postsList}
+        contentContainerStyle={styles.notifications}>
+ 
+        <Block flex>
+          {profiles.map(profile => (
+             <ProfileItem item={profile} horizontal />
+          ))}
         </Block>
     
       </ScrollView>
-    );
-  };
+    )
+  }
 
   render() {
     return (
       <Block flex center style={styles.home}>
-        {this.renderPosts()}
-
+        {this.renderNotifications()}
       </Block>
     );
   }
@@ -44,7 +38,7 @@ const styles = StyleSheet.create({
   home: {
     width: width,    
   },
-  posts: {
+  notifications: {
     width: width - theme.SIZES.BASE * 2,
     paddingVertical: theme.SIZES.BASE,
   },
