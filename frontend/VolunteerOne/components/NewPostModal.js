@@ -7,8 +7,7 @@ import React from 'react';
 import {Alert, Modal, StyleSheet, Pressable, View, Dimensions, TextInput, Image} from 'react-native';
 import { Block, Text, theme } from 'galio-framework';
 import { argonTheme } from "../constants";
-// import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-
+import ImagePickerExample from './ImagePicker';
 
 const { width, height } = Dimensions.get("screen");
 
@@ -21,6 +20,7 @@ function handleCreatePostBtnClick() {
 
 function uploadImageButton() {
   // write function for create announcement button here
+  ImagePickerExample();
   
   }
 

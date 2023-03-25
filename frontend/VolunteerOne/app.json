@@ -1,6 +1,5 @@
 {
   "expo": {
-    // matt added this
     "plugins": [
       [
         "expo-image-picker",

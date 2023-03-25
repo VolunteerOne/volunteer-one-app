@@ -17,7 +17,8 @@ class ViewFriendsPage extends React.Component {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.notifications}>
-        
+          
+      <NewAnouncementModal></NewAnouncementModal>
       <NewPostModal></NewPostModal>
        
       </ScrollView>
