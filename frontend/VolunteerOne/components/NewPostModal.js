@@ -93,7 +93,7 @@ class NewPostModal extends React.Component {
                 
                 <Pressable
                   style={[styles.imageButton]}
-                  onPress={() => {this.setState({modalVisible: !modalVisible}); uploadImageButton();}}>
+                  onPress={() => {uploadImageButton();}}>
                   <Text style={styles.textStyle}>UPLOAD IMAGE</Text>
                 </Pressable>
                 
