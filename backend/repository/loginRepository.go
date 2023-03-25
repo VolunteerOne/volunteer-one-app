@@ -12,24 +12,22 @@ type LoginRepository interface {
 }
 
 type loginRepository struct {
-    DB *gorm.DB
+	DB *gorm.DB
 }
 
 // Instantiated in router.go
 func NewLoginRepository(db *gorm.DB) LoginRepository {
-    return loginRepository {
-        DB: db,
-    }
+	return loginRepository{
+		DB: db,
+	}
 }
 
 // Attempts to find the first entry with the email in the DB
 func (l loginRepository) FindUserFromEmail(email string, user models.User) (models.User, error) {
-    log.Println("[LoginRepository] Find Email...")
+	log.Println("[LoginRepository] Find Email...")
 
-    // User will be populated with the content if possible
-    err := l.DB.Where("email = ?", email).First(&user).Error
+	// User will be populated with the content if possible
+	err := l.DB.Where("email = ?", email).First(&user).Error
 
-    return user, err
+	return user, err
 }
-
- 

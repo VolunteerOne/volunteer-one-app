@@ -11,40 +11,40 @@ import (
 
 // All Controller methods should be defined in the interface
 type LoginController interface {
-    Login(c *gin.Context)
+	Login(c *gin.Context)
 }
 
 // The struct holds the reference to the corresponding service
 type loginController struct {
-    loginService service.LoginService    
+	loginService service.LoginService
 }
 
 // Returns the new user controller -> instantiated in router.go
 func NewLoginController(s service.LoginService) LoginController {
-    return loginController{
-        loginService: s,
-    }
+	return loginController{
+		loginService: s,
+	}
 }
 
 func (l loginController) Login(c *gin.Context) {
-    log.Println("[LoginController] Logging in...")
+	log.Println("[LoginController] Logging in...")
 
 	userInputU := c.Param("email")
 	userInputP := c.Param("password")
 
-    var user models.User
+	var user models.User
 
-    user, err := l.loginService.FindUserFromEmail(userInputU, user)
+	user, err := l.loginService.FindUserFromEmail(userInputU, user)
 
-    // Email couldn't be found
-    if err != nil {
-        c.JSON(http.StatusBadGateway, gin.H{
-            "error": "Email does not exist",
-            "success": false,
-        })
+	// Email couldn't be found
+	if err != nil {
+		c.JSON(http.StatusBadGateway, gin.H{
+			"error":   "Email does not exist",
+			"success": false,
+		})
 
-        return
-    }
+		return
+	}
 
 	// Check if the password matches
 	if user.Password != userInputP {
