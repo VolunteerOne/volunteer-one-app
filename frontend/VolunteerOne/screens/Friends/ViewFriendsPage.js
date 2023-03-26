@@ -1,26 +1,26 @@
 import React from 'react';
 import { StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { Block, theme } from 'galio-framework';
+import ProfileItem from '../../components/ProfileItem';
+import profiles from '../../constants/profiles';
 
-import { Card } from '../../components';
-import articles from '../../constants/articles';
+// ================================= View Friends Page ================================= //
+
 const { width } = Dimensions.get('screen');
 
-class HomeAll extends React.Component {
-  renderArticles = () => {
+class ViewFriendsPage extends React.Component {
+  renderNotifications = () => {
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.articles}>
+        contentContainerStyle={styles.notifications}>
+ 
         <Block flex>
-          <Card item={articles[0]} horizontal  />
-          <Block flex row>
-            <Card item={articles[1]} style={{ marginRight: theme.SIZES.BASE }} />
-            <Card item={articles[2]} />
-          </Block>
-          <Card item={articles[3]} horizontal />
-          <Card item={articles[4]} full />
+          {profiles.map(profile => (
+             <ProfileItem item={profile} horizontal />
+          ))}
         </Block>
+    
       </ScrollView>
     )
   }
@@ -28,7 +28,7 @@ class HomeAll extends React.Component {
   render() {
     return (
       <Block flex center style={styles.home}>
-        {this.renderArticles()}
+        {this.renderNotifications()}
       </Block>
     );
   }
@@ -38,10 +38,10 @@ const styles = StyleSheet.create({
   home: {
     width: width,    
   },
-  articles: {
+  notifications: {
     width: width - theme.SIZES.BASE * 2,
     paddingVertical: theme.SIZES.BASE,
   },
 });
 
-export default HomeAll;
+export default ViewFriendsPage;
