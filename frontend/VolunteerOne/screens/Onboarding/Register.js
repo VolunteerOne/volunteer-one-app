@@ -23,7 +23,11 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 
 /** ==================================== Register Screen ==================================== **/
 
-const Register = ({ navigation }) => {
+const Register = ({ route, navigation }) => {
+
+  const { userType } = route.params;
+  console.log('userType passed: ', userType);
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
