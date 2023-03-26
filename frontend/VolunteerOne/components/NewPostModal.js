@@ -204,6 +204,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#5e72e4',
     padding: 10,
     marginTop:10,
+    marginBottom: 15,
   },
   textStyle: {
     color: 'white',
