@@ -16,7 +16,7 @@ import RecentActivityCard from "../../components/RecentActivityCard";
 import UpcomingEventsCard from "../../components/UpcomingEventsCard";
 
 // constants
-import mockData from "../../constants/profiles";
+import mockData from "../../constants/profile";
 
 const { width, height } = Dimensions.get("screen");
 
