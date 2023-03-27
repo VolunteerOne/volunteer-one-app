@@ -13,6 +13,7 @@ type Model interface {
 var tables = []Model{
 	&Object{},
 	&User{},
+	&Organization{},
 }
 
 func Init() {
