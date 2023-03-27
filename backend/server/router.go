@@ -17,6 +17,16 @@ func NewRouter() *gin.Engine {
     // INITIALIZE REPOSITORIES HERE -> DB migration is handled in main.go
     // *********************************************************
 
+	userGroup := router.Group("user")
+	{
+		user := new(controllers.UsersController)
+		userGroup.POST("/", user.Create)
+		userGroup.GET("/", user.All)
+		userGroup.GET("/:id", user.One)
+		userGroup.DELETE("/:id", user.Delete)
+		userGroup.PUT("/:id", user.Update)
+	}
+
     loginRepository := repository.NewLoginRepository(database.GetDatabase())
 
     // *********************************************************
@@ -54,6 +64,7 @@ func NewRouter() *gin.Engine {
 	// 	objectGroup.DELETE("/:id", object.Delete)
 	// 	objectGroup.PUT("/:id", object.Update)
 	// }
+
 	// router.Use(middlewares.AuthMiddleware())
 
 	// root := new(controllers.RootController)
