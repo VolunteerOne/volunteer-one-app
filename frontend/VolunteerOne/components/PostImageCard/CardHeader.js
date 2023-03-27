@@ -53,6 +53,7 @@ Description:
 Props received:
   organization - String
   timePosted - Date object 
+  profileImage - uri
 */
 const CardHeader = ({ author, timePosted, profileImage}) => {
   //getting time to display
