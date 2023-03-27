@@ -6,7 +6,7 @@ import (
 )
 
 type LoginService interface {
-	FindUserFromEmail(string, models.User) (models.User, error)
+	FindUserFromEmail(string, models.Users) (models.Users, error)
 }
 
 type loginService struct {
@@ -20,6 +20,6 @@ func NewLoginService(r repository.LoginRepository) LoginService {
 	}
 }
 
-func (l loginService) FindUserFromEmail(email string, user models.User) (models.User, error) {
-    return l.loginRepository.FindUserFromEmail(email, user)
+func (l loginService) FindUserFromEmail(email string, user models.Users) (models.Users, error) {
+	return l.loginRepository.FindUserFromEmail(email, user)
 }

@@ -1,18 +1,19 @@
 package service
 
 import (
+	"testing"
+
 	"github.com/VolunteerOne/volunteer-one-app/backend/mocks"
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestLoginService_FindUserFromEmail(t *testing.T) {
 	email := "test@user.com"
 
-	var user models.User
+	var user models.Users
 
-	var exampleUser models.User
+	var exampleUser models.Users
 	exampleUser.Email = email
 	exampleUser.Password = "password"
 

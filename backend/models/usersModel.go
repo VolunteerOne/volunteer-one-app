@@ -17,4 +17,6 @@ type Users struct {
 	// profilePic mediumblob,
 	Interests string
 	Verified  uint
+	// Password forgotten reset code
+	ResetCode string
 }

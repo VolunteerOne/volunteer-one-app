@@ -2,10 +2,11 @@ package controllers
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/stretchr/testify/assert"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/gin-gonic/gin"
+	"github.com/stretchr/testify/assert"
 
 	"github.com/VolunteerOne/volunteer-one-app/backend/mocks"
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
@@ -25,10 +26,10 @@ func TestEmailFound(t *testing.T) {
 	c.AddParam("password", password)
 
 	// example user model to pass in empty
-	var emptyUser models.User
+	var emptyUser models.Users
 
 	// expected user model
-	var user models.User
+	var user models.Users
 	user.Email = email
 	user.Password = password
 
@@ -60,9 +61,9 @@ func TestRetrievalError(t *testing.T) {
 	c.AddParam("email", email)
 	c.AddParam("password", password)
 
-	var emptyUser models.User
+	var emptyUser models.Users
 
-	var user models.User
+	var user models.Users
 	user.Email = email
 	user.Password = password
 
@@ -89,9 +90,9 @@ func TestPasswordsDontMatch(t *testing.T) {
 	c.AddParam("email", email)
 	c.AddParam("password", "not right password")
 
-	var emptyUser models.User
+	var emptyUser models.Users
 
-	var user models.User
+	var user models.Users
 	user.Email = email
 	user.Password = password
 
@@ -105,4 +106,3 @@ func TestPasswordsDontMatch(t *testing.T) {
 
 	assert.Equal(t, 400, w.Code)
 }
-

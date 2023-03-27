@@ -1,11 +1,12 @@
 package repository
 
 import (
+	"testing"
+
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"testing"
 )
 
 func TestLoginRepository_FindUserFromEmail(t *testing.T) {
@@ -28,7 +29,7 @@ func TestLoginRepository_FindUserFromEmail(t *testing.T) {
 		WithArgs(email).
 		WillReturnRows(mockRows)
 
-	var user models.User
+	var user models.Users
 	res := NewLoginRepository(gormDB)
 
 	// now we execute our method
