@@ -10,9 +10,9 @@ import (
 func TestLoginService_FindUserFromEmail(t *testing.T) {
 	email := "test@user.com"
 
-	var user models.User
+	var user models.Users
 
-	var exampleUser models.User
+	var exampleUser models.Users
 	exampleUser.Email = email
 	exampleUser.Password = "password"
 

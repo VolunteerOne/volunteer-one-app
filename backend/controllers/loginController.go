@@ -32,7 +32,7 @@ func (l loginController) Login(c *gin.Context) {
 	userInputU := c.Param("email")
 	userInputP := c.Param("password")
 
-	var user models.User
+	var user models.Users
 
 	user, err := l.loginService.FindUserFromEmail(userInputU, user)
 

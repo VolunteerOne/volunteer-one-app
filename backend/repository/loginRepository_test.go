@@ -28,7 +28,7 @@ func TestLoginRepository_FindUserFromEmail(t *testing.T) {
 		WithArgs(email).
 		WillReturnRows(mockRows)
 
-	var user models.User
+	var user models.Users
 	res := NewLoginRepository(gormDB)
 
 	// now we execute our method

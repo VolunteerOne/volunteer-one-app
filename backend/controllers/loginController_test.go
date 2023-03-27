@@ -25,10 +25,10 @@ func TestEmailFound(t *testing.T) {
 	c.AddParam("password", password)
 
 	// example user model to pass in empty
-	var emptyUser models.User
+	var emptyUser models.Users
 
 	// expected user model
-	var user models.User
+	var user models.Users
 	user.Email = email
 	user.Password = password
 
@@ -60,9 +60,9 @@ func TestRetrievalError(t *testing.T) {
 	c.AddParam("email", email)
 	c.AddParam("password", password)
 
-	var emptyUser models.User
+	var emptyUser models.Users
 
-	var user models.User
+	var user models.Users
 	user.Email = email
 	user.Password = password
 
@@ -89,9 +89,9 @@ func TestPasswordsDontMatch(t *testing.T) {
 	c.AddParam("email", email)
 	c.AddParam("password", "not right password")
 
-	var emptyUser models.User
+	var emptyUser models.Users
 
-	var user models.User
+	var user models.Users
 	user.Email = email
 	user.Password = password
 
