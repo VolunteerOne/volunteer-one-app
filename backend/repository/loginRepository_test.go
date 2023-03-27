@@ -41,3 +41,40 @@ func TestLoginRepository_FindUserFromEmail(t *testing.T) {
 		t.Errorf("there were unfulfilled expectations: %s", err)
 	}
 }
+
+func TestLoginRepository_CreateUser(t *testing.T) {
+	db, mock, err := sqlmock.New()
+	gormDB, err := gorm.Open(mysql.New(mysql.Config{
+		Conn:                      db,
+		DriverName:                "mysql",
+		SkipInitializeWithVersion: true,
+	}), &gorm.Config{})
+	if err != nil {
+		t.Fatalf("an error '%s' was not expected when opening a stub database connection", err)
+	}
+	defer db.Close()
+
+	//email := "test@user.com"
+	//pass := "fakepassword"
+	//first := "First"
+	//last := "Last"
+
+	//mockRows := sqlmock.NewRows([]string{"Email", "Password", "FirstName", "LastName"}).
+	//	AddRow(email, "fakepassword", "First", "Last")
+
+	mock.ExpectBegin()
+	mock.ExpectExec("INSERT INTO users").WithArgs("", "", "", "", "", "", "", "", "", "", "")
+
+	var user models.Users
+	res := NewLoginRepository(gormDB)
+
+	// now we execute our method
+	if user, err = res.CreateUser(user); err != nil {
+		t.Errorf("error was not expected while updating stats: %s", err)
+	}
+
+	// we make sure that all expectations were met
+	if err := mock.ExpectationsWereMet(); err != nil {
+		t.Errorf("there were unfulfilled expectations: %s", err)
+	}
+}

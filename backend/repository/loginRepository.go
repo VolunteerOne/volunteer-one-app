@@ -9,6 +9,7 @@ import (
 
 type LoginRepository interface {
 	FindUserFromEmail(string, models.Users) (models.Users, error)
+    CreateUser(models.Users) (models.Users, error)
 }
 
 type loginRepository struct {
@@ -30,4 +31,14 @@ func (l loginRepository) FindUserFromEmail(email string, user models.Users) (mod
 	err := l.DB.Where("email = ?", email).First(&user).Error
 
 	return user, err
+}
+
+// Add the user to the DB
+func (l loginRepository) CreateUser(user models.Users) (models.Users, error) {
+    log.Println("[LoginRepository] Create user...")
+
+    // User will be created
+    err := l.DB.Create(&user).Error 
+ 
+    return user, err
 }

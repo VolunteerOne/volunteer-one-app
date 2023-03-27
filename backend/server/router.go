@@ -41,8 +41,9 @@ func NewRouter() *gin.Engine {
 
     loginController := controllers.NewLoginController(loginService)
 
+    router.POST("/signup", loginController.Signup)
+    
     loginGroup := router.Group("login")  
-
 	loginGroup.GET("/:email/:password", loginController.Login)
 
     
