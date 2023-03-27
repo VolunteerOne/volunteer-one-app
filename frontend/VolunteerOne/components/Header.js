@@ -113,7 +113,7 @@ class Header extends React.Component {
         <Button
           shadowless
           style={[styles.tab, styles.divider]}
-          onPress={() => navigation.navigate("Home")}
+          onPress={() => navigation.navigate("Announcements", { toggle: true })}
         >
           <Block row middle>
             <Icon
@@ -123,14 +123,16 @@ class Header extends React.Component {
               color={argonTheme.COLORS.ICON}
             />
             <Text size={16} style={styles.tabTitle}>
-              {optionLeft || "Home"}
+              {optionLeft || "Following"}
             </Text>
           </Block>
         </Button>
         <Button
           shadowless
           style={styles.tab}
-          onPress={() => navigation.navigate("Pro")}
+          onPress={() =>
+            navigation.navigate("Announcements", { toggle: false })
+          }
         >
           <Block row middle>
             <Icon

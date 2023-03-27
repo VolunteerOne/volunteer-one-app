@@ -15,7 +15,6 @@ import { Block, Text } from "galio-framework";
 import { Button } from "../../components";
 import { Images, argonTheme } from "../../constants";
 
-import logo from "../../assets/imgs/argon-logo.png";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -24,8 +23,13 @@ const { width, height } = Dimensions.get("screen");
 const CreateAccount = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [accountType, setAccountType] = useState("")
-  console.log(accountType);
+  // const [accountType, setAccountType] = useState("");    // unnecessary state?
+  // console.log(accountType);
+
+  const handleUserTypeClick = (type) => {
+    // setAccountType(type);
+    navigation.navigate("Register", { userType: type });  // sending userType to registration screen
+  };
 
   return (
     <Block flex middle>
@@ -49,7 +53,7 @@ const CreateAccount = ({ navigation }) => {
               <Button
                 color="secondary"
                 style={styles.optionButton}
-                onPress={() => setAccountType('volunteer')}
+                onPress={() => handleUserTypeClick("volunteer")}
               >
                 <Text bold size={14} color={argonTheme.COLORS.BLACK}>
                   I'd like to volunteer
@@ -58,21 +62,20 @@ const CreateAccount = ({ navigation }) => {
               <Button
                 color="secondary"
                 style={styles.optionButton}
-                onPress={() => setAccountType('organization')}
+                onPress={() => handleUserTypeClick("organization")}
               >
                 <Text bold size={14} color={argonTheme.COLORS.BLACK}>
                   I'd like to recruit volunteers
                 </Text>
               </Button>
             </Block>
-
           </Block>
         </Block>
       </ImageBackground>
     </Block>
   );
 };
-// }
+
 
 const styles = StyleSheet.create({
   instructionText: {
