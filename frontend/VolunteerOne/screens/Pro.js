@@ -21,7 +21,7 @@ export default class Pro extends React.Component {
           <Block space="between" style={styles.padded}>
             <Block>
               <Block>
-                <Image source={Images.ArgonLogo}
+                <Image source={Images.VolunteerOneIcon}
                   style={{ marginBottom: theme.SIZES.BASE * 1.5 }}/>
               </Block>
               <Block >
