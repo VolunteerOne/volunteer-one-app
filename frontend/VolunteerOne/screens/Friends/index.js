@@ -12,10 +12,10 @@ const { width } = Dimensions.get('screen');
 class Friends extends React.Component {
   renderPosts = () => {
     var postsList = posts.map(function (data) {
-      if (data["image"] == null)
-        return <PostNoImageCard key={data["id"]} data={data} />;
-      else
-        return <PostImageCard key={data["id"]} data={data} />;
+        if (data["image"] != null)
+          return <PostImageCard key={data["id"]} data={data} />;
+        else
+          return <PostNoImageCard key={data["id"]} data={data} />;
     });
 
     return (

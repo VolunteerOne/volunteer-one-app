@@ -19,6 +19,9 @@ const CardBody = ({ data }) => {
           {data["description"]}
           {"\n"}
         </Text>
+        <Image
+        style={styles.imageStyles}
+        source={{uri:data['image']}}></Image>
       </Block>
     );
 };
