@@ -1,12 +1,15 @@
 package repository
 
 import (
+	"testing"
+
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"testing"
 )
+
+
 
 func TestLoginRepository_FindUserFromEmail(t *testing.T) {
 	email := "test@user.com"
@@ -54,19 +57,16 @@ func TestLoginRepository_CreateUser(t *testing.T) {
 	}
 	defer db.Close()
 
-	//email := "test@user.com"
-	//pass := "fakepassword"
-	//first := "First"
-	//last := "Last"
-
-	//mockRows := sqlmock.NewRows([]string{"Email", "Password", "FirstName", "LastName"}).
-	//	AddRow(email, "fakepassword", "First", "Last")
-
 	mock.ExpectBegin()
-	mock.ExpectExec("INSERT INTO users").WithArgs("", "", "", "", "", "", "", "", "", "", "")
+	// choose insert and mock the args
+	// will return result has just random
+	mock.ExpectExec("INSERT").WithArgs(sqlmock.AnyArg(), sqlmock.AnyArg(),
+		sqlmock.AnyArg(), "", "", "", "", "", "", "", 0).WillReturnResult(sqlmock.NewResult(1, 1))
+	mock.ExpectCommit()
+
+	res := NewLoginRepository(gormDB)
 
 	var user models.Users
-	res := NewLoginRepository(gormDB)
 
 	// now we execute our method
 	if user, err = res.CreateUser(user); err != nil {
