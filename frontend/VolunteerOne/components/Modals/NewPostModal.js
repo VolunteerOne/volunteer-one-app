@@ -18,12 +18,6 @@ function handleCreatePostBtnClick() {
 
 }
 
-function uploadImageButton() {
-  // write function for create announcement button here
-  
-  
-}
-
 class NewPostModal extends React.Component {
   state = {
     modalVisible: false,
