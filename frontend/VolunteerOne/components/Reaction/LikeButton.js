@@ -2,6 +2,7 @@
 import React from "react";
 import { Block, Button, Text } from "galio-framework";
 import { StyleSheet, Image } from "react-native";
+import { Svg } from "react-native-svg";
 
 class LikeButton extends React.Component {
     state = {
@@ -19,22 +20,28 @@ class LikeButton extends React.Component {
         }
 
         return (
-        <Block center>
-            <Image source={require('../../assets/nucleo icons/svg/thumb-up.svg')} />
             <Button style={styles.button}
             onPress={incrementLikes} >        
-            <Text>Likes: {this.state.count}</Text>
+            <Text style={styles.titleText}>Likes: {this.state.count}</Text>
           </Button>
-          </Block>
 
         );
         }
         
 }
 const styles = StyleSheet.create({
+    titleText: {
+        fontSize: 18,
+        color: "#32325D",
+      },
     button: {
         borderless: true,
         backgroundColor: '#fff',
+        shadowColor: '#fff',
+        width: 'auto',
+        height: 20,
+        marginTop: -30,
+        marginLeft: 20,
     }
 
 });
