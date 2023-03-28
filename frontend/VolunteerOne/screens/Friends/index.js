@@ -4,7 +4,7 @@ import { StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { Block, theme } from 'galio-framework';
 
 // ================================= View Friends Page ================================= //
-import { PostImageCard, PostNoImageCard } from '../../components';
+import { PostImageCard, PostNoImageCard, Reaction } from '../../components';
 import posts from '../../constants/posts';
 
 const { width } = Dimensions.get('screen');
@@ -24,8 +24,9 @@ class Friends extends React.Component {
         contentContainerStyle={styles.articles}
       >
         <Block flex center>
-          {postsList}
+          <Reaction></Reaction>
         </Block>
+
     
       </ScrollView>
     );
