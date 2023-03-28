@@ -1,27 +1,45 @@
 package controllers
 
 import (
+	"log"
 	"net/http"
 
-	"github.com/VolunteerOne/volunteer-one-app/backend/database"
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
+	"github.com/VolunteerOne/volunteer-one-app/backend/service"
 	"github.com/gin-gonic/gin"
 )
 
-type LoginController struct{}
+// All Controller methods should be defined in the interface
+type LoginController interface {
+	Login(c *gin.Context)
+}
 
-func (controller LoginController) Login(c *gin.Context) {
+// The struct holds the reference to the corresponding service
+type loginController struct {
+	loginService service.LoginService
+}
 
-	db := database.GetDatabase()
+// Returns the new user controller -> instantiated in router.go
+func NewLoginController(s service.LoginService) LoginController {
+	return loginController{
+		loginService: s,
+	}
+}
+
+func (l loginController) Login(c *gin.Context) {
+	log.Println("[LoginController] Logging in...")
+
 	userInputU := c.Param("email")
 	userInputP := c.Param("password")
-	// Check if the email exists in the database
-	var user models.User
-	result := db.Where("email = ?", userInputU).First(&user)
 
-	if result.Error != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error":   "email does not exist",
+	var user models.User
+
+	user, err := l.loginService.FindUserFromEmail(userInputU, user)
+
+	// Email couldn't be found
+	if err != nil {
+		c.JSON(http.StatusBadGateway, gin.H{
+			"error":   "Email does not exist",
 			"success": false,
 		})
 
