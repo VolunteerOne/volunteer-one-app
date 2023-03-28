@@ -2,7 +2,7 @@ package models
 
 import "gorm.io/gorm"
 
-type OrgRoles struct {
+type OrgUsers struct {
 	gorm.Model
 	UsersID        uint `gorm:"not null"`
 	OrganizationID uint `gorm:"not null"`
