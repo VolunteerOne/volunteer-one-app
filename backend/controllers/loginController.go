@@ -94,7 +94,7 @@ func (l loginController) PasswordReset(c *gin.Context) {
 	mailer.SetHeader("To", user.Email)
 	mailer.SetHeader("Subject", "Password Reset Code")
 	mailer.SetBody("text/plain", "Your password reset code is "+resetCode.String())
-	if err := gomail.NewDialer("smtp.sendgrid.net", 465, "apikey", "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").DialAndSend(mailer); err != nil {
+	if err := gomail.NewDialer("smtp.sendgrid.net", 465, "apikey", "EXAMPLEAPIKEY").DialAndSend(mailer); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message":        "Failed to send email",
 			"success":        false,
