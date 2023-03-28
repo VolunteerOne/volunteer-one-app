@@ -13,19 +13,21 @@ import Elements from "../screens/Elements";
 import Announcements from "../screens/Announcements";
 import Onboarding from "../screens/Onboarding";
 import Profile from "../screens/Profile";
-import Friends from "../screens/Friends";
-import ViewFriends from "../screens/Profile/ViewFriendsPage";
-import ViewNotifications from "../screens/Notifications"
+import Feed from "../screens/Feed";
+import ViewFriends from "../screens/Profile/ViewFriends";
+import ViewNotifications from "../screens/Notifications";
 import CreateAccount from "../screens/Onboarding/CreateAccount";
 import Register from "../screens/Onboarding/Register";
 import Login from "../screens/Onboarding/Login";
 import ForgotPassword from "../screens/Onboarding/ForgotPassword";
 import NewPassword from "../screens/Onboarding/NewPassword";
+import Settings from "../screens/Profile/Settings";
 import Pro from "../screens/Pro";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import ViewFollowing from "../screens/Profile/ViewFollowing";
 
 /** ==================================== Routing ==================================== **/
 
@@ -37,10 +39,11 @@ const Tab = createBottomTabNavigator();
 function AnnouncementsStack(props) {
   return (
     <Stack.Navigator
+      initialRouteName="Announcements"
       screenOptions={{
+        gestureEnabled: false,
         mode: "card",
         headerShown: "screen",
-        gestureEnabled: false,
       }}
     >
       <Stack.Screen
@@ -96,19 +99,21 @@ function AnnouncementsStack(props) {
   );
 }
 
-function FriendsStack(props) {
+function FeedStack(props) {
   return (
     <Stack.Navigator
+      initialRouteName="Feed"
       screenOptions={{
+        gestureEnabled: false,
         mode: "card",
       }}
     >
       <Stack.Screen
-        name="Friends"
-        component={Friends}
+        name="Feed"
+        component={Feed}
         options={{
           header: ({ navigation, scene }) => (
-            <Header title="Friends" navigation={navigation} scene={scene} />
+            <Header title="Feed" navigation={navigation} scene={scene} />
           ),
           cardStyle: { backgroundColor: "#F8F9FE" },
         }}
@@ -183,31 +188,44 @@ function ProfileStack(props) {
           header: ({ navigation, scene }) => (
             <Header
               back
-              transparent
-              white
-              title=""
+              title="Friends"
               navigation={navigation}
               scene={scene}
             />
           ),
-          headerTransparent: true,
+          headerTransparent: false,
+          headerShown: true,
         }}
       />
       <Stack.Screen
-        name="Pro"
-        component={Pro}
+        name="ViewFollowing"
+        component={ViewFollowing}
         options={{
           header: ({ navigation, scene }) => (
             <Header
               back
-              transparent
-              white
-              title=""
+              title="Following"
               navigation={navigation}
               scene={scene}
             />
           ),
-          headerTransparent: true,
+          headerTransparent: false,
+          headerShown: true,
+        }}
+      />
+      <Stack.Screen
+        name="Settings"
+        component={Settings}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              back
+              title="Settings"
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          headerTransparent: false,
           headerShown: true,
         }}
       />
@@ -246,7 +264,6 @@ function ExploreStack(props) {
         options={{
           header: ({ navigation, scene }) => (
             <Header
-              back
               transparent
               white
               title="Explore"
@@ -265,6 +282,7 @@ export default function OnboardingStack(props) {
   return (
     <Stack.Navigator
       screenOptions={{
+        gestureEnabled: false,
         mode: "card",
         headerShown: false,
         gestureEnabled: false,
@@ -402,11 +420,11 @@ function BottomNav() {
         }}
       />
       <Tab.Screen
-        name="Friends"
-        component={FriendsStack}
+        name="Feed"
+        component={FeedStack}
         options={{
           headerShown: false,
-          tabBarLabel: "Friends",
+          tabBarLabel: "Feed",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
               name="account-group"

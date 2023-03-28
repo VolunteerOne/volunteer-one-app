@@ -13,7 +13,6 @@ import Elements from "../screens/Elements";
 import Announcements from "../screens/Announcements";
 import Onboarding from "../screens/Onboarding";
 import Profile from "../screens/Profile";
-import Friends from "../screens/Friends";
 import CreateAccount from "../screens/Onboarding/CreateAccount";
 import Register from "../screens/Onboarding/Register";
 import Login from "../screens/Onboarding/Login";
@@ -41,7 +40,7 @@ function FriendsStack(props) {
     >
       <Stack.Screen
         name="Elements"
-        component={Friends}
+        component={Pro}
         options={{
           header: ({ navigation, scene }) => (
             <Header title="Friends" navigation={navigation} scene={scene} />
