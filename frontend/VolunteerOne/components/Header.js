@@ -42,7 +42,7 @@ const BellButton = ({ isWhite, style, navigation }) => (
 const SettingsButton = ({ isWhite, style, navigation }) => (
   <TouchableOpacity
     style={[styles.button, style]}
-    onPress={() => navigation.navigate("Pro")}
+    onPress={() => navigation.navigate("Settings")}
   >
     <MaterialCommunityIcons
       size={24}
@@ -93,7 +93,7 @@ class Header extends React.Component {
         ];
       case "Announcements":
       case "Explore":
-      case "Friends":
+      case "Feed":
         return [
           <BellButton
             key="notification"
@@ -152,7 +152,9 @@ class Header extends React.Component {
         <Button
           shadowless
           style={styles.tab}
-          onPress={() => navigation.navigate("Announcements", { toggle: false })}
+          onPress={() =>
+            navigation.navigate("Announcements", { toggle: false })
+          }
         >
           <Block row middle>
             <Icon
