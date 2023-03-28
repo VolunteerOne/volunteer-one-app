@@ -11,7 +11,7 @@ type OrgRoles struct {
 	// Lower values take priority.
 	// We have leeway for additional roles.
 	// (0 = owner, 1 = manager, 10 = member)
-	Role uint `gorm:"default:5;not null"`
+	Role uint `gorm:"default:10;not null"`
 
 	Users        Users        `gorm:"foreignkey:UsersID"`
 	Organization Organization `gorm:"foreignkey:OrganizationID"`
