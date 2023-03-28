@@ -1,13 +1,12 @@
 
 import React from "react";
-import { Button, Text } from "galio-framework";
+import { Block, Button, Text } from "galio-framework";
 import { StyleSheet, Image } from "react-native";
 
 class LikeButton extends React.Component {
     state = {
         count: 0
     }
-
 
     render() {    
         const incrementLikes = () => {
@@ -16,17 +15,29 @@ class LikeButton extends React.Component {
             this.setState ({
                 count: newCount
             })
+            
         }
 
         return (
-          <Button
-            onPress={incrementLikes}
-            >        
-            <Image source={require("../../assets/nucleo icons/svg/thumb-up.svg")} />
-            <Text>{this.state.count}</Text>
+        <Block center>
+            <Image source={require('../../assets/nucleo icons/svg/thumb-up.svg')} />
+            <Button style={styles.button}
+            onPress={incrementLikes} >        
+            <Text>Likes: {this.state.count}</Text>
           </Button>
+          </Block>
+
         );
-      }
+        }
+        
 }
+const styles = StyleSheet.create({
+    button: {
+        borderless: true,
+        backgroundColor: '#fff',
+    }
+
+});
 
 export default LikeButton;
+    
