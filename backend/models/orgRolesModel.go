@@ -9,6 +9,7 @@ type OrgRoles struct {
 	Verified 		bool `gorm:"default:0;not null"`
 	
 	// Lower values take priority.
-	// (0 = owner, 1 = manager, 2 = member) 
-	Role			uint `gorm:"default:2;not null"`
+	// We have leeway for additional roles.
+	// (0 = owner, 1 = manager, 10 = member) 
+	Role			uint `gorm:"default:5;not null"`
 }
