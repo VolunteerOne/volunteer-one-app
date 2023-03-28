@@ -6,8 +6,8 @@
 import React from 'react';
 import {Alert, Modal, StyleSheet, Pressable, View, Dimensions, TextInput, Image, ScrollView} from 'react-native';
 import { Block, Text, theme } from 'galio-framework';
-import { argonTheme } from "../constants";
-import ImagePicker from '../components//ImagePicker.js';
+import { argonTheme } from "../../constants";
+import ImagePicker from './ImagePicker.js';
 
 
 const { width, height } = Dimensions.get("screen");
@@ -55,7 +55,7 @@ class NewPostModal extends React.Component {
                 style={{alignItems: 'flex-end'}}>
                 <Image
                 style={styles.exit}
-                source={require('../assets/imgs/exit.png')} />
+                source={require('../../assets/imgs/exit.png')} />
               </Pressable>
               
               <View style={styles.modalViewInside}>
