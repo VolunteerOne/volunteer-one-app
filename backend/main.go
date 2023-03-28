@@ -18,6 +18,7 @@ func main() {
 	}
 
 	server.Init() // Start Server
+
 }
 
 // Runs before main
