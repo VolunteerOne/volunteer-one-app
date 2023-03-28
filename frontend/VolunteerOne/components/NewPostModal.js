@@ -92,12 +92,8 @@ class NewPostModal extends React.Component {
                     // onChangeText={handleDescriptionInput}
                   />
                 </Block>
+  
                 <ImagePicker></ImagePicker>
-                <Pressable
-                  style={[styles.imageButton]}
-                  onPress={() => {uploadImageButton();}}>
-                  <Text style={styles.textStyle}>UPLOAD IMAGE</Text>
-                </Pressable>
                 
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
@@ -170,15 +166,6 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-  imageButton: {
-    borderRadius: 5,
-    padding: 5,
-    elevation: 2,
-    // height:8,
-    backgroundColor:'lightgrey',
- 
-  },
-
   // matt's added styles above ^^^
 
   centeredView: {

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Image, View, Platform } from 'react-native';
+import { Pressable, Button, Image, View, Platform, StyleSheet } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import { Text } from 'galio-framework';
+
 
 export default function ImagePickerExample() {
   const [image, setImage] = useState(null);
@@ -22,9 +24,39 @@ export default function ImagePickerExample() {
   };
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Button title="Pick an image from camera roll" onPress={pickImage} />
-      {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+    <View style={{ }}>
+      <Pressable
+        style={[styles.imageButton]}
+        onPress={pickImage}>
+      {/* <Button title="Upload Image" onPress={pickImage} style={styles.imageButton}/> */}
+      <Text style={styles.textStyle}>UPLOAD IMAGE</Text>
+      {image && <Image source={{ uri: image }} style={styles.imagePreview} />}
+      </Pressable>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+    imageButton: {
+    borderRadius: 5,
+    padding: 5,
+    elevation: 2,
+    backgroundColor:'lightgrey',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  imagePreview: { 
+    width: 200,
+    height: 200,
+    borderColor: 'grey',
+    borderWidth: .5,
+    marginBottom: 5,
+    
+  },
+})
