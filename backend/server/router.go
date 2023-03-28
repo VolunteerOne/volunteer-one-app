@@ -13,9 +13,9 @@ func NewRouter() *gin.Engine {
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
 
-    // *********************************************************
-    // INITIALIZE REPOSITORIES HERE -> DB migration is handled in main.go
-    // *********************************************************
+	// *********************************************************
+	// INITIALIZE REPOSITORIES HERE -> DB migration is handled in main.go
+	// *********************************************************
 
 	userGroup := router.Group("user")
 	{
@@ -27,25 +27,28 @@ func NewRouter() *gin.Engine {
 		userGroup.PUT("/:id", user.Update)
 	}
 
-    loginRepository := repository.NewLoginRepository(database.GetDatabase())
+	loginRepository := repository.NewLoginRepository(database.GetDatabase())
 
-    // *********************************************************
-    // INITIALIZE SERVICES HERE
-    // *********************************************************
+	// *********************************************************
+	// INITIALIZE SERVICES HERE
+	// *********************************************************
 
-    loginService := service.NewLoginService(loginRepository)
+	loginService := service.NewLoginService(loginRepository)
 
-    // *********************************************************
-    // INITIALIZE CONTROLLERS HERE
-    // *********************************************************
+	// *********************************************************
+	// INITIALIZE CONTROLLERS HERE
+	// *********************************************************
 
-    loginController := controllers.NewLoginController(loginService)
+	loginController := controllers.NewLoginController(loginService)
 
-    loginGroup := router.Group("login")  
+	loginGroup := router.Group("login")
 
+	//Simple login, checks database against users inputted email and password to login
 	loginGroup.GET("/:email/:password", loginController.Login)
-
-    
+	//Get the users email, sends a forgotten password code to them
+	loginGroup.POST("/:email", loginController.PasswordReset)
+	//Get the secret code from the users email, if matches reset password
+	//loginGroup.POST("/:resetCode", loginController.Login)
 
 	// objectGroup := router.Group("object")
 	// {

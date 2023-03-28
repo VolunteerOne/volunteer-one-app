@@ -1,6 +1,7 @@
 package models
 
 import (
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -18,5 +19,5 @@ type Users struct {
 	Interests string
 	Verified  uint
 	// Password forgotten reset code
-	ResetCode string
+	ResetCode uuid.UUID
 }
