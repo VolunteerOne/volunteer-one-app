@@ -6,6 +6,10 @@ import Header from './Header';
 import Input from './Input';
 import Switch from './Switch';
 import Select from './Select';
+import PostImageCard from './PostImageCard';
+import PostNoImageCard from './PostNoImageCard';
+import Reaction from './Reaction';
+
 
 export {
   Button,
@@ -15,5 +19,8 @@ export {
   Input,
   Header,
   Switch, 
-  Select
+  Select,
+  PostImageCard,
+  PostNoImageCard,
+  Reaction
 };
