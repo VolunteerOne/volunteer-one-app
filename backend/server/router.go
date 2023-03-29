@@ -49,9 +49,8 @@ func NewRouter() *gin.Engine {
 	loginGroup.POST("/:email", loginController.PasswordReset)
 	//Get the secret code from the users email, if matches reset password
 	//loginGroup.POST("/:resetCode", loginController.Login)
-    router.POST("/signup", loginController.Signup)
-    
-    loginGroup := router.Group("login")  
+	router.POST("/signup", loginController.Signup)
+
 	loginGroup.GET("/:email/:password", loginController.Login)
 
 	organizationGroup := router.Group("organization")
@@ -62,6 +61,16 @@ func NewRouter() *gin.Engine {
 		organizationGroup.GET("/:id", organization.One)
 		organizationGroup.DELETE("/:id", organization.Delete)
 		organizationGroup.PUT("/:id", organization.Update)
+	}
+
+	orgUsersGroup := router.Group("orgUsers")
+	{
+		orgUsers := new(controllers.OrgUsersController)
+		orgUsersGroup.POST("/", orgUsers.CreateOrgUser)
+		orgUsersGroup.GET("/", orgUsers.ListAllOrgUsers)
+		orgUsersGroup.GET("/:id", orgUsers.FindOrgUser)
+		orgUsersGroup.PUT("/:id", orgUsers.UpdateOrgUser)
+		orgUsersGroup.DELETE("/:id", orgUsers.DeleteOrgUser)
 	}
 
 	// objectGroup := router.Group("object")
