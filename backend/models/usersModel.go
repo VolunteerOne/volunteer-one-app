@@ -7,7 +7,6 @@ import (
 
 type Users struct {
 	gorm.Model
-	id       uint   `gorm:"autoincrement;primaryKey"`
 	Handle   string `gorm:"unique,not null"`
 	Email    string `gorm:"unique;not null" json:"email"`
 	Password string `gorm:"not null" json:"password"`
