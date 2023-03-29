@@ -1,12 +1,19 @@
 package service
 
 import (
+	"log"
+
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
 	"github.com/VolunteerOne/volunteer-one-app/backend/repository"
+	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type LoginService interface {
-	FindUserFromEmail(string, models.User) (models.User, error)
+	FindUserFromEmail(string, models.Users) (models.Users, error)
+	SaveResetCodeToUser(uuid.UUID, models.Users) error
+	CreateUser(models.Users) (models.Users, error)
+	HashPassword([]byte) ([]byte, error)
 }
 
 type loginService struct {
@@ -20,6 +27,21 @@ func NewLoginService(r repository.LoginRepository) LoginService {
 	}
 }
 
-func (l loginService) FindUserFromEmail(email string, user models.User) (models.User, error) {
-    return l.loginRepository.FindUserFromEmail(email, user)
+func (l loginService) FindUserFromEmail(email string, user models.Users) (models.Users, error) {
+	return l.loginRepository.FindUserFromEmail(email, user)
+}
+
+func (l loginService) SaveResetCodeToUser(resetCode uuid.UUID, user models.Users) error {
+	return l.loginRepository.SaveResetCodeToUser(resetCode, user)
+}
+
+func (l loginService) CreateUser(user models.Users) (models.Users, error) {
+	log.Println("[LoginService] Create user...")
+
+	return l.loginRepository.CreateUser(user)
+}
+
+func (l loginService) HashPassword(password []byte) ([]byte, error) {
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), 10)
+	return hash, err
 }
