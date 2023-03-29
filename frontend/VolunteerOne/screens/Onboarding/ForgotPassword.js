@@ -22,20 +22,15 @@ const { width, height } = Dimensions.get("screen");
 /** ==================================== Forgot Password Screen ==================================== **/
 
 const ForgotPassword = ({ navigation }) => {
-  const [newPass, setNewPass] = useState("");
-  const [confirmPass, setConfirmNewPass] = useState("");
-
-  function handleNewPassInput(input) {
-    setNewPass(input);
-  }
-
-  function handleConfirmPassInput(input) {
-    setConfirmNewPass(input);
+  const [email, setEmail] = useState("");
+  
+  function handleEmailInput(input) {
+    setEmail(input);
   }
 
   function handleResetBtnClick() {
-    console.log(newPass, confirmPass);
-    navigation.navigate("App");
+    console.log(email);
+    navigation.navigate("NewPassword");
   }
 
   return (
@@ -60,16 +55,8 @@ const ForgotPassword = ({ navigation }) => {
                   <Block width={width * 0.8} style={{ marginBottom: 15 }}>
                     <TextInput
                       style={styles.input}
-                      placeholder="New Password"
-                      onChangeText={handleNewPassInput}
-                    />
-                  </Block>
-                  <Block width={width * 0.8}>
-                    <TextInput
-                      secureTextEntry={true}
-                      style={styles.input}
-                      placeholder="Confirm New Password"
-                      onChangeText={handleConfirmPassInput}
+                      placeholder="Confirm email"
+                      onChangeText={handleEmailInput}
                     />
                   </Block>
                   <Block middle>
