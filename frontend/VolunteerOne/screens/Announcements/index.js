@@ -2,8 +2,8 @@ import React from "react";
 import { StyleSheet, Dimensions, ScrollView } from "react-native";
 import { Block, theme } from "galio-framework";
 import EventCard from "../../components/EventCard";
-import { following } from "../../constants/following";
-import { all } from "../../constants/all";
+import { following } from "../../constants/announcements_followingtab";
+import { all } from "../../constants/announcements_alltab";
 const { width } = Dimensions.get("screen");
 
 class Announcements extends React.Component {

@@ -1,12 +1,12 @@
 package models
 
 import (
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
 type Users struct {
 	gorm.Model
-	id       uint   `gorm:"autoincrement;primaryKey"`
 	Handle   string `gorm:"unique,not null"`
 	Email    string `gorm:"unique;not null" json:"email"`
 	Password string `gorm:"not null" json:"password"`
@@ -17,4 +17,6 @@ type Users struct {
 	// profilePic mediumblob,
 	Interests string
 	Verified  uint
+	// Password forgotten reset code
+	ResetCode uuid.UUID
 }

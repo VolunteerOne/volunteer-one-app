@@ -9,6 +9,13 @@ export default [
     },
     {
       id: 1,
+      author: 'Volunteer One',
+      timePosted: new Date("2023-02-14T00:00:00"),
+      profileImage: 'https://images.pexels.com/photos/6994744/pexels-photo-6994744.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      image: null
+    },
+    {
       author: 'Jane Doe',
       timePosted: new Date("2023-03-22T00:00:00"),
       profileImage: 'https://images.pexels.com/photos/6994744/pexels-photo-6994744.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',

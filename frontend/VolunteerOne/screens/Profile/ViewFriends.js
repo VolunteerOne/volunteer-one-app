@@ -1,13 +1,15 @@
+// This page is temporarily being used to test other pages (notifications, friends, etc.) - matt
 import React from 'react';
 import { StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { Block, theme } from 'galio-framework';
-import NotificationItem from '../../components/NotificationItem';
-import notifications from '../../constants/notifications';
+import ProfileItem from '../../components/ProfileItem';
+import friends from '../../constants/friends';
 
-/** ============================== Notifications Page ============================== **/ 
+// ================================= View Friends Page ================================= //
+
 const { width } = Dimensions.get('screen');
 
-class NotificationsPage extends React.Component {
+class ViewFriendsPage extends React.Component {
   renderNotifications = () => {
     return (
       <ScrollView
@@ -16,8 +18,8 @@ class NotificationsPage extends React.Component {
         
         {/* map all notifications using loop */}
         <Block flex>
-          {notifications.map(notification => (
-           <NotificationItem item={notification} horizontal />
+          {friends.map(profile => (
+             <ProfileItem item={profile} horizontal />
           ))}
         </Block>
     
@@ -44,4 +46,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NotificationsPage;
+export default ViewFriendsPage;
