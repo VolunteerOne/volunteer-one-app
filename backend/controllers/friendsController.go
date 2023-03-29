@@ -8,11 +8,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+<<<<<<< Updated upstream
 type friendController struct{}
 
 var friendModel = new(models.Friend)
 
 func (controller friendController) Create(c *gin.Context) {
+=======
+type friendController struct {}
+
+var friendModel = new(models.Friend)
+
+func (controller friendController) Create (c *gin.Context){
+>>>>>>> Stashed changes
 	var err error
 	db := database.GetDatabase()
 	var body struct {
@@ -26,12 +34,21 @@ func (controller friendController) Create(c *gin.Context) {
 		})
 		return
 	}
+<<<<<<< Updated upstream
 
+=======
+	
+	
+>>>>>>> Stashed changes
 	object := models.Friend{
 		friendOneID: body.idOne,
 		friendTwoID: body.idTwo,
 	}
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 	result := db.Create(&object)
 
 	if result.Error != nil {
@@ -45,6 +62,7 @@ func (controller friendController) Create(c *gin.Context) {
 
 	// Respond
 	c.JSON(http.StatusOK, object)
+<<<<<<< Updated upstream
 }
 
 
@@ -81,3 +99,6 @@ func (controller friendController) Delete(c *gin.Context) {
 	})
 
 }
+=======
+}
+>>>>>>> Stashed changes
