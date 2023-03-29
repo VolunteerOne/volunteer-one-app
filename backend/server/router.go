@@ -44,21 +44,12 @@ func NewRouter() *gin.Engine {
 	loginGroup := router.Group("login")
 
 	//Simple login, checks database against users inputted email and password to login
-<<<<<<< Updated upstream
 	loginGroup.GET("/:email/:password", loginController.Login)
 	//Get the users email, sends a forgotten password code to them
 	loginGroup.POST("/:email", loginController.PasswordReset)
 	//Get the secret code from the users email, if matches reset password
 	//loginGroup.POST("/:resetCode", loginController.Login)
 	router.POST("/signup", loginController.Signup)
-
-=======
->>>>>>> Stashed changes
-	loginGroup.GET("/:email/:password", loginController.Login)
-	//Get the users email, sends a forgotten password code to them
-	loginGroup.POST("/:email", loginController.PasswordReset)
-	//Get the secret code from the users email, if matches reset password
-	//loginGroup.POST("/:resetCode", loginController.Login)
 
 	organizationGroup := router.Group("organization")
 	{
