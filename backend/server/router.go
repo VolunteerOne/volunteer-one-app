@@ -13,9 +13,9 @@ func NewRouter() *gin.Engine {
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
 
-    // *********************************************************
-    // INITIALIZE REPOSITORIES HERE -> DB migration is handled in main.go
-    // *********************************************************
+	// *********************************************************
+	// INITIALIZE REPOSITORIES HERE -> DB migration is handled in main.go
+	// *********************************************************
 
 	userGroup := router.Group("user")
 	{
@@ -27,21 +27,21 @@ func NewRouter() *gin.Engine {
 		userGroup.PUT("/:id", user.Update)
 	}
 
-    loginRepository := repository.NewLoginRepository(database.GetDatabase())
+	loginRepository := repository.NewLoginRepository(database.GetDatabase())
 
-    // *********************************************************
-    // INITIALIZE SERVICES HERE
-    // *********************************************************
+	// *********************************************************
+	// INITIALIZE SERVICES HERE
+	// *********************************************************
 
-    loginService := service.NewLoginService(loginRepository)
+	loginService := service.NewLoginService(loginRepository)
 
-    // *********************************************************
-    // INITIALIZE CONTROLLERS HERE
-    // *********************************************************
+	// *********************************************************
+	// INITIALIZE CONTROLLERS HERE
+	// *********************************************************
 
-    loginController := controllers.NewLoginController(loginService)
+	loginController := controllers.NewLoginController(loginService)
 
-    loginGroup := router.Group("login")  
+	loginGroup := router.Group("login")
 
 	loginGroup.GET("/:email/:password", loginController.Login)
 
@@ -53,6 +53,16 @@ func NewRouter() *gin.Engine {
 		organizationGroup.GET("/:id", organization.One)
 		organizationGroup.DELETE("/:id", organization.Delete)
 		organizationGroup.PUT("/:id", organization.Update)
+	}
+
+	orgUsersGroup := router.Group("orgUsers")
+	{
+		orgUsers := new(controllers.OrgUsersController)
+		orgUsersGroup.POST("/", orgUsers.CreateOrgUser)
+		orgUsersGroup.GET("/", orgUsers.ListAllOrgUsers)
+		orgUsersGroup.GET("/:id", orgUsers.FindOrgUser)
+		orgUsersGroup.PUT("/:id", orgUsers.UpdateOrgUser)
+		orgUsersGroup.DELETE("/:id", orgUsers.DeleteOrgUser)
 	}
 
 	// objectGroup := router.Group("object")
