@@ -2,41 +2,35 @@
 import React from 'react';
 import { StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { Block, theme } from 'galio-framework';
+import ProfileItem from '../../components/ProfileItem';
+import friends from '../../constants/friends';
 
 // ================================= View Friends Page ================================= //
-import { PostImageCard, PostNoImageCard, Reaction } from '../../components';
-import posts from '../../constants/posts';
 
 const { width } = Dimensions.get('screen');
 
-class Friends extends React.Component {
-  renderPosts = () => {
-    var postsList = posts.map(function (data) {
-        if (data["image"] != null)
-          return <PostImageCard key={data["id"]} data={data} />;
-        else
-          return <PostNoImageCard key={data["id"]} data={data} />;
-    });
-
+class ViewFriendsPage extends React.Component {
+  renderNotifications = () => {
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.articles}
-      >
-        <Block flex center>
-          <Reaction></Reaction>
+        contentContainerStyle={styles.notifications}>
+        
+        {/* map all notifications using loop */}
+        <Block flex>
+          {friends.map(profile => (
+             <ProfileItem item={profile} horizontal />
+          ))}
         </Block>
-
     
       </ScrollView>
-    );
-  };
+    )
+  }
 
   render() {
     return (
       <Block flex center style={styles.home}>
-        {this.renderPosts()}
-
+        {this.renderNotifications()}
       </Block>
     );
   }
@@ -46,10 +40,10 @@ const styles = StyleSheet.create({
   home: {
     width: width,    
   },
-  posts: {
+  notifications: {
     width: width - theme.SIZES.BASE * 2,
     paddingVertical: theme.SIZES.BASE,
   },
 });
 
-export default Friends;
+export default ViewFriendsPage;

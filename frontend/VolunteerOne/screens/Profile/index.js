@@ -108,7 +108,7 @@ const ProfileScreen = ({ navigation }) => {
                         </Text>
                       </Block>
                       <TouchableOpacity
-                        onPress={() => navigation.navigate("Pro")}
+                        onPress={() => navigation.navigate("ViewFriends")}
                       >
                         <Block middle>
                           <Text
@@ -125,7 +125,7 @@ const ProfileScreen = ({ navigation }) => {
                         </Block>
                       </TouchableOpacity>
                       <TouchableOpacity
-                        onPress={() => navigation.navigate("Pro")}
+                        onPress={() => navigation.navigate("ViewFollowing")}
                       >
                         <Block middle>
                           <Text
