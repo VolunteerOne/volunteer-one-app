@@ -5,11 +5,13 @@ import (
 
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
 	"github.com/VolunteerOne/volunteer-one-app/backend/repository"
+	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type LoginService interface {
 	FindUserFromEmail(string, models.Users) (models.Users, error)
+	SaveResetCodeToUser(uuid.UUID, models.Users) error
 	CreateUser(models.Users) (models.Users, error)
 	HashPassword([]byte) ([]byte, error)
 }
@@ -26,10 +28,13 @@ func NewLoginService(r repository.LoginRepository) LoginService {
 }
 
 func (l loginService) FindUserFromEmail(email string, user models.Users) (models.Users, error) {
-	log.Println("[LoginService] FindUserFromEmail...")
-
 	return l.loginRepository.FindUserFromEmail(email, user)
 }
+
+func (l loginService) SaveResetCodeToUser(resetCode uuid.UUID, user models.Users) error {
+	return l.loginRepository.SaveResetCodeToUser(resetCode, user)
+}
+
 
 func (l loginService) CreateUser(user models.Users) (models.Users, error) {
 	log.Println("[LoginService] Create user...")

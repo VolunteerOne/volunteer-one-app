@@ -1,10 +1,11 @@
 package service
 
 import (
+	"testing"
+
 	"github.com/VolunteerOne/volunteer-one-app/backend/mocks"
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
 	"github.com/stretchr/testify/assert"
-	"testing"
 )
 
 func TestLoginService_FindUserFromEmail(t *testing.T) {
