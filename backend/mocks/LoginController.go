@@ -17,6 +17,11 @@ func (_m *LoginController) Login(c *gin.Context) {
 	_m.Called(c)
 }
 
+// Signup provides a mock function with given fields: c
+func (_m *LoginController) Signup(c *gin.Context) {
+	_m.Called(c)
+}
+
 type mockConstructorTestingTNewLoginController interface {
 	mock.TestingT
 	Cleanup(func())

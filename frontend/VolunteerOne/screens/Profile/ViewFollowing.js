@@ -1,24 +1,19 @@
 import React from 'react';
 import { StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { Block, theme } from 'galio-framework';
-import NotificationItem from '../../components/NotificationItem';
-import notifications from '../../constants/notifications';
 
-/** ============================== Notifications Page ============================== **/ 
+// ================================= View Friends Page ================================= //
+
 const { width } = Dimensions.get('screen');
 
-class NotificationsPage extends React.Component {
-  renderNotifications = () => {
+class ViewFollowingPage extends React.Component {
+  renderFollowing = () => {
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.notifications}>
-        
-        {/* map all notifications using loop */}
+ 
         <Block flex>
-          {notifications.map(notification => (
-           <NotificationItem item={notification} horizontal />
-          ))}
         </Block>
     
       </ScrollView>
@@ -28,7 +23,7 @@ class NotificationsPage extends React.Component {
   render() {
     return (
       <Block flex center style={styles.home}>
-        {this.renderNotifications()}
+        {this.renderFollowing()}
       </Block>
     );
   }
@@ -44,4 +39,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NotificationsPage;
+export default ViewFollowingPage;
