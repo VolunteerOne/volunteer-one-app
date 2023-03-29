@@ -8,14 +8,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// import (
-// 	"net/http"
-
-// 	"github.com/VolunteerOne/volunteer-one-app/backend/database"
-// 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
-// 	"github.com/gin-gonic/gin"
-// )
-
 type OrgUsersController struct{}
 
 // Create organization user
