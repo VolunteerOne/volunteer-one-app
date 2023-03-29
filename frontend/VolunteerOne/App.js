@@ -10,7 +10,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { enableScreens } from "react-native-screens";
 enableScreens();
 
-import Screens from "./navigation/Screens";
+import Navigation from "./navigation/Navigation";
+
 import { Images, articles, argonTheme } from "./constants";
 
 // cache app images
@@ -69,7 +70,7 @@ export default props => {
       <NavigationContainer>
         <GalioProvider theme={argonTheme}>
           <Block flex>
-            <Screens />
+            <Navigation />
           </Block>
         </GalioProvider>
       </NavigationContainer>

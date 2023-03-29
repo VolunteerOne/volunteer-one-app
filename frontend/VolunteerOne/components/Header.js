@@ -15,15 +15,19 @@ import argonTheme from "../constants/Theme";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
+/** ==================================== Header Constants Component ==================================== **/
+
 const { height, width } = Dimensions.get("window");
+
 const iPhoneX = () =>
   Platform.OS === "ios" &&
   (height === 812 || width === 812 || height === 896 || width === 896);
 
+// icon constants
 const BellButton = ({ isWhite, style, navigation }) => (
   <TouchableOpacity
     style={[styles.button, style]}
-    onPress={() => navigation.navigate("Pro")}
+    onPress={() => navigation.navigate("ViewNotifications")}
   >
     <Icon
       family="ArgonExtra"
@@ -38,7 +42,7 @@ const BellButton = ({ isWhite, style, navigation }) => (
 const SettingsButton = ({ isWhite, style, navigation }) => (
   <TouchableOpacity
     style={[styles.button, style]}
-    onPress={() => navigation.navigate("Pro")}
+    onPress={() => navigation.navigate("Settings")}
   >
     <MaterialCommunityIcons
       size={24}
@@ -48,19 +52,35 @@ const SettingsButton = ({ isWhite, style, navigation }) => (
   </TouchableOpacity>
 );
 
+/** ==================================== Header Component ==================================== **/
+
 class Header extends React.Component {
+  // left icon on header is back button
+  handleLeftPress = () => {
+    const { navigation } = this.props;
+    return navigation.goBack();
+  };
+
+  renderLeft = () => {
+    const { white, back } = this.props;
+
+    if (back) {
+      return (
+        <Icon
+          name="chevron-left"
+          family="entypo"
+          size={20}
+          onPress={this.handleLeftPress}
+          color={argonTheme.COLORS[white ? "WHITE" : "ICON"]}
+          style={{ marginTop: 2 }}
+        />
+      );
+    }
+  };
+
+  // gets the right icon for header of screen
   renderRight = () => {
     const { white, title, navigation } = this.props;
-
-    if (title === "Title") {
-      return [
-        <BellButton
-          key="notification-title"
-          navigation={navigation}
-          isWhite={white}
-        />,
-      ];
-    }
 
     switch (title) {
       case "Profile":
@@ -71,10 +91,9 @@ class Header extends React.Component {
             isWhite={white}
           />,
         ];
-      case "Home":
-      case "Search":
-      case "Settings":
-      default:
+      case "Announcements":
+      case "Explore":
+      case "Feed":
         return [
           <BellButton
             key="notification"
@@ -82,29 +101,32 @@ class Header extends React.Component {
             isWhite={white}
           />,
         ];
+      default:
+        break;
     }
   };
-  renderSearch = () => {
-    const { navigation } = this.props;
-    return (
-      <Input
-        right
-        color="black"
-        style={styles.search}
-        placeholder="What are you looking for?"
-        placeholderTextColor={"#8898AA"}
-        onFocus={() => navigation.navigate("Pro")}
-        iconContent={
-          <Icon
-            size={16}
-            color={theme.COLORS.MUTED}
-            name="search-zoom-in"
-            family="ArgonExtra"
-          />
-        }
-      />
-    );
-  };
+
+  // renderSearch = () => {
+  //   const { navigation } = this.props;
+  //   return (
+  //     <Input
+  //       right
+  //       color="black"
+  //       style={styles.search}
+  //       placeholder="What are you looking for?"
+  //       placeholderTextColor={"#8898AA"}
+  //       onFocus={() => navigation.navigate("Pro")}
+  //       iconContent={
+  //         <Icon
+  //           size={16}
+  //           color={theme.COLORS.MUTED}
+  //           name="search-zoom-in"
+  //           family="ArgonExtra"
+  //         />
+  //       }
+  //     />
+  //   );
+  // };
   renderOptions = () => {
     const { navigation, optionLeft, optionRight } = this.props;
 
@@ -150,32 +172,33 @@ class Header extends React.Component {
       </Block>
     );
   };
-  renderTabs = () => {
-    const { tabs, tabIndex, navigation } = this.props;
-    const defaultTab = tabs && tabs[0] && tabs[0].id;
+  // renderTabs = () => {
+  //   const { tabs, tabIndex, navigation } = this.props;
+  //   const defaultTab = tabs && tabs[0] && tabs[0].id;
 
-    if (!tabs) return null;
+  //   if (!tabs) return null;
 
-    return (
-      <Tabs
-        data={tabs || []}
-        initialIndex={tabIndex || defaultTab}
-        onChange={(id) => navigation.setParams({ tabId: id })}
-      />
-    );
-  };
+  //   return (
+  //     <Tabs
+  //       data={tabs || []}
+  //       initialIndex={tabIndex || defaultTab}
+  //       onChange={(id) => navigation.setParams({ tabId: id })}
+  //     />
+  //   );
+  // };
   renderHeader = () => {
     const { search, options, tabs } = this.props;
     if (search || tabs || options) {
       return (
         <Block center>
-          {search ? this.renderSearch() : null}
+          {/* {search ? this.renderSearch() : null} */}
           {options ? this.renderOptions() : null}
-          {tabs ? this.renderTabs() : null}
+          {/* {tabs ? this.renderTabs() : null} */}
         </Block>
       );
     }
   };
+
   render() {
     const {
       back,
@@ -215,6 +238,7 @@ class Header extends React.Component {
           transparent={transparent}
           right={this.renderRight()}
           rightStyle={{ alignItems: "center" }}
+          left={this.renderLeft()}
           leftStyle={{ paddingVertical: 12, flex: 0.2 }}
           titleStyle={[
             styles.title,
