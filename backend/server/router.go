@@ -49,10 +49,7 @@ func NewRouter() *gin.Engine {
 	loginGroup.POST("/:email", loginController.PasswordReset)
 	//Get the secret code from the users email, if matches reset password
 	//loginGroup.POST("/:resetCode", loginController.Login)
-    router.POST("/signup", loginController.Signup)
-    
-    loginGroup := router.Group("login")  
-	loginGroup.GET("/:email/:password", loginController.Login)
+	router.POST("/signup", loginController.Signup)
 
 	organizationGroup := router.Group("organization")
 	{

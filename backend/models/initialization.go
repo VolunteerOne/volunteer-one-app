@@ -12,7 +12,7 @@ type Model interface {
 // Register all models into this table
 var tables = []Model{
 	&Object{},
-	&User{},
+	&Users{},
 	&Organization{},
 
 	&Users{},
