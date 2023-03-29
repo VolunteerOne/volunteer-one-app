@@ -66,7 +66,7 @@ const ForgotPassword = ({ navigation }) => {
                       onPress={handleResetBtnClick}
                     >
                       <Text bold size={14} color={argonTheme.COLORS.WHITE}>
-                        RESET PASSOWRD
+                        RESET PASSWORD
                       </Text>
                     </Button>
                   </Block>
