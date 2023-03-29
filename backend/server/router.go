@@ -41,11 +41,20 @@ func NewRouter() *gin.Engine {
 
     loginController := controllers.NewLoginController(loginService)
 
+    router.POST("/signup", loginController.Signup)
+    
     loginGroup := router.Group("login")  
-
 	loginGroup.GET("/:email/:password", loginController.Login)
 
-    
+	organizationGroup := router.Group("organization")
+	{
+		organization := new(controllers.OrganizationController)
+		organizationGroup.POST("/", organization.Create)
+		organizationGroup.GET("/", organization.All)
+		organizationGroup.GET("/:id", organization.One)
+		organizationGroup.DELETE("/:id", organization.Delete)
+		organizationGroup.PUT("/:id", organization.Update)
+	}
 
 	// objectGroup := router.Group("object")
 	// {
