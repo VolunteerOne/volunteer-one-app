@@ -6,7 +6,7 @@
 import React from 'react';
 import { withNavigation } from '@react-navigation/compat';
 import PropTypes from 'prop-types';
-import { StyleSheet, Dimensions, Image, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, Dimensions, Image, TouchableWithoutFeedback, Alert } from 'react-native';
 import { Block, Text, theme } from 'galio-framework';
 
 import { argonTheme } from '../constants';
@@ -26,6 +26,17 @@ class ProfileItem extends React.Component {
 
       styles.shadow
     ];
+
+    const confirmationAlert = () =>
+      Alert.alert('Are you sure?', [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ]);
+
 
     return (
       
@@ -52,9 +63,9 @@ class ProfileItem extends React.Component {
             {/*================== remove button ==================*/}
             <Button
               small
-              style={{ backgroundColor: 'grey' }}>
+              style={{ backgroundColor: 'grey' }}
+              onPress={confirmationAlert}>
               { following ? "Unfollow" : "Remove" }
-              {/* Remove */}
             </Button>
 
             {/*================== options button (3 dots) ==================*/}
