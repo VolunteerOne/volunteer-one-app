@@ -53,8 +53,8 @@ class ProfileItem extends React.Component {
             <Button
               small
               style={{ backgroundColor: 'grey' }}>
-              
-              Remove
+              { following ? "Unfollow" : "Remove" }
+              {/* Remove */}
             </Button>
 
             {/*================== options button (3 dots) ==================*/}
