@@ -14,7 +14,7 @@ import { Button } from "../components";
 
 class ProfileItem extends React.Component {
   render() {
-    const { navigation, item, horizontal, full, style, ctaColor, imageStyle } = this.props;
+    const { navigation, item, horizontal, full, style, ctaColor, imageStyle, following } = this.props;
     
     const imageStyles = [
       full ? styles.fullImage : styles.horizontalImage,
@@ -23,6 +23,7 @@ class ProfileItem extends React.Component {
     const cardContainer = [styles.card, styles.shadow, style];
     const imgContainer = [styles.imageContainer,
       horizontal ? styles.horizontalStyles : styles.verticalStyles,
+
       styles.shadow
     ];
 
@@ -52,14 +53,15 @@ class ProfileItem extends React.Component {
             <Button
               small
               style={{ backgroundColor: 'grey' }}>
+              
               Remove
             </Button>
 
             {/*================== options button (3 dots) ==================*/}
             {/* TODO: will need to change this touchable to a popup */}
-            <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}>
+            {/* <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}>
               <Text size={12} style={styles.cardDescription} bold>•••</Text>
-            </TouchableWithoutFeedback>
+            </TouchableWithoutFeedback> */}
           </Block>
 
 
@@ -88,8 +90,9 @@ const styles = StyleSheet.create({
   cardTitle: {
   },
   cardDescription: {
-    alignItems: 'center', // Centered vertically - 3 dots
-    flex:1,
+    // alignItems: 'center', // Centered vertically - 3 dots
+    // flex:1,
+    marginRight: 20,
     borderRadius: 3,
     elevation: 1,
     overflow: 'hidden',
