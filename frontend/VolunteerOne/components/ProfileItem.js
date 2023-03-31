@@ -28,7 +28,7 @@ class ProfileItem extends React.Component {
     ];
 
     const confirmationAlert = () =>
-      Alert.alert('Are you sure?', [
+      Alert.alert('Are you sure?', '', [
         {
           text: 'Cancel',
           onPress: () => console.log('Cancel Pressed'),
@@ -36,7 +36,6 @@ class ProfileItem extends React.Component {
         },
         {text: 'OK', onPress: () => console.log('OK Pressed')},
       ]);
-
 
     return (
       
@@ -74,8 +73,6 @@ class ProfileItem extends React.Component {
               <Text size={12} style={styles.cardDescription} bold>•••</Text>
             </TouchableWithoutFeedback> */}
           </Block>
-
-
       </Block>
      
     );
