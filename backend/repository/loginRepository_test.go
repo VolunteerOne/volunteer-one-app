@@ -9,8 +9,6 @@ import (
 	"gorm.io/gorm"
 )
 
-
-
 func TestLoginRepository_FindUserFromEmail(t *testing.T) {
 	email := "test@user.com"
 	db, mock, err := sqlmock.New()
@@ -61,7 +59,8 @@ func TestLoginRepository_CreateUser(t *testing.T) {
 	// choose insert and mock the args
 	// will return result has just random
 	mock.ExpectExec("INSERT").WithArgs(sqlmock.AnyArg(), sqlmock.AnyArg(),
-		sqlmock.AnyArg(), "", "", "", "", "", "", "", 0).WillReturnResult(sqlmock.NewResult(1, 1))
+		sqlmock.AnyArg(), "", "", "", "", "", "", "", 0, sqlmock.AnyArg()).
+		WillReturnResult(sqlmock.NewResult(1, 1))
 	mock.ExpectCommit()
 
 	res := NewLoginRepository(gormDB)
