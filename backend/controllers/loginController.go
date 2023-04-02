@@ -15,7 +15,7 @@ import (
 type LoginController interface {
 	Signup(c *gin.Context)
 	Login(c *gin.Context)
-	PasswordReset(c *gin.Context)
+	SendEmailForPassReset(c *gin.Context)
 }
 
 // The struct holds the reference to the corresponding service
@@ -122,8 +122,8 @@ func (l loginController) Login(c *gin.Context) {
 	})
 }
 
-func (l loginController) PasswordReset(c *gin.Context) {
-	log.Println("Entering PasswordReset send code to email")
+func (l loginController) SendEmailForPassReset(c *gin.Context) {
+	log.Println("Entering SendEmailForPassReset function")
 
 	//First find if the email exist
 	//if it does then send reset code
@@ -150,7 +150,7 @@ func (l loginController) PasswordReset(c *gin.Context) {
 	mailer.SetHeader("To", user.Email)
 	mailer.SetHeader("Subject", "Password Reset Code")
 	mailer.SetBody("text/plain", "Your password reset code is "+resetCode.String())
-	if err := gomail.NewDialer("smtp.sendgrid.net", 465, "apikey", "EXAMPLEAPIKEY").DialAndSend(mailer); err != nil {
+	if err := gomail.NewDialer("smtp.sendgrid.net", 465, "apikey", "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").DialAndSend(mailer); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message":        "Failed to send email",
 			"success":        false,
@@ -162,6 +162,41 @@ func (l loginController) PasswordReset(c *gin.Context) {
 		"message":   "Email has been sent!",
 		"success":   true,
 		"resetCode": resetCode,
+	})
+	return
+}
+func (l loginController) PasswordReset(c *gin.Context) {
+	email := c.Param("email")
+	resetCode := c.Param("resetcode")
+	resetCode = uuid.parse(resetCode)
+	newPassword := c.Param("newpassword")
+
+	var user models.Users
+
+	//Retrieve user's record by their email
+	user, err := l.loginService.FindUserFromEmail(email, user)
+	if user == nil {
+        http.Error(w, "Invalid email address", http.StatusBadRequest)
+        return
+    }
+	//See if reset code is matched with the one they provided
+	if (user.ResetCode != resetCode){
+		http.Error(w, "Invalid reset code", http.StatusBadRequest)
+		return
+	}
+
+	if changePasswordErr := l.loginService.ChangePassword(newPassword, user){
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message":        "Failed to change password",
+			"success":        false,
+			"error messsage": changePasswordErr,
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message":   "Your password has been sucessfully changed!",
+		"success":   true,
 	})
 	return
 }

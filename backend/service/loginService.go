@@ -12,6 +12,7 @@ import (
 type LoginService interface {
 	FindUserFromEmail(string, models.Users) (models.Users, error)
 	SaveResetCodeToUser(uuid.UUID, models.Users) error
+	ChangePassword(newPassword, models.Users) error
 	CreateUser(models.Users) (models.Users, error)
 	HashPassword([]byte) ([]byte, error)
 }
@@ -35,6 +36,9 @@ func (l loginService) SaveResetCodeToUser(resetCode uuid.UUID, user models.Users
 	return l.loginRepository.SaveResetCodeToUser(resetCode, user)
 }
 
+func (l loginService) ChangePassword(newPassword string, user models.Users) error {
+	return l.loginRepository.ChangePassword(newPassword, user)
+}
 
 func (l loginService) CreateUser(user models.Users) (models.Users, error) {
 	log.Println("[LoginService] Create user...")
