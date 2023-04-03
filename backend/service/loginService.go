@@ -12,7 +12,7 @@ import (
 type LoginService interface {
 	FindUserFromEmail(string, models.Users) (models.Users, error)
 	SaveResetCodeToUser(uuid.UUID, models.Users) error
-	ChangePassword(newPassword, models.Users) error
+	ChangePassword(string, models.Users) error
 	CreateUser(models.Users) (models.Users, error)
 	HashPassword([]byte) ([]byte, error)
 }

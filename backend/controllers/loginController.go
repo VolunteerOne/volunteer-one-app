@@ -16,6 +16,7 @@ type LoginController interface {
 	Signup(c *gin.Context)
 	Login(c *gin.Context)
 	SendEmailForPassReset(c *gin.Context)
+	PasswordReset(c *gin.Context)
 }
 
 // The struct holds the reference to the corresponding service
@@ -144,13 +145,13 @@ func (l loginController) SendEmailForPassReset(c *gin.Context) {
 
 	err = l.loginService.SaveResetCodeToUser(resetCode, user)
 
-	// Send reset code to user's email address
+	//Send reset code to user's email address
 	mailer := gomail.NewMessage()
 	mailer.SetHeader("From", "volunteeronenoreply")
 	mailer.SetHeader("To", user.Email)
 	mailer.SetHeader("Subject", "Password Reset Code")
 	mailer.SetBody("text/plain", "Your password reset code is "+resetCode.String())
-	if err := gomail.NewDialer("smtp.sendgrid.net", 465, "apikey", "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").DialAndSend(mailer); err != nil {
+	if err := gomail.NewDialer("smtp.sendgrid.net", 465, "apikey", "APIKEY").DialAndSend(mailer); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message":        "Failed to send email",
 			"success":        false,
@@ -164,28 +165,61 @@ func (l loginController) SendEmailForPassReset(c *gin.Context) {
 		"resetCode": resetCode,
 	})
 	return
+
+	// from := mail.NewEmail("Example User", "volunteeronenoreply")
+	// subject := "Password Reset Code"
+	// to := mail.NewEmail("To ", user.Email)
+	// plainTextContent := "and easy to do anywhere, even with Go"
+	// htmlContent := "<strong>Your password reset code is " + resetCode.String() + "</strong>"
+	// message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
+	// client := sendgrid.NewSendClient(os.Getenv("SENDGRID_API_KEY"))
+	// response, err := client.Send(message)
+	// if err != nil {
+	// 	log.Println(err)
+	// 	c.JSON(http.StatusInternalServerError, gin.H{
+	// 		"message":        "Failed to send email",
+	// 		"success":        false,
+	// 		"error messsage": err,
+	// 		"response":       response,
+	// 	})
+	// 	return
+	// } else {
+	// 	c.JSON(http.StatusOK, gin.H{
+	// 		"message":   "Email has been sent!",
+	// 		"success":   true,
+	// 		"resetCode": resetCode,
+	// 	})
+	// 	return
+	// }
 }
+
 func (l loginController) PasswordReset(c *gin.Context) {
 	email := c.Param("email")
 	resetCode := c.Param("resetcode")
-	resetCode = uuid.parse(resetCode)
+	resetCodeParsed, err := uuid.Parse(resetCode)
 	newPassword := c.Param("newpassword")
 
 	var user models.Users
 
 	//Retrieve user's record by their email
-	user, err := l.loginService.FindUserFromEmail(email, user)
-	if user == nil {
-        http.Error(w, "Invalid email address", http.StatusBadRequest)
-        return
-    }
+	user, ero := l.loginService.FindUserFromEmail(email, user)
+	if ero != nil {
+		c.JSON(http.StatusBadGateway, gin.H{
+			"message": "Email does not exist",
+			"success": false,
+		})
+		return
+	}
 	//See if reset code is matched with the one they provided
-	if (user.ResetCode != resetCode){
-		http.Error(w, "Invalid reset code", http.StatusBadRequest)
+	if user.ResetCode != resetCodeParsed {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Failed to provde correct reset code",
+			"success": false,
+		})
 		return
 	}
 
-	if changePasswordErr := l.loginService.ChangePassword(newPassword, user){
+	if changePasswordErr := l.loginService.ChangePassword(newPassword, user); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message":        "Failed to change password",
 			"success":        false,
@@ -195,8 +229,8 @@ func (l loginController) PasswordReset(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message":   "Your password has been sucessfully changed!",
-		"success":   true,
+		"message": "Your password has been sucessfully changed!",
+		"success": true,
 	})
 	return
 }

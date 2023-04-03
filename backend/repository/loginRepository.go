@@ -12,7 +12,7 @@ type LoginRepository interface {
 	FindUserFromEmail(string, models.Users) (models.Users, error)
 	SaveResetCodeToUser(uuid.UUID, models.Users) error
 	CreateUser(models.Users) (models.Users, error)
-	ChangePassword(models.Users, string)
+	ChangePassword(string, models.Users) error
 }
 
 type loginRepository struct {
@@ -55,7 +55,7 @@ func (l loginRepository) CreateUser(user models.Users) (models.Users, error) {
 	return user, err
 }
 
-func (l loginRepository) ChangePassword(newPassword string, user models.Users) (error) {
+func (l loginRepository) ChangePassword(newPassword string, user models.Users) error {
 	log.Println("Entering ChangePassword repository")
 	user.Password = newPassword
 	return l.DB.Save(&user).Error
