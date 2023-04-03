@@ -147,7 +147,7 @@ func (l loginController) SendEmailForPassReset(c *gin.Context) {
 
 	//Send reset code to user's email address
 	mailer := gomail.NewMessage()
-	mailer.SetHeader("From", "volunteeronenoreply")
+	mailer.SetHeader("From", "edwardsung4217@gmail.com") //need to replace this with proper volunteer email
 	mailer.SetHeader("To", user.Email)
 	mailer.SetHeader("Subject", "Password Reset Code")
 	mailer.SetBody("text/plain", "Your password reset code is "+resetCode.String())
@@ -166,31 +166,6 @@ func (l loginController) SendEmailForPassReset(c *gin.Context) {
 	})
 	return
 
-	// from := mail.NewEmail("Example User", "volunteeronenoreply")
-	// subject := "Password Reset Code"
-	// to := mail.NewEmail("To ", user.Email)
-	// plainTextContent := "and easy to do anywhere, even with Go"
-	// htmlContent := "<strong>Your password reset code is " + resetCode.String() + "</strong>"
-	// message := mail.NewSingleEmail(from, subject, to, plainTextContent, htmlContent)
-	// client := sendgrid.NewSendClient(os.Getenv("SENDGRID_API_KEY"))
-	// response, err := client.Send(message)
-	// if err != nil {
-	// 	log.Println(err)
-	// 	c.JSON(http.StatusInternalServerError, gin.H{
-	// 		"message":        "Failed to send email",
-	// 		"success":        false,
-	// 		"error messsage": err,
-	// 		"response":       response,
-	// 	})
-	// 	return
-	// } else {
-	// 	c.JSON(http.StatusOK, gin.H{
-	// 		"message":   "Email has been sent!",
-	// 		"success":   true,
-	// 		"resetCode": resetCode,
-	// 	})
-	// 	return
-	// }
 }
 
 func (l loginController) PasswordReset(c *gin.Context) {
