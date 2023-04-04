@@ -12,9 +12,12 @@ type Model interface {
 // Register all models into this table
 var tables = []Model{
 	&Object{},
+<<<<<<< HEAD
 	&Organization{},
 	&OrgUsers{},
 	&Users{},
+=======
+>>>>>>> 4e9ea3a (Update (#5))
 }
 
 func Init() {
