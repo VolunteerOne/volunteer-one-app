@@ -9,7 +9,6 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
-  TouchableOpacity,
 } from "react-native";
 import { Block, Text } from "galio-framework";
 
