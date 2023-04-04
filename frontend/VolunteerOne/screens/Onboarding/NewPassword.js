@@ -1,4 +1,5 @@
 import React from "react";
+// import zxcvbn from "zxcvbn"; // for password strength
 import { useState } from "react";
 import {
   StyleSheet,
@@ -22,9 +23,11 @@ const { width, height } = Dimensions.get("screen");
 const NewPassword = ({ navigation }) => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordStrength, setPasswordStrength] = useState('');
 
   const handleNewPasswordInput = (input) => {
     setNewPassword(input);
+    setPasswordStrength(checkPasswordStrength(input));
   };
 
   const handleConfirmPasswordInput = (input) => {
@@ -34,6 +37,16 @@ const NewPassword = ({ navigation }) => {
   const handleSaveBtnClick = () => {
     console.log(newPassword, confirmPassword);
     navigation.navigate('Login');
+  };
+
+  const checkPasswordStrength = (password) => {
+    if (password.length < 8) {
+      return "Weak";
+    }
+    if (password.length < 12) {
+      return "Moderate";
+    }
+    return "Strong";
   };
 
   return (
@@ -57,6 +70,17 @@ const NewPassword = ({ navigation }) => {
                   behavior="padding"
                   enabled
                 >
+                  <Block flex={0.2} middle style={styles.instructionText}>
+              <Text
+                    color="#8898AA"
+                    size={12}
+                    style={{
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Enter your new passoword
+                  </Text>
+              </Block>
                   <Block width={width * 0.8} style={{ marginBottom: 15 }}>
                     <TextInput
                       secureTextEntry={true}
@@ -65,6 +89,7 @@ const NewPassword = ({ navigation }) => {
                       onChangeText={handleNewPasswordInput}
                     />
                   </Block>
+                  
                   <Block width={width * 0.8}>
                     <TextInput
                       secureTextEntry={true}
@@ -74,6 +99,16 @@ const NewPassword = ({ navigation }) => {
                     />
                   </Block>
                   <Block middle>
+                  <Text
+                      color={argonTheme.COLORS.PRIMARY}
+                      size={14}
+                      style={{
+                        fontWeight: "bold",
+                        marginTop: 20,
+                      }}
+                    >
+                      Password strength: {passwordStrength}
+                    </Text>
                     <Button
                       color="primary"
                       style={styles.createButton}
@@ -134,7 +169,7 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
   },
   createButton: {
-    width: width * 0.8,
+    width: width * 0.5,
     marginTop: 25,
   },
   logo: {
