@@ -35,7 +35,6 @@ func (l loginService) SaveResetCodeToUser(resetCode uuid.UUID, user models.Users
 	return l.loginRepository.SaveResetCodeToUser(resetCode, user)
 }
 
-
 func (l loginService) CreateUser(user models.Users) (models.Users, error) {
 	log.Println("[LoginService] Create user...")
 
