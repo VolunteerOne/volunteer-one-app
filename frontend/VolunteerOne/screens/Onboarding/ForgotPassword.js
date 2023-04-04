@@ -47,6 +47,17 @@ const ForgotPassword = ({ navigation }) => {
               <Image source={Images.VolunteerOneIcon} style={styles.logo} />
               </Block>
               <Block flex center>
+              <Block flex={0.2} middle style={styles.instructionText}>
+              <Text
+                    color="#8898AA"
+                    size={12}
+                    style={{
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Enter your account email
+                  </Text>
+              </Block>
                 <KeyboardAvoidingView
                   style={{ flex: 1 }}
                   behavior="padding"
@@ -55,7 +66,7 @@ const ForgotPassword = ({ navigation }) => {
                   <Block width={width * 0.8} style={{ marginBottom: 15 }}>
                     <TextInput
                       style={styles.input}
-                      placeholder="Confirm email"
+                      placeholder="Email"
                       onChangeText={handleEmailInput}
                     />
                   </Block>
@@ -98,7 +109,7 @@ const styles = StyleSheet.create({
   },
   loginContainer: {
     width: width * 0.9,
-    height: height * 0.75,
+    height: height * 0.5,
     backgroundColor: "#F4F5F7",
     borderRadius: 4,
     shadowColor: argonTheme.COLORS.BLACK,
