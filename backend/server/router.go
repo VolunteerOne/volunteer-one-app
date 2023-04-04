@@ -2,9 +2,12 @@ package server
 
 import (
 	"github.com/VolunteerOne/volunteer-one-app/backend/controllers"
+<<<<<<< HEAD
 	"github.com/VolunteerOne/volunteer-one-app/backend/database"
 	"github.com/VolunteerOne/volunteer-one-app/backend/repository"
 	"github.com/VolunteerOne/volunteer-one-app/backend/service"
+=======
+>>>>>>> 4e9ea3a (Update (#5))
 	"github.com/gin-gonic/gin"
 )
 
@@ -13,6 +16,7 @@ func NewRouter() *gin.Engine {
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
 
+<<<<<<< HEAD
 	// *********************************************************
 	// INITIALIZE REPOSITORIES HERE -> DB migration is handled in main.go
 	// *********************************************************
@@ -61,6 +65,16 @@ func NewRouter() *gin.Engine {
 		organizationGroup.PUT("/:id", organization.Update)
 	}
 
+	orgUsersGroup := router.Group("orgUsers")
+	{
+		orgUsers := new(controllers.OrgUsersController)
+		orgUsersGroup.POST("/", orgUsers.CreateOrgUser)
+		orgUsersGroup.GET("/", orgUsers.ListAllOrgUsers)
+		orgUsersGroup.GET("/:id", orgUsers.FindOrgUser)
+		orgUsersGroup.PUT("/:id", orgUsers.UpdateOrgUser)
+		orgUsersGroup.DELETE("/:id", orgUsers.DeleteOrgUser)
+	}
+
 	// objectGroup := router.Group("object")
 	// {
 	// 	object := new(controllers.ObjectController)
@@ -71,6 +85,18 @@ func NewRouter() *gin.Engine {
 	// 	objectGroup.PUT("/:id", object.Update)
 	// }
 
+=======
+	objectGroup := router.Group("object")
+	{
+		object := new(controllers.ObjectController)
+		objectGroup.POST("/", object.Create)
+		objectGroup.GET("/", object.All)
+		objectGroup.GET("/:id", object.One)
+		objectGroup.DELETE("/:id", object.Delete)
+		objectGroup.PUT("/:id", object.Update)
+	}
+
+>>>>>>> 4e9ea3a (Update (#5))
 	// router.Use(middlewares.AuthMiddleware())
 
 	// root := new(controllers.RootController)
@@ -89,5 +115,8 @@ func NewRouter() *gin.Engine {
 	// }
 
 	return router
+<<<<<<< HEAD
+=======
 
+>>>>>>> 4e9ea3a (Update (#5))
 }
