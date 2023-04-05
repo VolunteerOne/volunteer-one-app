@@ -5,15 +5,32 @@ import (
 
 	"github.com/VolunteerOne/volunteer-one-app/backend/database"
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
+	"github.com/VolunteerOne/volunteer-one-app/backend/service"
 	"github.com/gin-gonic/gin"
 )
 
-type UsersController struct{}
+type UsersController interface {
+	Create(c *gin.Context)
+	All(c *gin.Context)
+	One(c *gin.Context)
+	Update(c *gin.Context)
+	Delete(c *gin.Context)
+}
+
+type usersController struct {
+	usersService service.UsersService
+}
+
+func NewUsersController(s service.UsersService) UsersController {
+	return usersController{
+		usersService: s,
+	}
+}
 
 var usersModel = new(models.Users)
 
 // Create ...
-func (controller UsersController) Create(c *gin.Context) {
+func (controller usersController) Create(c *gin.Context) {
 	var err error
 
 	db := database.GetDatabase()
@@ -71,7 +88,7 @@ func (controller UsersController) Create(c *gin.Context) {
 	c.JSON(http.StatusOK, object)
 }
 
-func (controller UsersController) All(c *gin.Context) {
+func (controller usersController) All(c *gin.Context) {
 	// var err error
 	db := database.GetDatabase()
 	var objects []models.Users
@@ -92,7 +109,7 @@ func (controller UsersController) All(c *gin.Context) {
 
 }
 
-func (controller UsersController) One(c *gin.Context) {
+func (controller usersController) One(c *gin.Context) {
 	db := database.GetDatabase()
 
 	// Get the id
@@ -114,7 +131,7 @@ func (controller UsersController) One(c *gin.Context) {
 	c.JSON(http.StatusAccepted, object)
 }
 
-func (controller UsersController) Update(c *gin.Context) {
+func (controller usersController) Update(c *gin.Context) {
 
 	db := database.GetDatabase()
 
@@ -177,7 +194,7 @@ func (controller UsersController) Update(c *gin.Context) {
 	c.JSON(http.StatusOK, object)
 }
 
-func (controller UsersController) Delete(c *gin.Context) {
+func (controller usersController) Delete(c *gin.Context) {
 	db := database.GetDatabase()
 
 	// Get the existing object
