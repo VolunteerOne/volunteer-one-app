@@ -25,7 +25,7 @@ import Settings from "../screens/Profile/Settings";
 import Pro from "../screens/Pro";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-
+import ViewEvent from "../screens/Event";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import ViewFollowing from "../screens/Profile/ViewFollowing";
 
@@ -72,6 +72,17 @@ function AnnouncementsStack(props) {
               navigation={navigation}
               scene={scene}
             />
+          ),
+          headerTransparent: false,
+          headerShown: true,
+        }}
+      />
+      <Stack.Screen
+        name="ViewEvent"
+        component={ViewEvent}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header back title="Event" navigation={navigation} scene={scene} />
           ),
           headerTransparent: false,
           headerShown: true,

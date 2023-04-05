@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
-import { Block, Text } from "galio-framework";
-
+import { Block, Text, Button } from "galio-framework";
+import { useNavigation } from "@react-navigation/native";
 /*
 Description:
   This component returns the body of a card. It receives the data to insert as a dictionary. 
@@ -15,6 +15,7 @@ Props received:
 const CardBody = ({ data }) => {
   //retreiving type
   const type = data["type"];
+  const navigation = useNavigation();
   //body for an event posting
   if (type == "event") {
     return (
@@ -28,7 +29,14 @@ const CardBody = ({ data }) => {
           When: {data["date"]} {"\n\n"}
           Where: {data["location"]} {"\n"}
         </Text>
-        <Text style={styles.eventLink}>Click to view event</Text>
+        <Button
+          onPress={() =>
+            navigation.navigate("ViewEvent", { eventID: data["id"] })
+          }
+        >
+          Click to view event
+        </Button>
+        {/* <Text style={styles.eventLink}>Click to view event</Text> */}
       </Block>
     );
     //body for an announcment posting//

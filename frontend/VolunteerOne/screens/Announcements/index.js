@@ -9,7 +9,7 @@ const { width } = Dimensions.get("screen");
 class Announcements extends React.Component {
   renderArticles = () => {
     //route prop contains toggle parameter that tells the page to render content for the followers tab or all tab
-    const { route, navigation } = this.props;
+    const { route } = this.props;
     //by default show followers page
     let toggle = true;
     //depending on if the user clicks on Followers button or All button, the data gets generated differently
