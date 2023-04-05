@@ -23,19 +23,13 @@ const { width, height } = Dimensions.get("screen");
 const CreateAccount = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  // const [accountType, setAccountType] = useState("");    // unnecessary state?
+  // console.log(accountType);
 
-  function handleEmailInput(input) {
-    setEmail(input);
-  }
-
-  function handlePasswordInput(input) {
-    setPassword(input);
-  }
-
-  function handleLoginBtnClick() {
-    console.log(email, password);
-    navigation.navigate("App");
-  }
+  const handleUserTypeClick = (type) => {
+    // setAccountType(type);
+    navigation.navigate("Register", { userType: type });  // sending userType to registration screen
+  };
 
   return (
     <Block flex middle>
@@ -45,82 +39,37 @@ const CreateAccount = ({ navigation }) => {
         style={{ width, height, zIndex: 1 }}
       >
         <Block safe flex middle>
-          {/* <Block style={styles.loginContainer}>
-            <Block flex>
-              <Block flex={0.5} middle style={styles.instructionText}>
-                <Image source={logo} />
-              </Block>
-              <Block flex={0.17} middle style={styles.instructionText}>
-                <TouchableOpacity
-                  onPress={() => console.log("create account btn")}
-                >
-                  <Text
-                    color="#8898AA"
-                    size={12}
-                    style={{
-                      fontWeight: "bold",
-                      textDecorationLine: "underline",
-                      paddingRight: 5,
-                    }}
-                  >
-                    Create Account
-                  </Text>
-                </TouchableOpacity>
-                <Text color="#8898AA" size={12}>
-                  or Login with credentials
-                </Text>
-              </Block>
-              <Block flex center>
-                <KeyboardAvoidingView
-                  style={{ flex: 1 }}
-                  behavior="padding"
-                  enabled
-                >
-                  <Block width={width * 0.8} style={{ marginBottom: 15 }}>
-                    <TextInput
-                      style={styles.input}
-                      placeholder="Email"
-                      onChangeText={handleEmailInput}
-                    />
-                  </Block>
-                  <Block width={width * 0.8}>
-                    <TextInput
-                      secureTextEntry={true}
-                      style={styles.input}
-                      placeholder="Password"
-                      onChangeText={handlePasswordInput}
-                    />
-                    <Block row style={styles.passwordCheck}>
-                      <TouchableOpacity
-                        onPress={() => console.log("forgot password btn clicked")}
-                      >
-                        <Text
-                          color="#8898AA"
-                          size={12}
-                          style={{
-                            textDecorationLine: "underline",
-                          }}
-                        >
-                          Forgot Password?
-                        </Text>
-                      </TouchableOpacity>
-                    </Block>
-                  </Block>
-                  <Block middle>
-                    <Button
-                      color="primary"
-                      style={styles.createButton}
-                      onPress={handleLoginBtnClick}
-                    >
-                      <Text bold size={14} color={argonTheme.COLORS.WHITE}>
-                        LOGIN
-                      </Text>
-                    </Button>
-                  </Block>
-                </KeyboardAvoidingView>
-              </Block>
+          <Block style={styles.createAccountContainer}>
+            <Block flex={1} middle style={styles.instructionText}>
+              <Text
+                color="#fff"
+                size={38}
+                style={{ fontWeight: "bold", padding: 6 }}
+              >
+                Are you a volunteer or organization?
+              </Text>
             </Block>
-          </Block> */}
+            <Block flex={1} middle>
+              <Button
+                color="secondary"
+                style={styles.optionButton}
+                onPress={() => handleUserTypeClick("volunteer")}
+              >
+                <Text bold size={14} color={argonTheme.COLORS.BLACK}>
+                  I'd like to volunteer
+                </Text>
+              </Button>
+              <Button
+                color="secondary"
+                style={styles.optionButton}
+                onPress={() => handleUserTypeClick("organization")}
+              >
+                <Text bold size={14} color={argonTheme.COLORS.BLACK}>
+                  I'd like to recruit volunteers
+                </Text>
+              </Button>
+            </Block>
+          </Block>
         </Block>
       </ImageBackground>
     </Block>
