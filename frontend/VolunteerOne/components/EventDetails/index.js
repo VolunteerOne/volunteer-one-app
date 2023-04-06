@@ -3,11 +3,23 @@ import { Block, Text, Button } from "galio-framework";
 import { argonTheme } from "../../constants";
 import { events } from "../../constants/event_details";
 const { width, height } = Dimensions.get("screen");
+/*
+Description:
+  This component displays the event details of an organization's post when a user presses
+  "Click to View Event". If the data for an event can't be found, it will display 
+  "No event found"
 
-const EventPost = ({ eventID }) => {
+Props received:
+  eventID - when a user clicks on "View event", the event ID gets passed to the 
+            EventDetails Component. For now the EventDetails component will look 
+            for the corresponding event in a file called event_details.js in the 
+            constants folder. 
+*/
+const EventDetails = ({ eventID }) => {
+  //if the eventID is found, display data
   if (eventID in events) {
     let eventDetails = events[eventID];
-    //display all data
+    //retrieves and formats the body of the event post
     let bodyContent = eventDetails["eventBody"].map(function (data) {
       return (
         <>
@@ -16,9 +28,19 @@ const EventPost = ({ eventID }) => {
         </>
       );
     });
+    //retrieves and formats the company info of the event post
+    let companyInfo = eventDetails["companyInfo"].map(function (data) {
+      return (
+        <>
+          <Text style={styles.descriptionTitle}>{data["title"]}</Text>
+          <Text>{data["description"]}</Text>
+        </>
+      );
+    });
+    //Event Details gets returned
     return (
       <Block style={[styles.card, styles.shadowProp]}>
-        <Block style={styles.header}>
+        <Block style={styles.headerContent}>
           <Text style={styles.headerTitle}>{eventDetails["title"]}</Text>
           <Text style={styles.headerText}>{eventDetails["organization"]}</Text>
           <Text style={styles.headerText}>{eventDetails["datePosted"]}</Text>
@@ -28,6 +50,8 @@ const EventPost = ({ eventID }) => {
           {eventDetails["interestedPeople"]} people are interested
         </Text>
         <Block style={styles.body}>{bodyContent}</Block>
+        <Block style={styles.divider}></Block>
+        <Block style={styles.body}>{companyInfo}</Block>
         <Block middle>
           <Button color="primary" style={styles.signupButton}>
             <Text bold size={14} color={argonTheme.COLORS.WHITE}>
@@ -37,6 +61,10 @@ const EventPost = ({ eventID }) => {
         </Block>
       </Block>
     );
+  }
+  //if no event is found, display error message
+  else {
+    return <Text>No event found</Text>;
   }
 };
 
@@ -62,8 +90,10 @@ const styles = StyleSheet.create({
   },
   headerText: {
     color: "rgba(50, 50, 93, 0.5)",
+    fontSize: 15,
+    fontWeight: 500,
   },
-  header: {
+  headerContent: {
     flexDirection: "column",
     justifyContent: "flex-start",
     gap: 8,
@@ -75,12 +105,13 @@ const styles = StyleSheet.create({
   divider: {
     borderBottomColor: "#E9ECEF",
     borderBottomWidth: 1,
-    marginVertical: 10,
+    marginVertical: 15,
   },
   alignRight: {
     textAlign: "right",
   },
   body: {
+    marginTop: 10,
     flexDirection: "column",
     justifyContent: "flex-start",
     gap: 8,
@@ -92,4 +123,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EventPost;
+export default EventDetails;
