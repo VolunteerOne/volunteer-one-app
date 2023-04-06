@@ -9,8 +9,7 @@ import (
 
 type UsersRepository interface {
 	CreateUser(user models.Users) (models.Users, error)
-	// AllUser(user models.Users) (models.Users, error)
-	// OneUser(user models.Users) (models.Users, error)
+	OneUser(id string, user models.Users) (models.Users, error)
 	UpdateUser(user models.Users) (models.Users, error)
 	DeleteUser(user models.Users) (models.Users, error)
 }
@@ -30,6 +29,16 @@ func (u usersRepository) CreateUser(user models.Users) (models.Users, error) {
 	log.Println("[UsersRepository] Create user...")
 
 	err := u.DB.Create(&user).Error
+
+	return user, err
+}
+
+
+// Add the user to the DB
+func (u usersRepository) OneUser(id string, user models.Users) (models.Users, error) {
+	log.Println("[UsersRepository] One user...")
+
+	err := u.DB.First(&user, id).Error
 
 	return user, err
 }

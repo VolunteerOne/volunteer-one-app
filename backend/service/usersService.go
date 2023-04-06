@@ -9,8 +9,7 @@ import (
 
 type UsersService interface {
 	CreateUser(user models.Users) (models.Users, error)
-	// AllUser(user models.Users) (models.Users, error)
-	// OneUser(user models.Users) (models.Users, error)
+	OneUser(id string, user models.Users) (models.Users, error)
 	UpdateUser(user models.Users) (models.Users, error)
 	DeleteUser(user models.Users) (models.Users, error)
 }
@@ -31,17 +30,12 @@ func (u usersService) CreateUser(user models.Users) (models.Users, error) {
 	return u.usersRepository.CreateUser(user)
 }
 
-// func (u usersService) AllUser(user models.Users) (models.Users, error) {
-// 	log.Println("[UsersService] Get All Users...")
 
-// 	return u.usersRepository.AllUser(user)
-// }
+func (u usersService) OneUser(id string, user models.Users) (models.Users, error) {
+	log.Println("[UsersService] Get One User...")
 
-// func (u usersService) OneUser(user models.Users) (models.Users, error) {
-// 	log.Println("[UsersService] Get One User...")
-
-// 	return u.usersRepository.OneUser(user)
-// }
+	return u.usersRepository.OneUser(id, user)
+}
 
 func (u usersService) UpdateUser(user models.Users) (models.Users, error) {
 	log.Println("[UsersService] Update User...")
