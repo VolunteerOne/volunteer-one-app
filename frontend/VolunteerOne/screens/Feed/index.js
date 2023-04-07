@@ -3,6 +3,7 @@ import { StyleSheet, Dimensions, ScrollView, Text } from "react-native";
 import { Block, theme } from "galio-framework";
 const { width } = Dimensions.get("screen");
 import NewAnnouncementModal from "../../components/Modals/NewAnnouncementModal";
+import NewEventModal from "../../components/Modals/NewEventModal";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Button } from "../../components";
 import argonTheme from "../../constants/Theme";
@@ -21,7 +22,7 @@ class Feed extends React.Component {
 
     return (
       <Block flex center style={styles.home}>
-
+{/* ----------------------- New Event Modal Button ----------------------- */}
       <Block middle>
           <Button
             color="primary"
@@ -41,11 +42,15 @@ class Feed extends React.Component {
           </Button>
         </Block>
         {modalVisible && (
-          <NewAnnouncementModal
+          <NewEventModal
             visible={this.state.modalVisible}
             setState={handleModalVisible}
           />
         )}
+{/* ---------------------------------------------------------------------- */}
+
+
+
 
       </Block>
     );
