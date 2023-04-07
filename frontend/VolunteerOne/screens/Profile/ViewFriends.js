@@ -10,7 +10,7 @@ import friends from '../../constants/friends';
 const { width } = Dimensions.get('screen');
 
 class ViewFriendsPage extends React.Component {
-  renderNotifications = () => {
+  renderFriends = () => {
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -30,7 +30,7 @@ class ViewFriendsPage extends React.Component {
   render() {
     return (
       <Block flex center style={styles.home}>
-        {this.renderNotifications()}
+        {this.renderFriends()}
       </Block>
     );
   }
