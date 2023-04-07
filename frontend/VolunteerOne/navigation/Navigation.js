@@ -11,6 +11,7 @@ import { Block, theme } from "galio-framework";
 import Elements from "../screens/Elements";
 // screens
 import Announcements from "../screens/Announcements";
+import Explore from "../screens/Explore";
 import Onboarding from "../screens/Onboarding";
 import Profile from "../screens/Profile";
 import Feed from "../screens/Feed";
@@ -260,18 +261,19 @@ function ExploreStack(props) {
       />
       <Stack.Screen
         name="Explore"
-        component={Pro}
+        component={Explore}
         options={{
           header: ({ navigation, scene }) => (
             <Header
-              transparent
-              white
+              // transparent
+              // white
               title="Explore"
               navigation={navigation}
               scene={scene}
             />
           ),
-          headerTransparent: true,
+          headerTransparent: false,
+          headerShown: true,
         }}
       />
     </Stack.Navigator>
