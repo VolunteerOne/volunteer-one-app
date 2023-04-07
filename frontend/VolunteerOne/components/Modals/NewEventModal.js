@@ -9,10 +9,12 @@ import {
   Dimensions,
   TextInput,
   Image,
+  ScrollView,
 } from "react-native";
 import { Block, Text, theme } from "galio-framework";
 import { argonTheme } from "../../constants";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import ImagePicker from './ImagePicker.js';
 
 const { width, height } = Dimensions.get("screen");
 
@@ -46,8 +48,11 @@ class NewEventModal extends React.Component {
             this.props.setState();
           }}
         >
+          
           <View style={[styles.centeredView, styles.modalViewOutside]}>
+          <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}> 
             <View style={styles.modalView}>
+            
               {/* exit modal */}
               <Pressable
                 onPress={() => this.props.setState()}
@@ -86,7 +91,7 @@ class NewEventModal extends React.Component {
                     onChangeText={(e) => this.setState({ description: e })}
                   />
                 </Block>
-
+                <ImagePicker></ImagePicker>
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
                   onPress={() => {
@@ -97,8 +102,11 @@ class NewEventModal extends React.Component {
                   <Text style={styles.textStyle}>CREATE EVENT</Text>
                 </Pressable>
               </View>
+              
             </View>
+            </ScrollView>
           </View>
+          
         </Modal>
       </View>
     );
