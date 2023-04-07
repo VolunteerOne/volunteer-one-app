@@ -23,14 +23,19 @@ const { width, height } = Dimensions.get("screen");
 
 const ForgotPassword = ({ navigation }) => {
   const [email, setEmail] = useState("");
-  
+  const [password, setPassword] = useState("");
+
   function handleEmailInput(input) {
     setEmail(input);
   }
 
-  function handleResetBtnClick() {
-    console.log(email);
-    navigation.navigate("NewPassword");
+  function handlePasswordInput(input) {
+    setPassword(input);
+  }
+
+  function handleLoginBtnClick() {
+    console.log(email, password);
+    navigation.navigate("App");
   }
 
   return (
@@ -44,20 +49,29 @@ const ForgotPassword = ({ navigation }) => {
           <Block style={styles.loginContainer}>
             <Block flex>
               <Block flex={0.5} middle style={styles.instructionText}>
-              <Image source={Images.VolunteerOneIcon} style={styles.logo} />
+                <Image source={logo} />
               </Block>
-              <Block flex center>
-              <Block flex={0.2} middle style={styles.instructionText}>
-              <Text
+              <Block flex={0.17} middle style={styles.instructionText}>
+                <TouchableOpacity
+                  onPress={() => console.log("create account btn")}
+                >
+                  <Text
                     color="#8898AA"
                     size={12}
                     style={{
                       fontWeight: "bold",
+                      textDecorationLine: "underline",
+                      paddingRight: 5,
                     }}
                   >
-                    Enter your account email
+                    Create Account
                   </Text>
+                </TouchableOpacity>
+                <Text color="#8898AA" size={12}>
+                  or Login with credentials
+                </Text>
               </Block>
+              <Block flex center>
                 <KeyboardAvoidingView
                   style={{ flex: 1 }}
                   behavior="padding"
@@ -70,14 +84,37 @@ const ForgotPassword = ({ navigation }) => {
                       onChangeText={handleEmailInput}
                     />
                   </Block>
+                  <Block width={width * 0.8}>
+                    <TextInput
+                      secureTextEntry={true}
+                      style={styles.input}
+                      placeholder="Password"
+                      onChangeText={handlePasswordInput}
+                    />
+                    <Block row style={styles.passwordCheck}>
+                      <TouchableOpacity
+                        onPress={() => console.log("forgot password btn clicked")}
+                      >
+                        <Text
+                          color="#8898AA"
+                          size={12}
+                          style={{
+                            textDecorationLine: "underline",
+                          }}
+                        >
+                          Forgot Password?
+                        </Text>
+                      </TouchableOpacity>
+                    </Block>
+                  </Block>
                   <Block middle>
                     <Button
                       color="primary"
                       style={styles.createButton}
-                      onPress={handleResetBtnClick}
+                      onPress={handleLoginBtnClick}
                     >
                       <Text bold size={14} color={argonTheme.COLORS.WHITE}>
-                        RESET PASSWORD
+                        LOGIN
                       </Text>
                     </Button>
                   </Block>
@@ -109,7 +146,7 @@ const styles = StyleSheet.create({
   },
   loginContainer: {
     width: width * 0.9,
-    height: height * 0.5,
+    height: height * 0.75,
     backgroundColor: "#F4F5F7",
     borderRadius: 4,
     shadowColor: argonTheme.COLORS.BLACK,
@@ -125,16 +162,14 @@ const styles = StyleSheet.create({
   inputIcons: {
     marginRight: 12,
   },
+  passwordCheck: {
+    paddingLeft: 15,
+    paddingTop: 13,
+    paddingBottom: 30,
+  },
   createButton: {
     width: width * 0.5,
     marginTop: 25,
-  },
-  logo: {
-    width: 265,
-    height: 50,
-    zIndex: 2,
-    position: 'relative',
-    marginTop: '20%'
   },
 });
 

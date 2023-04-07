@@ -12,7 +12,6 @@ import (
 
 func main() {
 	database.Init() // Connect database
-<<<<<<< HEAD
 
 	if os.Getenv("DB_MIGRATION") != "" {
 		models.Init()
@@ -20,14 +19,6 @@ func main() {
 
 	server.Init() // Start Server
 
-=======
-
-	if os.Getenv("DB_MIGRATION") != "" {
-		models.Init()
-	}
-
-	server.Init() // Start Server
->>>>>>> 4e9ea3a (Update (#5))
 }
 
 // Runs before main
