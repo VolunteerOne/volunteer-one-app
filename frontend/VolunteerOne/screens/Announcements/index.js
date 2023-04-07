@@ -59,7 +59,30 @@ class Announcements extends React.Component {
     };
 
     return (
+      
       <Block flex center style={styles.home}>
+        <Block middle>
+          <Button
+            color="primary"
+            style={styles.button}
+            onPress={() => handleModalVisible()}
+          >
+            <Block row middle>
+              <MaterialCommunityIcons
+                size={24}
+                name="plus-box-outline"
+                color={theme.COLORS.WHITE}
+              />
+              <Text bold size={14} style={styles.buttonTitle}>
+                New Event
+              </Text>
+            </Block>
+          </Button>
+        </Block>
+
+
+
+{/* ----------------------- new announcement button ----------------------- */}
         <Block middle>
           <Button
             color="primary"
@@ -78,6 +101,8 @@ class Announcements extends React.Component {
             </Block>
           </Button>
         </Block>
+
+{/* ----------------------- render articles ----------------------- */}
         {modalVisible && (
           <NewAnnouncementModal
             visible={this.state.modalVisible}
