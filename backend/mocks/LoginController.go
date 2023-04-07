@@ -17,6 +17,11 @@ func (_m *LoginController) Login(c *gin.Context) {
 	_m.Called(c)
 }
 
+// PasswordReset provides a mock function with given fields: c
+func (_m *LoginController) PasswordReset(c *gin.Context) {
+	_m.Called(c)
+}
+
 // Signup provides a mock function with given fields: c
 func (_m *LoginController) Signup(c *gin.Context) {
 	_m.Called(c)

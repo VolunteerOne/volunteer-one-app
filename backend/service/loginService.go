@@ -42,7 +42,6 @@ func (l loginService) ChangePassword(newPassword string, user models.Users) erro
 
 func (l loginService) CreateUser(user models.Users) (models.Users, error) {
 	log.Println("[LoginService] Create user...")
-
 	return l.loginRepository.CreateUser(user)
 }
 

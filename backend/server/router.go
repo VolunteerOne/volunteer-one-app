@@ -62,6 +62,16 @@ func NewRouter() *gin.Engine {
 		organizationGroup.PUT("/:id", organization.Update)
 	}
 
+	orgUsersGroup := router.Group("orgUsers")
+	{
+		orgUsers := new(controllers.OrgUsersController)
+		orgUsersGroup.POST("/", orgUsers.CreateOrgUser)
+		orgUsersGroup.GET("/", orgUsers.ListAllOrgUsers)
+		orgUsersGroup.GET("/:id", orgUsers.FindOrgUser)
+		orgUsersGroup.PUT("/:id", orgUsers.UpdateOrgUser)
+		orgUsersGroup.DELETE("/:id", orgUsers.DeleteOrgUser)
+	}
+
 	// objectGroup := router.Group("object")
 	// {
 	// 	object := new(controllers.ObjectController)
@@ -90,5 +100,4 @@ func NewRouter() *gin.Engine {
 	// }
 
 	return router
-
 }
