@@ -16,11 +16,17 @@ import { argonTheme } from "../../constants";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import ImagePicker from './ImagePicker.js';
 import DateTimePicker from '@react-native-community/datetimepicker';
-// import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 
 const { width, height } = Dimensions.get("screen");
 
 
+
+// setting the date and time for event function
+const onChange = (event, selectedDate) => {
+  const currentDate = selectedDate;
+  date = currentDate;
+  console.log(date);
+};
 /** ==================================== New Event Modal Component ==================================== **/
 
 class NewEventModal extends React.Component {
@@ -31,9 +37,6 @@ class NewEventModal extends React.Component {
     title: "",
     description: "",
   };
-
-
-
   
   render() {
 
@@ -94,11 +97,12 @@ class NewEventModal extends React.Component {
 
                 {/* date and time picker */}
                 <Block 
-                  style={{ marginBottom: 15 }}>
+                  style={ styles.dateTime }>
                   <DateTimePicker 
                     value={new Date()}
                     mode="datetime"
-                    style={styles.dateTime}
+                    textColor="black"
+                    onChange={onChange}
                     />
                 </Block>
 
@@ -107,7 +111,7 @@ class NewEventModal extends React.Component {
                 <Block width={width * 0.8 - 20} style={{ marginBottom: 15 }}>
                   <TextInput
                     style={styles.input}
-                    placeholder="Provide announcement details here"
+                    placeholder="Provide Event details here"
                     placeholderTextColor={"lightgrey"}
                     height={height * 0.3}
                     textAlignVertical={"top"}
@@ -177,6 +181,12 @@ const styles = StyleSheet.create({
   },
 
   // matt's added styles above ^^^
+  dateTime: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 15,
+  },
 
   centeredView: {
     flex: 1,
