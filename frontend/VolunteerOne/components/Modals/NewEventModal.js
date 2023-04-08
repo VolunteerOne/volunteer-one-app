@@ -15,11 +15,13 @@ import { Block, Text, theme } from "galio-framework";
 import { argonTheme } from "../../constants";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import ImagePicker from './ImagePicker.js';
+import DateTimePicker from '@react-native-community/datetimepicker';
+// import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 
 const { width, height } = Dimensions.get("screen");
 
 
-/** ==================================== New Announcement Modal Component ==================================== **/
+/** ==================================== New Event Modal Component ==================================== **/
 
 class NewEventModal extends React.Component {
   
@@ -30,6 +32,9 @@ class NewEventModal extends React.Component {
     description: "",
   };
 
+
+
+  
   render() {
 
     const handleAddNewClick = () => {
@@ -68,7 +73,7 @@ class NewEventModal extends React.Component {
               <View style={styles.modalViewInside}>
                 <Text style={styles.header}>New Event</Text>
 
-                <Text style={styles.secondaryHeader}>Post title</Text>
+                <Text style={styles.secondaryHeader}>Event Name</Text>
                 <Block width={width * 0.8 - 20} style={{ marginBottom: 15 }}>
                   <TextInput
                     style={styles.input}
@@ -77,8 +82,28 @@ class NewEventModal extends React.Component {
                     onChangeText={(e) => this.setState({ title: e })}
                   />
                 </Block>
+                <Block width={width * 0.8 - 20} style={{ marginBottom: 15 }}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Event Location"
+                    placeholderTextColor={"lightgrey"}
+                    onChangeText={(e) => this.setState({ title: e })}
+                  />
+                </Block>
 
-                <Text style={styles.secondaryHeader}>Description</Text>
+
+                {/* date and time picker */}
+                <Block 
+                  style={{ marginBottom: 15 }}>
+                  <DateTimePicker 
+                    value={new Date()}
+                    mode="datetime"
+                    style={styles.dateTime}
+                    />
+                </Block>
+
+
+                {/* <Text style={styles.secondaryHeader}>Description</Text> */}
                 <Block width={width * 0.8 - 20} style={{ marginBottom: 15 }}>
                   <TextInput
                     style={styles.input}
