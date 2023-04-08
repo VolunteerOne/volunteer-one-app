@@ -19,8 +19,6 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 const { width, height } = Dimensions.get("screen");
 
-
-
 // setting the date and time for event function
 const onChange = (event, selectedDate) => {
   const currentDate = selectedDate;
