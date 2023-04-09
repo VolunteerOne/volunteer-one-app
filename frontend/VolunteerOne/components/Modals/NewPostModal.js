@@ -19,7 +19,7 @@ import ImagePicker from './ImagePicker.js';
 const { width, height } = Dimensions.get("screen");
 
 
-/** ==================================== New Announcement Modal Component ==================================== **/
+/** ==================================== New Post Modal Component ==================================== **/
 
 class NewPostModal extends React.Component {
   
