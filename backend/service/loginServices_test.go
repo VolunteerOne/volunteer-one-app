@@ -32,31 +32,31 @@ func TestLoginService_FindUserFromEmail(t *testing.T) {
 	assert.Nil(t, err)
 }
 
-func TestLoginService_CreateUser(t *testing.T) {
-	email := "test@email.com"
-	password := "test-password"
-	firstname := "test"
-	lastname := "user"
-
-	var user models.Users
-	user.Email = email
-	user.Password = password
-	user.FirstName = firstname
-	user.LastName = lastname
-
-	// new mock repo object
-	mockRepo := new(mocks.LoginRepository)
-	mockRepo.On("CreateUser", user).Return(user, nil)
-
-	// run actual handler
-	fromRepo := NewLoginService(mockRepo)
-	res, err := fromRepo.CreateUser(user)
-
-	// checks
-	mockRepo.AssertExpectations(t)
-	assert.Equal(t, res, user)
-	assert.Nil(t, err)
-}
+// func TestLoginService_CreateUser(t *testing.T) {
+// 	email := "test@email.com"
+// 	password := "test-password"
+// 	firstname := "test"
+// 	lastname := "user"
+//
+// 	var user models.Users
+// 	user.Email = email
+// 	user.Password = password
+// 	user.FirstName = firstname
+// 	user.LastName = lastname
+//
+// 	// new mock repo object
+// 	mockRepo := new(mocks.LoginRepository)
+// 	mockRepo.On("CreateUser", user).Return(user, nil)
+//
+// 	// run actual handler
+// 	fromRepo := NewLoginService(mockRepo)
+// 	res, err := fromRepo.CreateUser(user)
+//
+// 	// checks
+// 	mockRepo.AssertExpectations(t)
+// 	assert.Equal(t, res, user)
+// 	assert.Nil(t, err)
+// }
 
 func TestLoginService_HashPassword(t *testing.T) {
 	password := "mypass"

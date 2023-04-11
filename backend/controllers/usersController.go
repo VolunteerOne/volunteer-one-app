@@ -58,11 +58,21 @@ func (controller usersController) Create(c *gin.Context) {
 		return
 	}
 
+	hash, err := controller.usersService.HashPassword([]byte(body.Password))
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Failed to hash password",
+		})
+
+		return
+	}
+
 	// Create the object in the database
 	object := models.Users{
 		Handle:    body.Handle,
 		Email:     body.Email,
-		Password:  body.Password,
+		Password:  string(hash),
 		Birthdate: body.Birthdate,
 		FirstName: body.FirstName,
 		LastName:  body.LastName,

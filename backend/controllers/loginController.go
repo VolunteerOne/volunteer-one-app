@@ -15,7 +15,6 @@ import (
 
 // All Controller methods should be defined in the interface
 type LoginController interface {
-	Signup(c *gin.Context)
 	Login(c *gin.Context)
 	SendEmailForPassReset(c *gin.Context)
 	PasswordReset(c *gin.Context)
@@ -31,60 +30,6 @@ func NewLoginController(s service.LoginService) LoginController {
 	return loginController{
 		loginService: s,
 	}
-}
-
-// Signup -> Creates a new user profile in the db
-func (l loginController) Signup(c *gin.Context) {
-	log.Println("[LoginController] Signing up...")
-
-	// Get all the fields from the request body needed for just signup
-	var body struct {
-		Email     string
-		Password  string
-		FirstName string
-		LastName  string
-	}
-
-	if c.BindJSON(&body) != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Could not parse body",
-		})
-
-		return
-	}
-
-	hash, err := l.loginService.HashPassword([]byte(body.Password))
-
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Failed to hash password",
-		})
-
-		return
-	}
-
-	user := models.Users{Email: body.Email,
-		Password:  string(hash),
-		FirstName: body.FirstName,
-		LastName:  body.LastName}
-
-	result, err := l.loginService.CreateUser(user)
-
-	_ = result
-
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error":         "Failed to create user",
-			"error message": err,
-		})
-
-		return
-	}
-
-	// Respond -> No information needs to be sent back
-	c.JSON(http.StatusOK, gin.H{
-		"message": "User successfully created",
-	})
 }
 
 // Login:
@@ -121,40 +66,39 @@ func (l loginController) Login(c *gin.Context) {
 		return
 	}
 
-    // Generate the JWT Access token
+	// Generate the JWT Access token
 
-    // 30 minute accessExpire time
-    accessExpire := time.Now().Add(time.Minute * 30)
-    accessToken, err := l.loginService.GenerateJWT(user.ID, accessExpire, os.Getenv("JWT_SECRET"))
+	// 30 minute accessExpire time
+	accessExpire := time.Now().Add(time.Minute * 30)
+	accessToken, err := l.loginService.GenerateJWT(user.ID, accessExpire, os.Getenv("JWT_SECRET"))
 
-    if err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{
-            "error": "Failed to create access token",
-            "success": false,
-        })
-    }
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "Failed to create access token",
+			"success": false,
+		})
+	}
 
-    // Generate the JWT Refresh token
-    // TODO: Store in DB
+	// Generate the JWT Refresh token
+	// TODO: Store in DB
 
+	// 7 day expire time
+	refreshExpire := time.Now().Add(time.Hour * 24 * 7)
+	refreshToken, err := l.loginService.GenerateJWT(user.ID, refreshExpire, os.Getenv("JWT_SECRET"))
 
-    // 7 day expire time
-    refreshExpire := time.Now().Add(time.Hour * 24 * 7)
-    refreshToken, err := l.loginService.GenerateJWT(user.ID, refreshExpire, os.Getenv("JWT_SECRET"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "Failed to create refresh token",
+			"success": false,
+		})
+	}
 
-    if err != nil {
-        c.JSON(http.StatusBadRequest, gin.H{
-            "error": "Failed to create refresh token",
-            "success": false,
-        })
-    }
-
-    // Send the access/refresh token
+	// Send the access/refresh token
 	c.JSON(http.StatusOK, gin.H{
-		"message": "email and password match",
-        "access_token": accessToken,
-        "refresh_token": refreshToken,
-		"success": true,
+		"message":       "email and password match",
+		"access_token":  accessToken,
+		"refresh_token": refreshToken,
+		"success":       true,
 	})
 }
 

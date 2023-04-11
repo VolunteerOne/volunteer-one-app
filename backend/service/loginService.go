@@ -1,7 +1,6 @@
 package service
 
 import (
-	"log"
 	"time"
 
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
@@ -15,7 +14,6 @@ type LoginService interface {
 	FindUserFromEmail(string, models.Users) (models.Users, error)
 	SaveResetCodeToUser(uuid.UUID, models.Users) error
 	ChangePassword([]byte, models.Users) error
-	CreateUser(models.Users) (models.Users, error)
 	HashPassword([]byte) ([]byte, error)
 	CompareHashedAndUserPass([]byte, string) error
 	GenerateJWT(uint, time.Time, string) (string, error)
@@ -42,11 +40,6 @@ func (l loginService) SaveResetCodeToUser(resetCode uuid.UUID, user models.Users
 
 func (l loginService) ChangePassword(newPassword []byte, user models.Users) error {
 	return l.loginRepository.ChangePassword(newPassword, user)
-}
-
-func (l loginService) CreateUser(user models.Users) (models.Users, error) {
-	log.Println("[LoginService] Create user...")
-	return l.loginRepository.CreateUser(user)
 }
 
 func (l loginService) HashPassword(password []byte) ([]byte, error) {

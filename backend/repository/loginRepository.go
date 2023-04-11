@@ -11,7 +11,6 @@ import (
 type LoginRepository interface {
 	FindUserFromEmail(string, models.Users) (models.Users, error)
 	SaveResetCodeToUser(uuid.UUID, models.Users) error
-	CreateUser(models.Users) (models.Users, error)
 	ChangePassword([]byte, models.Users) error
 }
 
@@ -43,16 +42,6 @@ func (l loginRepository) SaveResetCodeToUser(resetCode uuid.UUID, user models.Us
 	user.ResetCode = resetCode
 	// Save the changes to the database
 	return l.DB.Save(&user).Error
-}
-
-// Add the user to the DB
-func (l loginRepository) CreateUser(user models.Users) (models.Users, error) {
-	log.Println("[LoginRepository] Create user...")
-
-	// User will be created
-	err := l.DB.Create(&user).Error
-
-	return user, err
 }
 
 func (l loginRepository) ChangePassword(newPassword []byte, user models.Users) error {

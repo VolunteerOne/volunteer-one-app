@@ -28,30 +28,6 @@ func (_m *LoginRepository) ChangePassword(_a0 []byte, _a1 models.Users) error {
 	return r0
 }
 
-// CreateUser provides a mock function with given fields: _a0
-func (_m *LoginRepository) CreateUser(_a0 models.Users) (models.Users, error) {
-	ret := _m.Called(_a0)
-
-	var r0 models.Users
-	var r1 error
-	if rf, ok := ret.Get(0).(func(models.Users) (models.Users, error)); ok {
-		return rf(_a0)
-	}
-	if rf, ok := ret.Get(0).(func(models.Users) models.Users); ok {
-		r0 = rf(_a0)
-	} else {
-		r0 = ret.Get(0).(models.Users)
-	}
-
-	if rf, ok := ret.Get(1).(func(models.Users) error); ok {
-		r1 = rf(_a0)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
-}
-
 // FindUserFromEmail provides a mock function with given fields: _a0, _a1
 func (_m *LoginRepository) FindUserFromEmail(_a0 string, _a1 models.Users) (models.Users, error) {
 	ret := _m.Called(_a0, _a1)
