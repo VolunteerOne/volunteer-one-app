@@ -410,7 +410,7 @@ function BottomNav() {
       }}
     >
       <Tab.Screen
-        name="Announcements"
+        name="AnnouncementsStack"
         component={AnnouncementsStack}
         options={{
           headerShown: false,
@@ -421,7 +421,7 @@ function BottomNav() {
         }}
       />
       <Tab.Screen
-        name="Explore"
+        name="ExploreStack"
         component={ExploreStack}
         options={{
           headerShown: false,
@@ -433,7 +433,7 @@ function BottomNav() {
         }}
       />
       <Tab.Screen
-        name="Feed"
+        name="FeedStack"
         component={FeedStack}
         options={{
           headerShown: false,
@@ -449,7 +449,7 @@ function BottomNav() {
         }}
       />
       <Tab.Screen
-        name="Profile"
+        name="ProfileStack"
         component={ProfileStack}
         options={{
           headerShown: false,
