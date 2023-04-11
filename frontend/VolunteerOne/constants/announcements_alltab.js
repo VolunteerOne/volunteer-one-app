@@ -1,6 +1,6 @@
 export const all = [
   {
-    id: 0,
+    id: "event3",
     organization: "DoSomething",
     name: "New Event",
     subject: "Clean up trash in parks",
@@ -12,7 +12,7 @@ export const all = [
     type: "event",
   },
   {
-    id: 1,
+    id: "event4",
     organization: "American Hiking Society",
     name: "Fun Run",
     subject: "5k run for charity",
@@ -24,7 +24,7 @@ export const all = [
     type: "event",
   },
   {
-    id: 2,
+    id: "announcement2",
     organization: "Peace Corps",
     announcement:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et enim ad minim veniam, quis nostrud exercitation ullamco laboris ",
