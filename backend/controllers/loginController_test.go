@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"fmt"
 
-
 	"net/http"
 
 	"net/http/httptest"
@@ -141,7 +140,7 @@ func TestLoginController_SignupCreateError(t *testing.T) {
 // *****************************************************
 
 // Tests when a good email and password occurs
-func TestEmailFound(t *testing.T) {
+func TestLoginController_EmailFound(t *testing.T) {
 	email := "test@user.com"
 	password := "password"
 
@@ -165,6 +164,7 @@ func TestEmailFound(t *testing.T) {
 	mockService := new(mocks.LoginService)
 	// mock the function
 	mockService.On("FindUserFromEmail", email, emptyUser).Return(user, nil)
+	mockService.On("CompareHashedAndUserPass", []byte(password), password).Return(nil)
 
 	// run actual handler
 	res := NewLoginController(mockService)
@@ -226,6 +226,7 @@ func TestPasswordsDontMatch(t *testing.T) {
 
 	mockService := new(mocks.LoginService)
 	mockService.On("FindUserFromEmail", email, emptyUser).Return(user, nil)
+	mockService.On("CompareHashedAndUserPass", []byte(password), "not right password").Return(fmt.Errorf("Create error"))
 
 	res := NewLoginController(mockService)
 	res.Login(c)

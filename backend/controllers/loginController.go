@@ -3,6 +3,8 @@ package controllers
 import (
 	"log"
 	"net/http"
+	"os"
+	"time"
 
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
 	"github.com/VolunteerOne/volunteer-one-app/backend/service"
@@ -119,9 +121,39 @@ func (l loginController) Login(c *gin.Context) {
 		return
 	}
 
-	// Respond with true if the username and password match
+    // Generate the JWT Access token
+
+    // 30 minute accessExpire time
+    accessExpire := time.Now().Add(time.Minute * 30)
+    accessToken, err := l.loginService.GenerateJWT(user.ID, accessExpire, os.Getenv("JWT_SECRET"))
+
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{
+            "error": "Failed to create access token",
+            "success": false,
+        })
+    }
+
+    // Generate the JWT Refresh token
+    // TODO: Store in DB
+
+
+    // 7 day expire time
+    refreshExpire := time.Now().Add(time.Hour * 24 * 7)
+    refreshToken, err := l.loginService.GenerateJWT(user.ID, refreshExpire, os.Getenv("JWT_SECRET"))
+
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{
+            "error": "Failed to create refresh token",
+            "success": false,
+        })
+    }
+
+    // Send the access/refresh token
 	c.JSON(http.StatusOK, gin.H{
 		"message": "email and password match",
+        "access_token": accessToken,
+        "refresh_token": refreshToken,
 		"success": true,
 	})
 }

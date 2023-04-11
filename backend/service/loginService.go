@@ -2,9 +2,11 @@ package service
 
 import (
 	"log"
+	"time"
 
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
 	"github.com/VolunteerOne/volunteer-one-app/backend/repository"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -16,6 +18,7 @@ type LoginService interface {
 	CreateUser(models.Users) (models.Users, error)
 	HashPassword([]byte) ([]byte, error)
 	CompareHashedAndUserPass([]byte, string) error
+	GenerateJWT(uint, time.Time, string) (string, error)
 }
 
 type loginService struct {
@@ -54,4 +57,13 @@ func (l loginService) HashPassword(password []byte) ([]byte, error) {
 func (l loginService) CompareHashedAndUserPass(hashedPassword []byte, stringPassword string) error {
 	err := bcrypt.CompareHashAndPassword(hashedPassword, []byte(stringPassword))
 	return err
+}
+
+func (l loginService) GenerateJWT(userid uint, exp time.Time, secret string) (string, error) {
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"sub": userid,
+		"exp": exp,
+	})
+	tokenString, err := token.SignedString([]byte(secret))
+	return tokenString, err
 }
