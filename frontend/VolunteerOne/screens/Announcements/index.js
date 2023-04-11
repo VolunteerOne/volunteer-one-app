@@ -1,10 +1,17 @@
 import React from "react";
-import { StyleSheet, Dimensions, ScrollView } from "react-native";
+import { StyleSheet, Dimensions, ScrollView, Text } from "react-native";
+import { Button } from "../../components";
 import { Block, theme } from "galio-framework";
 import EventCard from "../../components/EventCard";
 import { following } from "../../constants/announcements_followingtab";
 import { all } from "../../constants/announcements_alltab";
+import argonTheme from "../../constants/Theme";
+import NewAnnouncementModal from "../../components/Modals/NewAnnouncementModal";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+
 const { width } = Dimensions.get("screen");
+
+/** ==================================== Announcements Tab ==================================== **/
 
 class Announcements extends React.Component {
   renderArticles = () => {
@@ -40,9 +47,43 @@ class Announcements extends React.Component {
     );
   };
 
+  state = {
+    modalVisible: false,
+  };
+
   render() {
+    const { modalVisible } = this.state;
+
+    const handleModalVisible = () => {
+      this.setState({ modalVisible: !modalVisible });
+    };
+
     return (
       <Block flex center style={styles.home}>
+        <Block middle>
+          <Button
+            color="primary"
+            style={styles.button}
+            onPress={() => handleModalVisible()}
+          >
+            <Block row middle>
+              <MaterialCommunityIcons
+                size={24}
+                name="plus-box-outline"
+                color={theme.COLORS.WHITE}
+              />
+              <Text bold size={14} style={styles.buttonTitle}>
+                New Announcement
+              </Text>
+            </Block>
+          </Button>
+        </Block>
+        {modalVisible && (
+          <NewAnnouncementModal
+            visible={this.state.modalVisible}
+            setState={handleModalVisible}
+          />
+        )}
         {this.renderArticles()}
       </Block>
     );
@@ -56,6 +97,17 @@ const styles = StyleSheet.create({
   articles: {
     width: width - theme.SIZES.BASE * 2,
     paddingVertical: theme.SIZES.BASE,
+  },
+  button: {
+    marginTop: theme.SIZES.BASE,
+    marginBottom: 0,
+    width: width * 0.9,
+  },
+  buttonTitle: {
+    paddingLeft: 5,
+    lineHeight: 19,
+    fontWeight: "600",
+    color: argonTheme.COLORS.WHITE,
   },
 });
 
