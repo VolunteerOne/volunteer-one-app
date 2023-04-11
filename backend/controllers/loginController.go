@@ -15,6 +15,7 @@ import (
 type LoginController interface {
 	Signup(c *gin.Context)
 	Login(c *gin.Context)
+	SendEmailForPassReset(c *gin.Context)
 	PasswordReset(c *gin.Context)
 }
 
@@ -122,8 +123,8 @@ func (l loginController) Login(c *gin.Context) {
 	})
 }
 
-func (l loginController) PasswordReset(c *gin.Context) {
-	log.Println("Entering PasswordReset send code to email")
+func (l loginController) SendEmailForPassReset(c *gin.Context) {
+	log.Println("Entering SendEmailForPassReset function")
 
 	//First find if the email exist
 	//if it does then send reset code
@@ -144,13 +145,13 @@ func (l loginController) PasswordReset(c *gin.Context) {
 
 	err = l.loginService.SaveResetCodeToUser(resetCode, user)
 
-	// Send reset code to user's email address
+	//Send reset code to user's email address
 	mailer := gomail.NewMessage()
-	mailer.SetHeader("From", "volunteeronenoreply")
+	mailer.SetHeader("From", "edwardsung4217@gmail.com") //need to replace this with proper volunteer email
 	mailer.SetHeader("To", user.Email)
 	mailer.SetHeader("Subject", "Password Reset Code")
 	mailer.SetBody("text/plain", "Your password reset code is "+resetCode.String())
-	if err := gomail.NewDialer("smtp.sendgrid.net", 465, "apikey", "EXAMPLEAPIKEY").DialAndSend(mailer); err != nil {
+	if err := gomail.NewDialer("smtp.sendgrid.net", 465, "apikey", "APIKEY").DialAndSend(mailer); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message":        "Failed to send email",
 			"success":        false,
@@ -162,6 +163,49 @@ func (l loginController) PasswordReset(c *gin.Context) {
 		"message":   "Email has been sent!",
 		"success":   true,
 		"resetCode": resetCode,
+	})
+	return
+
+}
+
+func (l loginController) PasswordReset(c *gin.Context) {
+	email := c.Param("email")
+	resetCode := c.Param("resetcode")
+	resetCodeParsed, err := uuid.Parse(resetCode)
+	newPassword := c.Param("newpassword")
+
+	var user models.Users
+
+	//Retrieve user's record by their email
+	user, ero := l.loginService.FindUserFromEmail(email, user)
+	if ero != nil {
+		c.JSON(http.StatusBadGateway, gin.H{
+			"message": "Email does not exist",
+			"success": false,
+		})
+		return
+	}
+	//See if reset code is matched with the one they provided
+	if user.ResetCode != resetCodeParsed {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Failed to provde correct reset code",
+			"success": false,
+		})
+		return
+	}
+
+	if changePasswordErr := l.loginService.ChangePassword(newPassword, user); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message":        "Failed to change password",
+			"success":        false,
+			"error messsage": changePasswordErr,
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Your password has been sucessfully changed!",
+		"success": true,
 	})
 	return
 }

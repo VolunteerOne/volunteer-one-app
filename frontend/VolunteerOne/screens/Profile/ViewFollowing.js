@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { Block, theme } from 'galio-framework';
+import ProfileItem from '../../components/ProfileItem';
+import friends from '../../constants/friends';
 
 // ================================= View Friends Page ================================= //
 
@@ -12,8 +14,12 @@ class ViewFollowingPage extends React.Component {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.notifications}>
- 
-        <Block flex>
+      
+      {/* map all profiles using loop */}
+      <Block flex>
+          {friends.map(profile => (
+             <ProfileItem item={profile} horizontal following />
+          ))}
         </Block>
     
       </ScrollView>

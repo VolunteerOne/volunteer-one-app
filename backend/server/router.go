@@ -17,38 +17,40 @@ func NewRouter() *gin.Engine {
 	// INITIALIZE REPOSITORIES HERE -> DB migration is handled in main.go
 	// *********************************************************
 
-	userGroup := router.Group("user")
-	{
-		user := new(controllers.UsersController)
-		userGroup.POST("/", user.Create)
-		userGroup.GET("/", user.All)
-		userGroup.GET("/:id", user.One)
-		userGroup.DELETE("/:id", user.Delete)
-		userGroup.PUT("/:id", user.Update)
-	}
-
 	loginRepository := repository.NewLoginRepository(database.GetDatabase())
+	usersRepository := repository.NewUsersRepository(database.GetDatabase())
 
 	// *********************************************************
 	// INITIALIZE SERVICES HERE
 	// *********************************************************
 
 	loginService := service.NewLoginService(loginRepository)
+	usersService := service.NewUsersService(usersRepository)
 
 	// *********************************************************
 	// INITIALIZE CONTROLLERS HERE
 	// *********************************************************
 
 	loginController := controllers.NewLoginController(loginService)
+	usersController := controllers.NewUsersController(usersService)
+
+	userGroup := router.Group("user")
+
+	// userGroup := new(controllers.UsersController)
+	userGroup.POST("/", usersController.Create)
+	userGroup.GET("/:id", usersController.One)
+	userGroup.DELETE("/:id", usersController.Delete)
+	userGroup.PUT("/:id", usersController.Update)
 
 	loginGroup := router.Group("login")
 
 	//Simple login, checks database against users inputted email and password to login
 	loginGroup.GET("/:email/:password", loginController.Login)
 	//Get the users email, sends a forgotten password code to them
-	loginGroup.POST("/:email", loginController.PasswordReset)
+	loginGroup.POST("/:email", loginController.SendEmailForPassReset)
 	//Get the secret code from the users email, if matches reset password
-	//loginGroup.POST("/:resetCode", loginController.Login)
+	loginGroup.PUT("/:email/:resetcode/:newpassword", loginController.PasswordReset)
+
 	router.POST("/signup", loginController.Signup)
 
 	organizationGroup := router.Group("organization")
