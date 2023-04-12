@@ -59,8 +59,11 @@ func TestUsersRepository_DeleteUser(t *testing.T) {
 	mock.ExpectBegin()
 	// choose insert and mock the args
 	// will return result has just random
-	mock.ExpectExec("DELETE").WithArgs(sqlmock.AnyArg(), sqlmock.AnyArg(),
-		sqlmock.AnyArg(), "", "", "", "", "", "", "", 0, sqlmock.AnyArg()).
+	// mock.ExpectExec("DELETE").WithArgs(sqlmock.AnyArg(), sqlmock.AnyArg(),
+	// 	sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), sqlmock.AnyArg(), "", 0, sqlmock.AnyArg()).
+	// 	WillReturnResult(sqlmock.NewResult(1, 1))
+	// mock.ExpectCommit()
+	mock.ExpectExec("UPDATE").WithArgs(sqlmock.AnyArg()).
 		WillReturnResult(sqlmock.NewResult(1, 1))
 	mock.ExpectCommit()
 
