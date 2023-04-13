@@ -10,6 +10,7 @@ class LikeButton extends React.Component {
         count: 0
     }
 
+
     render() {    
         const incrementLikes = () => {
             console.log("Like button pressed")
@@ -17,7 +18,6 @@ class LikeButton extends React.Component {
             this.setState ({
                 count: newCount
             })
-            
         }
 
         return (
@@ -30,10 +30,14 @@ class LikeButton extends React.Component {
       name="thumb-up"
       color="#32325D"
     />
-            <Text style={styles.titleText}>Likes: {this.state.count}</Text>
+            {this.state.count == 0 ? 
+            <Text style={styles.titleText}>Like</Text>
+            :
+            <Text style={styles.titleText}>{this.state.count} Likes</Text>  
+            }
+
             </Block>
           </Button>
-
         );
         }
         
