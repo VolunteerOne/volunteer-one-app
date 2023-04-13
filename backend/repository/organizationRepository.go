@@ -4,23 +4,22 @@ import (
 	"errors"
 
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
-	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
 type OrganizationRepository interface {
 	CreateOrganization(models.Organization) (models.Organization, error)
 	GetOrganizations() ([]models.Organization, error)
-	GetOrganizationById(uuid.UUID) (models.Organization, error)
-	UpdateOrganization(uuid.UUID, models.Organization) (models.Organization, error)
-	DeleteOrganization(uuid.UUID) (error)
+	GetOrganizationById(string) (models.Organization, error)
+	UpdateOrganization(models.Organization) (models.Organization, error)
+	DeleteOrganization(models.Organization) (error)
 }
 
 type organizationRepository struct {
 	DB *gorm.DB
 }
 
-func NewOrganizationRepository(db *gorm.DB) organizationRepository {
+func NewOrganizationRepository(db *gorm.DB) OrganizationRepository {
 	return organizationRepository {
 		DB: db,
 	}
@@ -47,7 +46,7 @@ func (r organizationRepository) GetOrganizations() ([]models.Organization, error
 	return orgs, nil
 }
 
-func (r organizationRepository) GetOrganizationById(id uuid.UUID) (models.Organization, error) {
+func (r organizationRepository) GetOrganizationById(id string) (models.Organization, error) {
 	var org models.Organization
 
 	result := r.DB.First(&org, id) 
