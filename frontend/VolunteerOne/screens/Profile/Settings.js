@@ -28,6 +28,22 @@ class Settings extends React.Component {
             style={styles.avatar}
           />
         </Block>
+        <Block>
+          <TouchableOpacity
+            // onPress={() => edit image
+          >
+            <Text
+              color={argonTheme.COLORS.ACTIVE}
+              size={15}
+              paddingBottom={20}
+              style={{
+                fontWeight: "bold",
+              }}
+            >
+              Edit Image
+            </Text>
+          </TouchableOpacity>
+        </Block>
         <Block style={styles.settingContainer}>
           <Block>
                 <Text 
