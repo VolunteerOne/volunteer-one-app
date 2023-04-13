@@ -49,7 +49,9 @@ const ForgotPassword = ({ navigation }) => {
           <Block style={styles.loginContainer}>
             <Block flex>
               <Block flex={0.5} middle style={styles.instructionText}>
-                <Image source={logo} />
+              <Block center>
+                  <Image source={Images.VolunteerOneIcon} style={styles.logo} />
+                </Block>
               </Block>
               <Block flex={0.17} middle style={styles.instructionText}>
                 <TouchableOpacity
@@ -170,6 +172,13 @@ const styles = StyleSheet.create({
   createButton: {
     width: width * 0.5,
     marginTop: 25,
+  },
+  logo: {
+    width: 265,
+    height: 50,
+    zIndex: 2,
+    position: 'relative',
+    marginTop: '20%'
   },
 });
 
