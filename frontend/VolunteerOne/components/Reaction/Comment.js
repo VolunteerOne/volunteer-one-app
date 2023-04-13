@@ -11,10 +11,10 @@ const Comment = () => {
             <View>
             <Button
                 style={styles.button}
-                onPress={() => setShow(!show)}>
-                
+                onPress={() => setShow(!show)}
+                >
                 <Block flex row>
-                <Icon
+        <Icon
       family="MaterialIcons"
       size={20}
       name="comment"
@@ -48,9 +48,8 @@ const styles = StyleSheet.create({
         borderColor: '#fff',
         shadowColor: '#fff',
         backgroundColor: '#fff',
-        width: 'auto',
-        height: 20,
-        marginLeft: 125,
+        height: 30,
+        marginLeft: 150,
         marginTop: -30,
 
     }
