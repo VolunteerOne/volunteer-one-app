@@ -1,14 +1,40 @@
+
 import React from "react";
 import { StyleSheet, Dimensions, ScrollView, Text } from "react-native";
 import { Block, theme } from "galio-framework";
-const { width } = Dimensions.get("screen");
-import NewAnnouncementModal from "../../components/Modals/NewAnnouncementModal";
 import NewEventModal from "../../components/Modals/NewEventModal";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Button } from "../../components";
 import argonTheme from "../../constants/Theme";
+import { PostImageCard, PostNoImageCard } from '../../components';
+import posts from '../../constants/posts';
+
+// ================================= View Friends Page ================================= //
+
+const { width } = Dimensions.get('screen');
 
 class Feed extends React.Component {
+  renderPosts = () => {
+    var postsList = posts.map(function (data) {
+        if (data["image"] != null)
+          return <PostImageCard key={data["id"]} data={data} />;
+        else
+          return <PostNoImageCard key={data["id"]} data={data} />;
+    });
+
+    return (
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.articles}
+      >
+        <Block flex center>
+          {postsList}
+        </Block>
+    
+      </ScrollView>
+    );
+  };
+  
   state = {
     modalVisible: false,
   };
@@ -22,7 +48,7 @@ class Feed extends React.Component {
 
     return (
       <Block flex center style={styles.home}>
-{/* ----------------------- New Event Modal Button ----------------------- */}
+
       <Block middle>
           <Button
             color="primary"
@@ -47,10 +73,8 @@ class Feed extends React.Component {
             setState={handleModalVisible}
           />
         )}
-{/* ---------------------------------------------------------------------- */}
 
-
-
+        {this.renderPosts()}
 
       </Block>
     );
@@ -59,7 +83,11 @@ class Feed extends React.Component {
 
 const styles = StyleSheet.create({
   home: {
-    width: width,
+    width: width,    
+  },
+  posts: {
+    width: width - theme.SIZES.BASE * 2,
+    paddingVertical: theme.SIZES.BASE,
   },
   button: {
     marginTop: theme.SIZES.BASE,
