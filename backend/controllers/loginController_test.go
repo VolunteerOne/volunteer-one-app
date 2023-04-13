@@ -1,10 +1,7 @@
 package controllers
 
 import (
-	"bytes"
 	"fmt"
-
-	"net/http"
 
 	"net/http/httptest"
 	"testing"

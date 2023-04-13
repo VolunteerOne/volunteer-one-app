@@ -1,8 +1,6 @@
 package service
 
 import (
-	"time"
-
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
 	"github.com/VolunteerOne/volunteer-one-app/backend/repository"
 	"github.com/golang-jwt/jwt/v5"
@@ -16,7 +14,7 @@ type LoginService interface {
 	ChangePassword([]byte, models.Users) error
 	HashPassword([]byte) ([]byte, error)
 	CompareHashedAndUserPass([]byte, string) error
-	GenerateJWT(uint, time.Time, string) (string, error)
+	GenerateJWT(uint, *jwt.NumericDate, string) (string, error)
 }
 
 type loginService struct {
@@ -52,7 +50,7 @@ func (l loginService) CompareHashedAndUserPass(hashedPassword []byte, stringPass
 	return err
 }
 
-func (l loginService) GenerateJWT(userid uint, exp time.Time, secret string) (string, error) {
+func (l loginService) GenerateJWT(userid uint, exp *jwt.NumericDate, secret string) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"sub": userid,
 		"exp": exp,

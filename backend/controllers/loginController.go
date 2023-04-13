@@ -10,6 +10,7 @@ import (
 	"github.com/VolunteerOne/volunteer-one-app/backend/service"
 	"github.com/gin-gonic/gin"
 	"github.com/go-gomail/gomail"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 )
 
@@ -18,6 +19,7 @@ type LoginController interface {
 	Login(c *gin.Context)
 	SendEmailForPassReset(c *gin.Context)
 	PasswordReset(c *gin.Context)
+	VerifyAccessToken(c *gin.Context)
 }
 
 // The struct holds the reference to the corresponding service
@@ -69,7 +71,7 @@ func (l loginController) Login(c *gin.Context) {
 	// Generate the JWT Access token
 
 	// 30 minute accessExpire time
-	accessExpire := time.Now().Add(time.Minute * 30)
+	accessExpire := jwt.NewNumericDate(time.Now().Add(time.Minute * 30))
 	accessToken, err := l.loginService.GenerateJWT(user.ID, accessExpire, os.Getenv("JWT_SECRET"))
 
 	if err != nil {
@@ -83,7 +85,7 @@ func (l loginController) Login(c *gin.Context) {
 	// TODO: Store in DB
 
 	// 7 day expire time
-	refreshExpire := time.Now().Add(time.Hour * 24 * 7)
+	refreshExpire := jwt.NewNumericDate(time.Now().Add(time.Hour * 24 * 7))
 	refreshToken, err := l.loginService.GenerateJWT(user.ID, refreshExpire, os.Getenv("JWT_SECRET"))
 
 	if err != nil {
@@ -95,11 +97,12 @@ func (l loginController) Login(c *gin.Context) {
 
 	// Send the access/refresh token
 	c.JSON(http.StatusOK, gin.H{
-		"message":       "email and password match",
+		"message":       "Successfully logged in",
 		"access_token":  accessToken,
 		"refresh_token": refreshToken,
 		"success":       true,
 	})
+
 }
 
 func (l loginController) SendEmailForPassReset(c *gin.Context) {
@@ -184,6 +187,14 @@ func (l loginController) PasswordReset(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Your password has been sucessfully changed!",
+		"success": true,
+	})
+	return
+}
+
+func (l loginController) VerifyAccessToken(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
+		"message": "User is authenticated",
 		"success": true,
 	})
 	return
