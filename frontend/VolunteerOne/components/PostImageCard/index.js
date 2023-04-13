@@ -35,7 +35,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 15,
     marginBottom: 10,
-    margin: 10
+    margin: 10,
+    width: 'auto'
   },
 
   shadowProp: {
