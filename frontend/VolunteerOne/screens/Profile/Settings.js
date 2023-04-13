@@ -20,7 +20,7 @@ class Settings extends React.Component {
       <ScrollView
       showsVerticalScrollIndicator={false}
       >
-      <Block flex center style={styles.home} paddingTop={15}>
+      <Block flex center style={styles.home} paddingTop={15} gap={15}>
         <Block style={styles.settingContainer}>
           <Block>
                 <Text 
@@ -97,7 +97,6 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     shadowOpacity: 0.1,
     elevation: 1,
-    //overflow: "hidden",
   },
   bioContainer: {
     width: width * 0.8,
