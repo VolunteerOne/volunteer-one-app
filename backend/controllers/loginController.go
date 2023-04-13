@@ -72,7 +72,8 @@ func (l loginController) Signup(c *gin.Context) {
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Failed to create user",
+			"error":         "Failed to create user",
+			"error message": err,
 		})
 
 		return
@@ -107,12 +108,14 @@ func (l loginController) Login(c *gin.Context) {
 	}
 
 	// Check if the password matches
-	if user.Password != userInputP {
+	// Compare the hashed password with the user input password
+	erros := l.loginService.CompareHashedAndUserPass([]byte(user.Password), userInputP)
+	if erros != nil {
+		// Password does not match
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error":   "Password does not match",
 			"success": false,
 		})
-
 		return
 	}
 
@@ -153,16 +156,16 @@ func (l loginController) SendEmailForPassReset(c *gin.Context) {
 	mailer.SetBody("text/plain", "Your password reset code is "+resetCode.String())
 	if err := gomail.NewDialer("smtp.sendgrid.net", 465, "apikey", "APIKEY").DialAndSend(mailer); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"message":        "Failed to send email",
-			"success":        false,
-			"error messsage": err,
+			"message": "Failed to send email",
+			"success": false,
+			//"error messsage": err,
 		})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"message":   "Email has been sent!",
-		"success":   true,
-		"resetCode": resetCode,
+		"message": "Email has been sent!",
+		"success": true,
+		//"resetCode": resetCode,
 	})
 	return
 
@@ -193,8 +196,8 @@ func (l loginController) PasswordReset(c *gin.Context) {
 		})
 		return
 	}
-
-	if changePasswordErr := l.loginService.ChangePassword(newPassword, user); err != nil {
+	hash, err := l.loginService.HashPassword([]byte(newPassword))
+	if changePasswordErr := l.loginService.ChangePassword(hash, user); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message":        "Failed to change password",
 			"success":        false,
