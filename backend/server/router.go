@@ -39,7 +39,7 @@ func NewRouter() *gin.Engine {
 
 	// userGroup := new(controllers.UsersController)
 	userGroup.POST("/", usersController.Create)
-	userGroup.GET("/:id", usersController.One)
+	userGroup.GET("/:id", middleware.BasicAuth, usersController.One)
 	userGroup.DELETE("/:id", usersController.Delete)
 	userGroup.PUT("/:id", usersController.Update)
 
@@ -52,7 +52,9 @@ func NewRouter() *gin.Engine {
 	//Get the secret code from the users email, if matches reset password
 	loginGroup.PUT("/:email/:resetcode/:newpassword", loginController.PasswordReset)
     //Check valid access token
-    loginGroup.POST("/", middleware.BasicAuth, loginController.VerifyAccessToken)
+    loginGroup.POST("/verify", middleware.BasicAuth, loginController.VerifyAccessToken)
+    //Get refresh token
+    loginGroup.POST("/refresh", loginController.RefreshToken)
 
 	organizationGroup := router.Group("organization")
 	{

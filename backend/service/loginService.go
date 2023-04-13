@@ -19,6 +19,8 @@ type LoginService interface {
 	CompareHashedAndUserPass([]byte, string) error
 	GenerateJWT(uint, *jwt.NumericDate, *jwt.NumericDate, string, *gin.Context) (string, string, error)
 	SaveRefreshToken(uint, string, models.Delegations) error
+    FindRefreshToken(float64, models.Delegations) (models.Delegations, error)
+    DeleteRefreshToken(models.Delegations) (error)
 }
 
 type loginService struct {
@@ -95,4 +97,13 @@ func (l loginService) GenerateJWT(userid uint,
 
 func (l loginService) SaveRefreshToken(userid uint, refreshToken string, deleg models.Delegations) error {
 	return l.loginRepository.SaveRefreshToken(userid, refreshToken, deleg)
+}
+
+
+func (l loginService) FindRefreshToken(userid float64, deleg models.Delegations) (models.Delegations, error) {
+    return l.loginRepository.FindRefreshToken(userid, deleg)
+}
+
+func (l loginService) DeleteRefreshToken(deleg models.Delegations) (error) {
+	return l.loginRepository.DeleteRefreshToken(deleg)
 }

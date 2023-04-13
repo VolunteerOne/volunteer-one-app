@@ -16,8 +16,13 @@ func BasicAuth(c *gin.Context) {
 	accessToken, ok := c.Request.Header["Token"]
 
 	if !ok {
-		fmt.Println(`No "token" field in header`)
+		log.Println(`No "token" field in header`)
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"message": `No "token" field in header`,
+			"success": false,
+		})
 		c.AbortWithStatus(http.StatusUnauthorized)
+		return
 	}
 
 	// Decode/validate it
@@ -45,6 +50,7 @@ func BasicAuth(c *gin.Context) {
                 "success":       false,
             })
             c.AbortWithStatus(http.StatusUnauthorized)
+            return
         }
 
 		// Check if expired
@@ -55,6 +61,7 @@ func BasicAuth(c *gin.Context) {
                 "success":       false,
             })
 			c.AbortWithStatus(http.StatusUnauthorized)
+            return
 		}
 
 		log.Println("good token")

@@ -107,8 +107,6 @@ func (controller usersController) One(c *gin.Context) {
 	var object models.Users
 	result, err := controller.usersService.OneUser(id, object)
 
-	_ = result
-
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Could not retrieve object",
@@ -118,7 +116,7 @@ func (controller usersController) One(c *gin.Context) {
 	}
 
 	// Return the object
-	c.JSON(http.StatusAccepted, object)
+	c.JSON(http.StatusOK, result)
 }
 
 func (controller usersController) Update(c *gin.Context) {
