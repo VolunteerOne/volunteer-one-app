@@ -1,11 +1,12 @@
 import React from "react";
 import { useState } from "react";
-import { StyleSheet, Dimensions, ScrollView, TouchableOpacity } from "react-native";
+import { StyleSheet, Dimensions, Image, ScrollView, TouchableOpacity } from "react-native";
 import { Block, theme, Text } from "galio-framework";
 const { width,height } = Dimensions.get("screen");
 
 import { Images, argonTheme } from "../../constants";
 import { TextInput } from "react-native-gesture-handler";
+import mockData from "../../constants/profile";
 
 
 class Settings extends React.Component {
@@ -20,7 +21,13 @@ class Settings extends React.Component {
       <ScrollView
       showsVerticalScrollIndicator={false}
       >
-      <Block flex center style={styles.home} paddingTop={15} gap={15}>
+      <Block flex center style={styles.home} paddingTop={100} gap={15}>
+        <Block middle style={styles.avatarContainer}>
+          <Image
+            source={{ uri: mockData.image }}
+            style={styles.avatar}
+          />
+        </Block>
         <Block style={styles.settingContainer}>
           <Block>
                 <Text 
@@ -136,6 +143,16 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     flexDirection: 'row',
     alignItems: 'flex-start', 
+  },
+  avatarContainer: {
+    position: "relative",
+    marginTop: -80,
+  },
+  avatar: {
+    width: 124,
+    height: 124,
+    borderRadius: 62,
+    borderWidth: 0,
   },
 });
 
