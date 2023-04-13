@@ -34,7 +34,7 @@ class Settings extends React.Component {
             <TextInput
               paddingLeft={50}
               color="#000000"
-              placeholder="Name"
+              placeholder="Place Holder Name"
               onChangeText={handleNameSetting}
             />
         </Block>
@@ -48,6 +48,12 @@ class Settings extends React.Component {
                   Email 
                 </Text>
           </Block>
+          <TextInput
+              paddingLeft={50}
+              color="#000000"
+              placeholder="Place Holder Email"
+              // onChangeText={handleNameSetting}
+            />
         </Block>
         <Block style={styles.settingContainer}>
           <Block>
@@ -59,6 +65,12 @@ class Settings extends React.Component {
                   Location 
                 </Text>
           </Block>
+          <TextInput
+              paddingLeft={50}
+              color="#000000"
+              placeholder="Place Holder Email"
+              // onChangeText={handleNameSetting}
+            />
         </Block>
         <Block style={styles.bioContainer}>
           <Block>
@@ -70,6 +82,12 @@ class Settings extends React.Component {
                   Bio 
                 </Text>
           </Block>
+          <TextInput
+              paddingLeft={50}
+              color="#000000"
+              placeholder="Place Holder bio"
+              // onChangeText={handleNameSetting}
+            />
         </Block>
       </Block>
     </ScrollView>
@@ -92,11 +110,14 @@ const styles = StyleSheet.create({
       height: 4,
     },
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "left",
     paddingLeft: 5,
     shadowRadius: 8,
     shadowOpacity: 0.1,
     elevation: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-start', 
+    alignItems: 'center',
   },
   bioContainer: {
     width: width * 0.8,
@@ -113,6 +134,8 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     shadowRadius: 8,
     shadowOpacity: 0.1,
+    flexDirection: 'row',
+    alignItems: 'flex-start', 
   },
 });
 
