@@ -68,51 +68,35 @@ func (l loginController) Login(c *gin.Context) {
 		return
 	}
 
-	// Generate the JWT Access token
+	// 15 minute expire for accessToken
+	accessExpire := jwt.NewNumericDate(time.Now().Add(time.Minute * 15))
+	// 30 day expire for refreshToken
+	refreshExpire := jwt.NewNumericDate(time.Now().Add(time.Hour * 24 * 30))
 
-	// 30 minute accessExpire time
-	accessExpire := jwt.NewNumericDate(time.Now().Add(time.Minute * 30))
-	accessToken, err := l.loginService.GenerateJWT(user.ID, accessExpire, os.Getenv("JWT_SECRET"))
-
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error":   "Failed to create access token",
-			"success": false,
-		})
-        return
-	}
-
-	// Generate the JWT Refresh token
-
-	// 7 day expire time
-	refreshExpire := jwt.NewNumericDate(time.Now().Add(time.Hour * 24 * 7))
-	refreshToken, err := l.loginService.GenerateJWT(user.ID, refreshExpire, os.Getenv("JWT_SECRET"))
-
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error":   "Failed to create refresh token",
-			"success": false,
-		})
-        return
-	}
-
-    // Store the refresh token in the Delegations table
-
-    // First try to retrieve the entry with the id
-    var delegations models.Delegations
-
-    // Save the code
-    err = l.loginService.SaveRefreshToken(user.ID, refreshToken, delegations)
+	accessToken, refreshToken, err := l.loginService.GenerateJWT(user.ID,
+		accessExpire, refreshExpire, os.Getenv("JWT_SECRET"), c)
 
     if err != nil {
         log.Println(err)
-		c.JSON(http.StatusBadRequest, gin.H{
-			"message":        "Failed to save refresh token to DB",
-			"success":        false,
-		})
+        // json status already set in GenerateJWT
         return
-
     }
+
+	// Store the refresh token in the Delegations table
+	var delegations models.Delegations
+
+	// Save the code
+	err = l.loginService.SaveRefreshToken(user.ID, refreshToken, delegations)
+
+	if err != nil {
+		log.Println(err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Failed to save refresh token to DB",
+			"success": false,
+		})
+		return
+
+	}
 
 	// Send the access/refresh token
 	c.JSON(http.StatusOK, gin.H{
@@ -220,7 +204,7 @@ func (l loginController) VerifyAccessToken(c *gin.Context) {
 }
 
 func (l loginController) RefreshToken(c *gin.Context) {
-    // Accept a refresh token, and return a fresh token if available
-    // TODO
+	// Accept a refresh token, and return a fresh token if available
+	// TODO
 
 }

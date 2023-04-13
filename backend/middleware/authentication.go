@@ -32,13 +32,28 @@ func BasicAuth(c *gin.Context) {
 	})
 
 	if err != nil {
-		fmt.Println("Error: Something went wrong when parsing the token")
+		log.Println("Error: Something went wrong when parsing the token")
 	}
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+
+        // Check if refresh
+        if claims["type"] == "refresh" {
+            log.Println("Cannot use refresh token for normal authentication")
+            c.JSON(http.StatusUnauthorized, gin.H{
+                "message":       "Cannot use refresh token for normal authentication",
+                "success":       false,
+            })
+            c.AbortWithStatus(http.StatusUnauthorized)
+        }
+
 		// Check if expired
 		if float64(time.Now().Unix()) > claims["exp"].(float64) {
-			fmt.Println("Error in expiration date")
+			log.Println("Access token is expired")
+            c.JSON(http.StatusUnauthorized, gin.H{
+                "message":       "Access token is expired",
+                "success":       false,
+            })
 			c.AbortWithStatus(http.StatusUnauthorized)
 		}
 
@@ -59,7 +74,11 @@ func BasicAuth(c *gin.Context) {
 		// Continue
 		c.Next()
 	} else {
-		fmt.Println("Couldn't validate token")
+		log.Println("Invalid token")
+        c.JSON(http.StatusUnauthorized, gin.H{
+            "message":       "Invalid token",
+            "success":       false,
+        })
 		c.AbortWithStatus(http.StatusUnauthorized)
 	}
 

@@ -1,8 +1,11 @@
 package service
 
 import (
+	"net/http"
+
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
 	"github.com/VolunteerOne/volunteer-one-app/backend/repository"
+	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
@@ -14,7 +17,7 @@ type LoginService interface {
 	ChangePassword([]byte, models.Users) error
 	HashPassword([]byte) ([]byte, error)
 	CompareHashedAndUserPass([]byte, string) error
-	GenerateJWT(uint, *jwt.NumericDate, string) (string, error)
+	GenerateJWT(uint, *jwt.NumericDate, *jwt.NumericDate, string, *gin.Context) (string, string, error)
 	SaveRefreshToken(uint, string, models.Delegations) error
 }
 
@@ -51,13 +54,43 @@ func (l loginService) CompareHashedAndUserPass(hashedPassword []byte, stringPass
 	return err
 }
 
-func (l loginService) GenerateJWT(userid uint, exp *jwt.NumericDate, secret string) (string, error) {
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+func (l loginService) GenerateJWT(userid uint,
+	accessExp *jwt.NumericDate,
+	refreshExp *jwt.NumericDate,
+	secret string,
+	c *gin.Context) (string, string, error) {
+
+	accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"sub": userid,
-		"exp": exp,
+		"exp": accessExp,
+        "type": "access",
 	})
-	tokenString, err := token.SignedString([]byte(secret))
-	return tokenString, err
+	accessTokenString, err := accessToken.SignedString([]byte(secret))
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "Failed to create access token",
+			"success": false,
+		})
+		return "", "", err
+	}
+
+	refreshToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"sub": userid,
+        "exp": refreshExp,
+        "type": "refresh",
+	})
+	refreshTokenString, err := refreshToken.SignedString([]byte(secret))
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "Failed to create refresh token",
+			"success": false,
+		})
+		return "", "", err
+	}
+
+	return accessTokenString, refreshTokenString, err
 }
 
 func (l loginService) SaveRefreshToken(userid uint, refreshToken string, deleg models.Delegations) error {
