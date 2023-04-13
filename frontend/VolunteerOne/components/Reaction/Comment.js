@@ -1,7 +1,7 @@
 
 import React, { useState }  from "react";
 import { Block, Button, Text, Input, theme} from "galio-framework";
-import { StyleSheet, TextInput, View } from "react-native";
+import { StyleSheet, TextInput, View, TouchableOpacity } from "react-native";
 import Icon from "../Icon";
 
 const Comment = () => {
@@ -9,7 +9,7 @@ const Comment = () => {
 
         return (
             <View>
-            <Button
+            <TouchableOpacity
                 style={styles.button}
                 onPress={() => setShow(!show)}
                 >
@@ -23,15 +23,17 @@ const Comment = () => {
                 <Text style={styles.titleText}>Comment</Text>
                 </Block>
 
-          </Button>
+          </TouchableOpacity>
 
           { show ? 
-            <Input
-            placeholder="Write a comment"
+          <Block style={styles.comment}>
+            <TextInput
+            placeholder="Write a comment..."
             style={{padding: 10,
                 marginLeft: -90,
             width: 360}}
-            ></Input> 
+            ></TextInput> 
+            </Block>
                 : null }
 </View>
         );
@@ -51,7 +53,11 @@ const styles = StyleSheet.create({
         height: 30,
         marginLeft: 150,
         marginTop: -30,
-
+    },
+    comment: {
+      backgroundColor: "#FFFFFF",
+      borderRadius: 8,
+      width: 'auto'
     }
 
 });

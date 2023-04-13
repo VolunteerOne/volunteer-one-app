@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Block, Button, Text } from "galio-framework";
-import { StyleSheet, Image } from "react-native";
+import { StyleSheet, TouchableOpacity} from "react-native";
 import { Svg } from "react-native-svg";
 import Icon from "../Icon";
 
@@ -21,7 +21,7 @@ class LikeButton extends React.Component {
         }
 
         return (
-            <Button style={styles.button}
+            <TouchableOpacity style={styles.button}
             onPress={incrementLikes} >      
       <Block flex row>
                 <Icon
@@ -37,7 +37,7 @@ class LikeButton extends React.Component {
             }
 
             </Block>
-          </Button>
+          </TouchableOpacity>
         );
         }
         
