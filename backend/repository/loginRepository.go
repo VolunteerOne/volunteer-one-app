@@ -12,6 +12,8 @@ type LoginRepository interface {
 	FindUserFromEmail(string, models.Users) (models.Users, error)
 	SaveResetCodeToUser(uuid.UUID, models.Users) error
 	ChangePassword([]byte, models.Users) error
+	FindTokenFromID(uint, models.Delegations) (models.Delegations, error)
+	SaveRefreshToken(uint, string, models.Delegations) error
 }
 
 type loginRepository struct {
@@ -49,4 +51,27 @@ func (l loginRepository) ChangePassword(newPassword []byte, user models.Users) e
 
 	user.Password = string(newPassword)
 	return l.DB.Save(&user).Error
+}
+
+func (l loginRepository) FindTokenFromID(userid uint, deleg models.Delegations) (models.Delegations, error) {
+	log.Println("[LoginRepository] Find Delegation...")
+
+	err := l.DB.Where("users_id = ?", userid).First(&deleg).Error
+	return deleg, err
+}
+
+func (l loginRepository) SaveRefreshToken(userid uint, refreshToken string, deleg models.Delegations) error {
+	log.Println("[LoginRepository] Save Refresh Token...")
+
+	deleg.UsersID = userid
+	deleg.RefreshToken = refreshToken
+
+	err := l.DB.Save(&deleg).Error
+
+	if err != nil {
+        log.Println("[LoginRepository:SaveRefreshToken] Have To Update Token Only...")
+        return l.DB.Model(&deleg).Where("users_id = ?", userid).Update("refresh_token", refreshToken).Error
+	}
+
+	return err
 }

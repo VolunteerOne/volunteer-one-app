@@ -15,6 +15,7 @@ type LoginService interface {
 	HashPassword([]byte) ([]byte, error)
 	CompareHashedAndUserPass([]byte, string) error
 	GenerateJWT(uint, *jwt.NumericDate, string) (string, error)
+	SaveRefreshToken(uint, string, models.Delegations) error
 }
 
 type loginService struct {
@@ -57,4 +58,8 @@ func (l loginService) GenerateJWT(userid uint, exp *jwt.NumericDate, secret stri
 	})
 	tokenString, err := token.SignedString([]byte(secret))
 	return tokenString, err
+}
+
+func (l loginService) SaveRefreshToken(userid uint, refreshToken string, deleg models.Delegations) error {
+	return l.loginRepository.SaveRefreshToken(userid, refreshToken, deleg)
 }

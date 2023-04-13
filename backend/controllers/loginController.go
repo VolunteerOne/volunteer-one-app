@@ -79,10 +79,10 @@ func (l loginController) Login(c *gin.Context) {
 			"error":   "Failed to create access token",
 			"success": false,
 		})
+        return
 	}
 
 	// Generate the JWT Refresh token
-	// TODO: Store in DB
 
 	// 7 day expire time
 	refreshExpire := jwt.NewNumericDate(time.Now().Add(time.Hour * 24 * 7))
@@ -93,7 +93,26 @@ func (l loginController) Login(c *gin.Context) {
 			"error":   "Failed to create refresh token",
 			"success": false,
 		})
+        return
 	}
+
+    // Store the refresh token in the Delegations table
+
+    // First try to retrieve the entry with the id
+    var delegations models.Delegations
+
+    // Save the code
+    err = l.loginService.SaveRefreshToken(user.ID, refreshToken, delegations)
+
+    if err != nil {
+        log.Println(err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message":        "Failed to save refresh token to DB",
+			"success":        false,
+		})
+        return
+
+    }
 
 	// Send the access/refresh token
 	c.JSON(http.StatusOK, gin.H{
@@ -198,4 +217,10 @@ func (l loginController) VerifyAccessToken(c *gin.Context) {
 		"success": true,
 	})
 	return
+}
+
+func (l loginController) RefreshToken(c *gin.Context) {
+    // Accept a refresh token, and return a fresh token if available
+    // TODO
+
 }
