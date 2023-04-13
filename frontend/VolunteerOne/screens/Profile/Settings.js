@@ -30,12 +30,12 @@ class Settings extends React.Component {
         </Block>
         <Block>
           <TouchableOpacity
-            // onPress={() => edit image
+            onPress={console.log("Editing img")}
           >
             <Text
               color={argonTheme.COLORS.ACTIVE}
               size={15}
-              paddingBottom={20}
+              paddingBottom={25}
               style={{
                 fontWeight: "bold",
               }}
