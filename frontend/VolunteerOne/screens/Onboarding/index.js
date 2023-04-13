@@ -33,7 +33,7 @@ class Onboarding extends React.Component {
             <Block flex space="around" style={{ zIndex: 2 }}>
               <Block style={styles.title}>
                 <Block>
-                  <Text color="white" style={{fontWeight: 'bold'} }size={75}>
+                  <Text color="white" style={{fontWeight: 'bold'} }size={70}>
                     Volunteer
                   </Text>
                   <Text color="white" style={{fontWeight: 'bold'}} size={75}>
