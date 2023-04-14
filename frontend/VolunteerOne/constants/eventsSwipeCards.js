@@ -4,19 +4,22 @@ export default [
     { 
         id: "1", 
         uri: require('../assets/events/1.jpeg'),
-        title: "Help pack disaster relief bags",
-        author: "American Red Cross"
+        title: "5k run for charity",
+        author: "American Running Society",
+        date: "2023-04-10",
+        causeAreas: "Art & Culture, Children & Youth, Community"
     },
     { 
         id: "2", 
         uri: require('../assets/events/2.jpeg'),
-        author: "American Red Cross"
+        author: "Global Volunteers",
+        date: "2023-04-10"
 
     },
     { 
         id: "3", 
         uri: require('../assets/events/3.jpeg') ,
-        author: "American Red Cross"
+        author: "American Running Society"
     },
     { 
         id: "4", 

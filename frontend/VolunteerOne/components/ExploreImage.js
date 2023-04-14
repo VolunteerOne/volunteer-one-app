@@ -7,6 +7,7 @@ import {
   ImageBackground,
   Animated,
   PanResponder,
+  TouchableOpacity
 } from "react-native";
 
 const ExploreImage = ({ item }) => {
@@ -21,10 +22,12 @@ const ExploreImage = ({ item }) => {
         }}
         source={item.uri} >
         <View style = {styles.overlay}>
-        <Text style = {styles.titleText}>Help pack disaster relief bags</Text>
+        <Text style = {styles.titleText}>{item.title}</Text>
         <Text style = {styles.eventDetailsText}>{item.author} </Text>
-
-
+        <Text style = {styles.postedText}>posted {item.date}</Text>
+        <Text style = {styles.causeAreas}> Cause Areas: </Text>
+        <Text style = {styles.causeAreas2}>{item.causeAreas}</Text>
+        <TouchableOpacity><Text style = {styles.button}>More details</Text></TouchableOpacity>
         </View>
     </ImageBackground>
     );
@@ -39,16 +42,22 @@ const ExploreImage = ({ item }) => {
         borderRadius: 5
     },
     titleText: {
-        fontSize: 20,
+        fontSize: 24,
         fontWeight: "bold",
         color: "#32325D",
         marginTop: 10,
         marginLeft: 15
       },
       eventDetailsText: {
-        fontSize: 14,
+        fontSize: 16,
         color: "#32325D",
         marginTop: 10,
+        marginLeft: 15
+      },
+      postedText: {
+        fontSize: 16,
+        color: "#32325D",
+        marginTop: 2.5,
         marginLeft: 15
       },
     shadowProp: {
@@ -57,6 +66,28 @@ const ExploreImage = ({ item }) => {
       shadowOpacity: 0.2,
       shadowRadius: 3,
     },
+    causeAreas: {
+        fontSize: 14,
+        color: "#000000",
+        marginTop: 10,
+        marginLeft: 10,
+        fontWeight: "bold",
+
+    },
+    causeAreas2: {
+        fontSize: 14,
+        color: "#32325D",
+        marginLeft: 15,
+
+    },
+    button: {
+        fontWeight: "bold",
+        fontSize: 13,
+        color: "#5E72E4",
+        marginLeft: 15,
+        marginTop: 8,
+        textDecorationLine: 'underline'
+    }
   });
   
   export default ExploreImage;
