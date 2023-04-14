@@ -59,7 +59,9 @@ class Announcements extends React.Component {
     };
 
     return (
+  
       <Block flex center style={styles.home}>
+{/* ----------------------- new announcement button ----------------------- */}
         <Block middle>
           <Button
             color="primary"
@@ -84,6 +86,8 @@ class Announcements extends React.Component {
             setState={handleModalVisible}
           />
         )}
+
+{/* ----------------------- render articles ----------------------- */}
         {this.renderArticles()}
       </Block>
     );
