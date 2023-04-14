@@ -11,8 +11,9 @@ const Reaction = () => {
         borderColor: 'black',
         borderTopWidth: StyleSheet.hairlineWidth,
         borderTopWidth: .5,
-        marginTop: 10,
-        borderColor: "#32325D"
+        marginTop: 20,
+        borderColor: "#CAD1D7"
+  
       }}
     >
     <Card
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
       borderRadius: 0,
       margin: 10,
       borderColor: '#fff',
-      marginTop: 15,
+      marginTop: 12,
       marginBottom: -15
     }
   });
