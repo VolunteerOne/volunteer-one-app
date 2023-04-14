@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
         shadowColor: '#fff',
         backgroundColor: '#fff',
         height: 30,
-        marginLeft: 150,
+        marginLeft: 120,
         marginTop: -30,
     },
     comment: {
