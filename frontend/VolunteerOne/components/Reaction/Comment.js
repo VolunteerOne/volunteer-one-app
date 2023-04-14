@@ -1,6 +1,6 @@
 
 import React, { useState }  from "react";
-import { Block, Button, Text, Input, theme} from "galio-framework";
+import { Block, Button, Card, Text, Input, theme} from "galio-framework";
 import { StyleSheet, TextInput, View, TouchableOpacity } from "react-native";
 import Icon from "../Icon";
 
@@ -16,7 +16,7 @@ const Comment = () => {
                 <Block flex row>
         <Icon
       family="MaterialIcons"
-      size={20}
+      size={15}
       name="comment"
       color="#32325D"
     />
@@ -26,24 +26,25 @@ const Comment = () => {
           </TouchableOpacity>
 
           { show ? 
-          <Block style={styles.comment}>
+          <Card style={styles.comment}>
             <TextInput
             placeholder="Write a comment..."
-            style={{padding: 10,
-                marginLeft: -90,
+            style={{
+                marginTop: -15, paddingLeft: 15,
             width: 360}}
             ></TextInput> 
-            </Block>
+            </Card>
                 : null }
 </View>
         );
 };
 const styles = StyleSheet.create({
     titleText: {
-        fontSize: 18,
+        fontSize: 15,
         color: "#32325D",
         textAlign: 'right',
         marginLeft: 7,
+        marginTop: -1
       },
     button: {
         borderless: true,
@@ -57,7 +58,9 @@ const styles = StyleSheet.create({
     comment: {
       backgroundColor: "#FFFFFF",
       borderRadius: 8,
-      width: 'auto'
+      width: 366,
+      marginLeft: -82,
+      marginTop: -5,
     }
 
 });

@@ -22,10 +22,9 @@ const PostImageCard = ({ data }) => {
       />
       <CardBody data={data} />
       <Block>
-      <Reaction></Reaction>
       </Block>
+      <Reaction></Reaction>
     </Block>
-
   );
 };
 
@@ -36,7 +35,6 @@ const styles = StyleSheet.create({
     padding: 15,
     marginBottom: 10,
     margin: 10,
-    width: 'auto'
   },
 
   shadowProp: {

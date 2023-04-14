@@ -26,7 +26,7 @@ class LikeButton extends React.Component {
       <Block flex row>
                 <Icon
       family="MaterialIcons"
-      size={20}
+      size={15}
       name="thumb-up"
       color="#32325D"
     />
@@ -44,18 +44,18 @@ class LikeButton extends React.Component {
 }
 const styles = StyleSheet.create({
     titleText: {
-        fontSize: 18,
+        fontSize: 15,
         color: "#32325D",
-        marginLeft: 10,
+        marginLeft: 5,
+        marginTop: -1
       },
     button: {
         borderless: true,
         backgroundColor: '#fff',
         shadowColor: '#fff',
-        width: 'auto',
         height: 20,
         marginTop: -30,
-        marginLeft: 20,
+        marginLeft: 8,
     }
 
 });

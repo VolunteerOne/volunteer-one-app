@@ -21,7 +21,6 @@ const PostNoImageCard = ({ data }) => {
         profileImage={data["profileImage"]}
       />
       <CardBody data={data} />
-      <Reaction></Reaction>
     </Block>
   );
 };
@@ -33,7 +32,6 @@ const styles = StyleSheet.create({
     padding: 15,
     marginBottom: 10,
     margin: 10,
-    width: 'auto'
   },
 
   shadowProp: {
