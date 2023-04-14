@@ -3,6 +3,7 @@ import React from "react";
 import { StyleSheet, Dimensions, ScrollView, Text } from "react-native";
 import { Block, theme } from "galio-framework";
 import NewEventModal from "../../components/Modals/NewEventModal";
+import NewPostModal from "../../components/Modals/NewPostModal";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Button } from "../../components";
 import argonTheme from "../../constants/Theme";
@@ -62,13 +63,13 @@ class Feed extends React.Component {
                 color={theme.COLORS.WHITE}
               />
               <Text bold size={14} style={styles.buttonTitle}>
-                New Event
+                New Post
               </Text>
             </Block>
           </Button>
         </Block>
         {modalVisible && (
-          <NewEventModal
+          <NewPostModal
             visible={this.state.modalVisible}
             setState={handleModalVisible}
           />
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: theme.SIZES.BASE,
-    marginBottom: 0,
+    marginBottom: 5,
     width: width * 0.9,
   },
   buttonTitle: {
