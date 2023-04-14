@@ -4,14 +4,14 @@ import {
   Text,
   View,
   Dimensions,
-  Image,
+  ImageBackground,
   Animated,
   PanResponder,
 } from "react-native";
 
 const ExploreImage = ({ item }) => {
     return (
-    <Image
+    <ImageBackground
         style={{
         flex: 1,
         height: null,
@@ -19,20 +19,38 @@ const ExploreImage = ({ item }) => {
         resizeMode: "cover",
         borderRadius: 20,
         }}
-        source={item.uri}
-    />
+        source={item.uri} >
+        <View style = {styles.overlay}>
+        <Text style = {styles.titleText}>Help pack disaster relief bags</Text>
+        <Text style = {styles.eventDetailsText}>{item.author} </Text>
+
+
+        </View>
+    </ImageBackground>
     );
   };
   
   const styles = StyleSheet.create({
-    card: {
-      backgroundColor: "#FFFFFF",
-      width: "100%",
-      minWidth: "100%",
-      borderRadius: 10,
-      padding: 15,
-      margin: 10,
+    overlay: {
+        marginTop: 475,
+        backgroundColor: "#FFFFFF",
+        height: 175,
+        opacity: 0.8,
+        borderRadius: 5
     },
+    titleText: {
+        fontSize: 20,
+        fontWeight: "bold",
+        color: "#32325D",
+        marginTop: 10,
+        marginLeft: 15
+      },
+      eventDetailsText: {
+        fontSize: 14,
+        color: "#32325D",
+        marginTop: 10,
+        marginLeft: 15
+      },
     shadowProp: {
       shadowColor: "#171717",
       shadowOffset: { width: -2, height: 4 },
