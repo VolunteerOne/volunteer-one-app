@@ -11,6 +11,7 @@ import { Block, theme } from "galio-framework";
 import Elements from "../screens/Elements";
 // screens
 import Announcements from "../screens/Announcements";
+import Explore from "../screens/Explore";
 import Onboarding from "../screens/Onboarding";
 import Profile from "../screens/Profile";
 import Feed from "../screens/Feed";
@@ -25,7 +26,7 @@ import Settings from "../screens/Profile/Settings";
 import Pro from "../screens/Pro";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-
+import ViewEvent from "../screens/Event";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import ViewFollowing from "../screens/Profile/ViewFollowing";
 
@@ -72,6 +73,17 @@ function AnnouncementsStack(props) {
               navigation={navigation}
               scene={scene}
             />
+          ),
+          headerTransparent: false,
+          headerShown: true,
+        }}
+      />
+      <Stack.Screen
+        name="ViewEvent"
+        component={ViewEvent}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header back title="Event" navigation={navigation} scene={scene} />
           ),
           headerTransparent: false,
           headerShown: true,
@@ -260,18 +272,19 @@ function ExploreStack(props) {
       />
       <Stack.Screen
         name="Explore"
-        component={Pro}
+        component={Explore}
         options={{
           header: ({ navigation, scene }) => (
             <Header
-              transparent
-              white
+              // transparent
+              // white
               title="Explore"
               navigation={navigation}
               scene={scene}
             />
           ),
-          headerTransparent: true,
+          headerTransparent: false,
+          headerShown: true,
         }}
       />
     </Stack.Navigator>
@@ -397,7 +410,7 @@ function BottomNav() {
       }}
     >
       <Tab.Screen
-        name="Announcements"
+        name="AnnouncementsStack"
         component={AnnouncementsStack}
         options={{
           headerShown: false,
@@ -408,7 +421,7 @@ function BottomNav() {
         }}
       />
       <Tab.Screen
-        name="Explore"
+        name="ExploreStack"
         component={ExploreStack}
         options={{
           headerShown: false,
@@ -420,7 +433,7 @@ function BottomNav() {
         }}
       />
       <Tab.Screen
-        name="Feed"
+        name="FeedStack"
         component={FeedStack}
         options={{
           headerShown: false,
@@ -436,7 +449,7 @@ function BottomNav() {
         }}
       />
       <Tab.Screen
-        name="Profile"
+        name="ProfileStack"
         component={ProfileStack}
         options={{
           headerShown: false,

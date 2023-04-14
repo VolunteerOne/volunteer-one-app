@@ -12,9 +12,10 @@ import (
 type LoginService interface {
 	FindUserFromEmail(string, models.Users) (models.Users, error)
 	SaveResetCodeToUser(uuid.UUID, models.Users) error
-	ChangePassword(string, models.Users) error
+	ChangePassword([]byte, models.Users) error
 	CreateUser(models.Users) (models.Users, error)
 	HashPassword([]byte) ([]byte, error)
+	CompareHashedAndUserPass([]byte, string) error
 }
 
 type loginService struct {
@@ -36,7 +37,7 @@ func (l loginService) SaveResetCodeToUser(resetCode uuid.UUID, user models.Users
 	return l.loginRepository.SaveResetCodeToUser(resetCode, user)
 }
 
-func (l loginService) ChangePassword(newPassword string, user models.Users) error {
+func (l loginService) ChangePassword(newPassword []byte, user models.Users) error {
 	return l.loginRepository.ChangePassword(newPassword, user)
 }
 
@@ -48,4 +49,9 @@ func (l loginService) CreateUser(user models.Users) (models.Users, error) {
 func (l loginService) HashPassword(password []byte) ([]byte, error) {
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), 10)
 	return hash, err
+}
+
+func (l loginService) CompareHashedAndUserPass(hashedPassword []byte, stringPassword string) error {
+	err := bcrypt.CompareHashAndPassword(hashedPassword, []byte(stringPassword))
+	return err
 }
