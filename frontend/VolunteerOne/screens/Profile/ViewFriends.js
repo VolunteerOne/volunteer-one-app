@@ -3,7 +3,7 @@ import React from 'react';
 import { StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { Block, theme } from 'galio-framework';
 import ProfileItem from '../../components/ProfileItem';
-import friends from '../../constants/friends';
+import profile from '../../constants/ProfileTab/profile';
 
 // ================================= View Friends Page ================================= //
 
@@ -18,8 +18,8 @@ class ViewFriendsPage extends React.Component {
         
         {/* map all notifications using loop */}
         <Block flex>
-          {friends.map(profile => (
-             <ProfileItem item={profile} horizontal />
+          {profile.friends.friendsList.map((profile,i) => (
+             <ProfileItem key={i} item={profile} horizontal />
           ))}
         </Block>
     
