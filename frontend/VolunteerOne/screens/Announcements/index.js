@@ -16,7 +16,7 @@ const { width } = Dimensions.get("screen");
 class Announcements extends React.Component {
   renderArticles = () => {
     //route prop contains toggle parameter that tells the page to render content for the followers tab or all tab
-    const { route, navigation } = this.props;
+    const { route } = this.props;
     //by default show followers page
     let toggle = true;
     //depending on if the user clicks on Followers button or All button, the data gets generated differently
@@ -59,7 +59,9 @@ class Announcements extends React.Component {
     };
 
     return (
+  
       <Block flex center style={styles.home}>
+{/* ----------------------- new announcement button ----------------------- */}
         <Block middle>
           <Button
             color="primary"
@@ -84,6 +86,8 @@ class Announcements extends React.Component {
             setState={handleModalVisible}
           />
         )}
+
+{/* ----------------------- render articles ----------------------- */}
         {this.renderArticles()}
       </Block>
     );

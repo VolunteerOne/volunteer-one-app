@@ -1,13 +1,81 @@
+
 import React from "react";
-import { StyleSheet, Dimensions, ScrollView } from "react-native";
+import { StyleSheet, Dimensions, ScrollView, Text } from "react-native";
 import { Block, theme } from "galio-framework";
-const { width } = Dimensions.get("screen");
+import NewEventModal from "../../components/Modals/NewEventModal";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { Button } from "../../components";
+import argonTheme from "../../constants/Theme";
+import { PostImageCard, PostNoImageCard } from '../../components';
+import posts from '../../constants/posts';
+
+// ================================= View Friends Page ================================= //
+
+const { width } = Dimensions.get('screen');
 
 class Feed extends React.Component {
+  renderPosts = () => {
+    var postsList = posts.map(function (data) {
+        if (data["image"] != null)
+          return <PostImageCard key={data["id"]} data={data} />;
+        else
+          return <PostNoImageCard key={data["id"]} data={data} />;
+    });
+
+    return (
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.articles}
+      >
+        <Block flex center>
+          {postsList}
+        </Block>
+    
+      </ScrollView>
+    );
+  };
+  
+  state = {
+    modalVisible: false,
+  };
 
   render() {
+    const { modalVisible } = this.state;
+
+    const handleModalVisible = () => {
+      this.setState({ modalVisible: !modalVisible });
+    };
+
     return (
       <Block flex center style={styles.home}>
+
+      <Block middle>
+          <Button
+            color="primary"
+            style={styles.button}
+            onPress={() => handleModalVisible()}
+          >
+            <Block row middle>
+              <MaterialCommunityIcons
+                size={24}
+                name="plus-box-outline"
+                color={theme.COLORS.WHITE}
+              />
+              <Text bold size={14} style={styles.buttonTitle}>
+                New Event
+              </Text>
+            </Block>
+          </Button>
+        </Block>
+        {modalVisible && (
+          <NewEventModal
+            visible={this.state.modalVisible}
+            setState={handleModalVisible}
+          />
+        )}
+
+        {this.renderPosts()}
+
       </Block>
     );
   }
@@ -15,7 +83,22 @@ class Feed extends React.Component {
 
 const styles = StyleSheet.create({
   home: {
-    width: width,
+    width: width,    
+  },
+  posts: {
+    width: width - theme.SIZES.BASE * 2,
+    paddingVertical: theme.SIZES.BASE,
+  },
+  button: {
+    marginTop: theme.SIZES.BASE,
+    marginBottom: 0,
+    width: width * 0.9,
+  },
+  buttonTitle: {
+    paddingLeft: 5,
+    lineHeight: 19,
+    fontWeight: "600",
+    color: argonTheme.COLORS.WHITE,
   },
 });
 

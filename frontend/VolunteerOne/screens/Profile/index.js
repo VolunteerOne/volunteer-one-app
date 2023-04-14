@@ -233,8 +233,8 @@ const ProfileScreen = ({ navigation }) => {
                   </Block>
                   <Block style={{ paddingBottom: -HeaderHeight * 2 }}>
                     <Block row space="between" style={{ flexWrap: "wrap" }}>
-                      {mockData.recentActivity.map((post) => (
-                        <RecentActivityCard data={post} />
+                      {mockData.recentActivity.map((post, i) => (
+                        <RecentActivityCard key={i} data={post} />
                       ))}
                     </Block>
                   </Block>

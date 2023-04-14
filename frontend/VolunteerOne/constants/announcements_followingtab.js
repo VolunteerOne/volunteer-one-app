@@ -1,6 +1,6 @@
 export const following = [
   {
-    id: 0,
+    id: "event1",
     organization: "American Red Cross",
     name: "New Event",
     subject: "Help pack disaster relief bags",
@@ -12,7 +12,7 @@ export const following = [
     type: "event",
   },
   {
-    id: 1,
+    id: "event2",
     organization: "Habitat for Humanity",
     name: "New Event",
     subject: "Build and improve homes",
@@ -24,7 +24,7 @@ export const following = [
     type: "event",
   },
   {
-    id: 2,
+    id: "announcement1",
     organization: "Global Volunteers",
     announcement:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et enim ad minim veniam, quis nostrud exercitation ullamco laboris ",
