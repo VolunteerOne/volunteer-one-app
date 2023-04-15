@@ -7,7 +7,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { Button } from "../../components";
 import argonTheme from "../../constants/Theme";
 import { PostImageCard, PostNoImageCard } from '../../components';
-import posts from '../../constants/posts';
+import posts from '../../constants/FeedTab/posts';
 
 // ================================= View Friends Page ================================= //
 

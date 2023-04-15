@@ -16,7 +16,7 @@ import RecentActivityCard from "../../components/RecentActivityCard";
 import UpcomingEventsCard from "../../components/UpcomingEventsCard";
 
 // constants
-import mockData from "../../constants/profile";
+import mockData from "../../constants/ProfileTab/profile";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -37,13 +37,13 @@ const ProfileScreen = ({ navigation }) => {
     console.log("Message btn pressed");
   };
 
-  const handleViewAllRecentActivityBtn = () => {
-    console.log("handleViewAllRecentActivityBtn");
-  };
+  // const handleViewAllRecentActivityBtn = () => {
+  //   console.log("handleViewAllRecentActivityBtn");
+  // };
 
-  const handleViewAllUpcomingEventsBtn = () => {
-    console.log("handleViewAllUpcomingEventsBtn");
-  };
+  // const handleViewAllUpcomingEventsBtn = () => {
+  //   console.log("handleViewAllUpcomingEventsBtn");
+  // };
 
   return (
     <ScrollView>
@@ -117,7 +117,7 @@ const ProfileScreen = ({ navigation }) => {
                             size={18}
                             style={{ marginBottom: 4 }}
                           >
-                            {mockData.friends}
+                            {mockData.friends.value}
                           </Text>
                           <Text size={12} color={argonTheme.COLORS.TEXT}>
                             Friends
@@ -134,7 +134,7 @@ const ProfileScreen = ({ navigation }) => {
                             size={18}
                             style={{ marginBottom: 4 }}
                           >
-                            {mockData.following}
+                            {mockData.following.value}
                           </Text>
                           <Text size={12} color={argonTheme.COLORS.TEXT}>
                             Following
@@ -187,7 +187,7 @@ const ProfileScreen = ({ navigation }) => {
                         >
                           Upcoming Events
                         </Text>
-                        <Button
+                        {/* <Button
                           small
                           color="transparent"
                           textStyle={{
@@ -198,7 +198,7 @@ const ProfileScreen = ({ navigation }) => {
                           onPress={handleViewAllUpcomingEventsBtn}
                         >
                           View all
-                        </Button>
+                        </Button> */}
                       </Block>
                       <Block style={{ paddingBottom: -HeaderHeight * 2 }}>
                         <Block row space="between" style={{ flexWrap: "wrap" }}>
@@ -218,7 +218,7 @@ const ProfileScreen = ({ navigation }) => {
                     >
                       Recent Activity
                     </Text>
-                    <Button
+                    {/* <Button
                       small
                       color="transparent"
                       textStyle={{
@@ -229,7 +229,7 @@ const ProfileScreen = ({ navigation }) => {
                       onPress={handleViewAllRecentActivityBtn}
                     >
                       View all
-                    </Button>
+                    </Button> */}
                   </Block>
                   <Block style={{ paddingBottom: -HeaderHeight * 2 }}>
                     <Block row space="between" style={{ flexWrap: "wrap" }}>
