@@ -1,7 +1,7 @@
 
 import React, { useState }  from "react";
-import { Block, Button, Text, Input, theme} from "galio-framework";
-import { StyleSheet, TextInput, View } from "react-native";
+import { Block, Button, Card, Text, Input, theme} from "galio-framework";
+import { StyleSheet, TextInput, View, TouchableOpacity } from "react-native";
 import Icon from "../Icon";
 
 const Comment = () => {
@@ -9,50 +9,58 @@ const Comment = () => {
 
         return (
             <View>
-            <Button
+            <TouchableOpacity
                 style={styles.button}
-                onPress={() => setShow(!show)}>
-                
+                onPress={() => setShow(!show)}
+                >
                 <Block flex row>
-                <Icon
+        <Icon
       family="MaterialIcons"
-      size={20}
+      size={15}
       name="comment"
       color="#32325D"
     />
                 <Text style={styles.titleText}>Comment</Text>
                 </Block>
 
-          </Button>
+          </TouchableOpacity>
 
           { show ? 
-            <Input
-            placeholder="Write a comment"
-            style={{padding: 10,
-                marginLeft: -90,
+          <Card style={styles.comment}>
+            <TextInput
+            placeholder="Write a comment..."
+            style={{
+                marginTop: -15, paddingLeft: 15,
             width: 360}}
-            ></Input> 
+            ></TextInput> 
+            </Card>
                 : null }
 </View>
         );
 };
 const styles = StyleSheet.create({
     titleText: {
-        fontSize: 18,
+        fontSize: 15,
         color: "#32325D",
         textAlign: 'right',
         marginLeft: 7,
+        marginTop: -1
       },
     button: {
         borderless: true,
         borderColor: '#fff',
         shadowColor: '#fff',
         backgroundColor: '#fff',
-        width: 'auto',
-        height: 20,
-        marginLeft: 125,
+        height: 30,
+        marginLeft: 120,
         marginTop: -30,
-
+    },
+    comment: {
+      backgroundColor: "#FFFFFF",
+      borderRadius: 8,
+      width: 366,
+      marginLeft: -82,
+      marginTop: -5,
     }
 
 });
