@@ -19,7 +19,7 @@ class ViewFollowingPage extends React.Component {
         {/* map all notifications using loop */}
         <Block flex>
           {profile.following.followingList.map((profile,i) => (
-             <ProfileItem key={i} item={profile} horizontal />
+             <ProfileItem key={i} item={profile} horizontal following/>
           ))}
         </Block>
     

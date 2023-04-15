@@ -15,7 +15,7 @@ import { Button } from "../components";
 class ProfileItem extends React.Component {
   render() {
     const { navigation, item, horizontal, full, style, ctaColor, imageStyle, following } = this.props;
-    
+
     const imageStyles = [
       full ? styles.fullImage : styles.horizontalImage,
       imageStyle
@@ -85,6 +85,7 @@ ProfileItem.propTypes = {
   full: PropTypes.bool,
   ctaColor: PropTypes.string,
   imageStyle: PropTypes.any,
+  following: PropTypes.bool,
 }
 
 const styles = StyleSheet.create({
