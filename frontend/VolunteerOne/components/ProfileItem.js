@@ -43,7 +43,7 @@ class ProfileItem extends React.Component {
           
           {/*================== profile image ==================*/}
           {/* TODO: link to profile  */}
-          <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}>
+          <TouchableWithoutFeedback onPress={() => navigation.push('Profile', {theUser: item.username,})}> 
             <Block>
               <Image source={{uri: item.image}} style={imageStyles} />
             </Block>
@@ -51,7 +51,8 @@ class ProfileItem extends React.Component {
 
           {/*================== username ==================*/}
           {/* TODO: link to profile */}
-          <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}>
+          {/* <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}> */}
+          <TouchableWithoutFeedback onPress={() => navigation.push('Profile')}> 
             <Block flex>
               <Text size={12} style={styles.cardTitle} bold>{item.username}</Text>
             </Block>

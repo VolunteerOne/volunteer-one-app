@@ -14,6 +14,7 @@ import { Images, argonTheme } from "../../constants";
 import { HeaderHeight } from "../../constants/utils";
 import RecentActivityCard from "../../components/RecentActivityCard";
 import UpcomingEventsCard from "../../components/UpcomingEventsCard";
+import { useRoute } from '@react-navigation/native';
 
 // constants
 import mockData from "../../constants/ProfileTab/profile";
@@ -24,7 +25,14 @@ const thumbMeasure = (width - 48 - 32) / 3;
 
 /** ==================================== Profile Screen ==================================== **/
 
-const ProfileScreen = ({ navigation }) => {
+const ProfileScreen = ({ route, navigation }) => {
+  // pass user name param when navigating to a profile - matt
+  let anotherUser = false;    // false if viewing own profile
+  if(typeof route.params !== "undefined") {
+    const { thing } = route.params;
+    anotherUser = true;   // viewing a different user
+  }
+  
   let isVolunteer = true;
   if (mockData.userType == "organization") {
     isVolunteer = false;
