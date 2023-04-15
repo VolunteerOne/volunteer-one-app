@@ -28,9 +28,11 @@ const thumbMeasure = (width - 48 - 32) / 3;
 const ProfileScreen = ({ route, navigation }) => {
   // pass user name param when navigating to a profile - matt
   let anotherUser = false;    // false if viewing own profile
+  let theUser = "Jessica Jones1";    // default user
   if(typeof route.params !== "undefined") {
-    const { thing } = route.params;
+    const theUser = route.params.theUser;
     anotherUser = true;   // viewing a different user
+    console.log(theUser);
   }
   
   let isVolunteer = true;
@@ -73,6 +75,7 @@ const ProfileScreen = ({ route, navigation }) => {
                     style={styles.avatar}
                   />
                 </Block>
+                <Text>{theUser}</Text>
                 <Block style={styles.info}>
                   <Block
                     middle
