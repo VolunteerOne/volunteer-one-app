@@ -10,7 +10,7 @@ export default {
     "Adventurous soul, travel enthusiast, and coffee addict ☕️ | Passionate about capturing moments through my lens 📸 | Advocate for women's empowerment 💪 | #Wanderlust #Photography #GirlPower",
   hours: "50",
   friends: {
-    value: 10,
+    value: 5,
     friendsList: [
       {
         username: "Jane Hollis",
@@ -41,33 +41,22 @@ export default {
     ],
   },
   following: {
-    value: 80,
+    value: 3,
     followingList: [
       {
-        username: "Jane Hollis",
+        username: "Habitat for Humanity",
         image:
-          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1287&q=80",
+          "https://e7.pngegg.com/pngimages/903/572/png-clipart-old-colony-habitat-for-humanity-volunteering-donation-habitat-for-humanity-moncton-area-charity-logo-text-hand.png",
       },
       {
-        username: "Doug Salas",
+        username: "Global Volunteers",
         image:
-          "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=400&q=60",
+          "https://imagecdn.mightycause.com/5b55b9bc-2796-467a-9fcd-e9fe8e52660c/",
       },
       {
-        username: "Aliya Diwa",
+        username: "Global Humanitarian Aid",
         image:
-          "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDV8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=400&q=60",
-      },
-      {
-        username: "Noah Fernandez",
-        image:
-          "https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1326&q=80",
-      },
-      {
-        username: "Bryce Hansen",
-        image:
-          "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE4fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=400&q=60",
-        horizontal: true,
+          "https://media.licdn.com/dms/image/C4E03AQEZpW_HHOoyoQ/profile-displayphoto-shrink_800_800/0/1591471142424?e=2147483647&v=beta&t=T03fQtmGiueXyCRLoRdEvWMWEIWTrPS5kiYCtEHub9o",
       },
     ],
   },
