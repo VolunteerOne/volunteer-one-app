@@ -189,12 +189,12 @@ export default {
   },
 
   "Doug Salas" : {
-    name: "Jane Hollis",
+    name: "Doug Salas",
     userType: "volunteer",
     image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1287&q=80",
-    age: "29",
-    city: "Las Vegas",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=400&q=60",
+    age: "34",
+    city: "Boston",
     country: "USA",
     description:
       "Adventurous soul, travel enthusiast, and coffee addict ☕️ | Passionate about capturing moments through my lens 📸 | Advocate for women's empowerment 💪 | #Wanderlust #Photography #GirlPower",
@@ -208,9 +208,9 @@ export default {
             "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?fit=crop&w=1650&q=80",
         },
         {
-          username: "Doug Salas",
+          username: "Jane Hollis",
           image:
-            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=400&q=60",
+            "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1287&q=80",
         },
         {
           username: "Aliya Diwa",
@@ -283,12 +283,12 @@ export default {
   },
 
   "Aliya Diwa" : {
-    name: "Jane Hollis",
+    name: "Aliya Diwa",
     userType: "volunteer",
     image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1287&q=80",
-    age: "29",
-    city: "Las Vegas",
+      "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDV8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=400&q=60",
+    age: "27",
+    city: "Los Angeles",
     country: "USA",
     description:
       "Adventurous soul, travel enthusiast, and coffee addict ☕️ | Passionate about capturing moments through my lens 📸 | Advocate for women's empowerment 💪 | #Wanderlust #Photography #GirlPower",
@@ -307,9 +307,9 @@ export default {
             "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=400&q=60",
         },
         {
-          username: "Aliya Diwa",
+          username: "Jane Hollis",
           image:
-            "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDV8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=400&q=60",
+            "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1287&q=80",
         },
         {
           username: "Noah Fernandez",
@@ -377,12 +377,12 @@ export default {
   },
 
   "Noah Fernandez" : {
-    name: "Jane Hollis",
+    name: "Noah Fernandez",
     userType: "volunteer",
     image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1287&q=80",
-    age: "29",
-    city: "Las Vegas",
+    "https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1326&q=80",
+    age: "36",
+    city: "Houston",
     country: "USA",
     description:
       "Adventurous soul, travel enthusiast, and coffee addict ☕️ | Passionate about capturing moments through my lens 📸 | Advocate for women's empowerment 💪 | #Wanderlust #Photography #GirlPower",
@@ -406,9 +406,9 @@ export default {
             "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDV8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=400&q=60",
         },
         {
-          username: "Noah Fernandez",
+          username: "Jane Hollis",
           image:
-            "https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1326&q=80",
+          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1287&q=80",
         },
         {
           username: "Bryce Hansen",
@@ -471,12 +471,12 @@ export default {
   },
 
   "Bryce Hansen" : {
-    name: "Jane Hollis",
+    name: "Bryce Hansen",
     userType: "volunteer",
     image:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1287&q=80",
-    age: "29",
-    city: "Las Vegas",
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE4fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=400&q=60",
+    age: "37",
+    city: "Seattle",
     country: "USA",
     description:
       "Adventurous soul, travel enthusiast, and coffee addict ☕️ | Passionate about capturing moments through my lens 📸 | Advocate for women's empowerment 💪 | #Wanderlust #Photography #GirlPower",
@@ -505,9 +505,9 @@ export default {
             "https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1326&q=80",
         },
         {
-          username: "Bryce Hansen",
+          username: "Jane Hollis",
           image:
-            "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE4fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=400&q=60",
+            "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1287&q=80",
           horizontal: true,
         },
       ],
