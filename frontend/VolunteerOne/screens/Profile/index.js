@@ -77,7 +77,6 @@ const ProfileScreen = ({ route, navigation }) => {
                     style={styles.avatar}
                   />
                 </Block>
-                <Text>{theUser}</Text>
                 <Block style={styles.info}>
                   <Block
                     middle
