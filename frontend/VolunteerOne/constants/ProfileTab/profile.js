@@ -95,12 +95,12 @@ export default {
   },
 
   "Jane Hollis" : {
-    name: "Jessica Jones",
+    name: "Jane Hollis",
     userType: "volunteer",
     image:
-      "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?fit=crop&w=1650&q=80",
-    age: "23",
-    city: "San Francisco",
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1287&q=80",
+    age: "29",
+    city: "Las Vegas",
     country: "USA",
     description:
       "Adventurous soul, travel enthusiast, and coffee addict ☕️ | Passionate about capturing moments through my lens 📸 | Advocate for women's empowerment 💪 | #Wanderlust #Photography #GirlPower",
@@ -109,9 +109,9 @@ export default {
       value: 5,
       friendsList: [
         {
-          username: "Jane Hollis",
+          username: "Jessica Jones",
           image:
-            "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1287&q=80",
+            "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?fit=crop&w=1650&q=80",
         },
         {
           username: "Doug Salas",
