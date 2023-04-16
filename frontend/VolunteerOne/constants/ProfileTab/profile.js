@@ -1,6 +1,7 @@
 export default {
-  userType: "volunteer",
+  "Jessica Jones" : {
   name: "Jessica Jones",
+  userType: "volunteer",
   image:
     "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?fit=crop&w=1650&q=80",
   age: "23",
@@ -90,4 +91,5 @@ export default {
         "https://images.unsplash.com/photo-1519368358672-25b03afee3bf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2004&q=80",
     },
   ],
+  }
 };
