@@ -13,16 +13,13 @@ const { width } = Dimensions.get('screen');
 class ViewFollowingPage extends React.Component {
   
   renderFollowing = () => {
-    const {navigation,route}=this.props
-    let theUser = "Jessica Jones";
-    /* 1. Get the props */
-    if(typeof route.params !== "undefined") {   // viewing a different users following
-      /* 2. Get the param */
-      theUser = route.params.theUser;
-      
-    }
-    console.log("Viewing followers of: ", theUser)
     
+    /* 1. Get the props */
+    const {navigation,route}=this.props
+    /* 2. Get the param */
+    theUser = route.params.theUser;   // determine which profile you are viewing
+    console.log("Viewing followers of: ", theUser)
+
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}
