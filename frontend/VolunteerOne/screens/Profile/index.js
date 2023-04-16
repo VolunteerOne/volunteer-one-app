@@ -32,9 +32,11 @@ const ProfileScreen = ({ route, navigation }) => {
   if(typeof route.params !== "undefined") {
     theUser = route.params.theUser;
     anotherUser = true;   // viewing a different user
-    console.log(theUser);
+    
   }
-  
+  console.log("Viewing user: ", theUser);
+
+
   let isVolunteer = true;
   if (mockData[theUser].userType == "organization") {
     isVolunteer = false;
