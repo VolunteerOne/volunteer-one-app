@@ -1,4 +1,5 @@
 import React from "react";
+// import zxcvbn from "zxcvbn"; // for password strength
 import { useState } from "react";
 import {
   StyleSheet,
@@ -15,28 +16,38 @@ import { Block, Text } from "galio-framework";
 import { Button } from "../../components";
 import { Images, argonTheme } from "../../constants";
 
-import logo from "../../assets/logo/logo2.png";
-
 const { width, height } = Dimensions.get("screen");
 
 /** ==================================== New Password Screen ==================================== **/
 
 const NewPassword = ({ navigation }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordStrength, setPasswordStrength] = useState('');
 
-  function handleEmailInput(input) {
-    setEmail(input);
-  }
+  const handleNewPasswordInput = (input) => {
+    setNewPassword(input);
+    setPasswordStrength(checkPasswordStrength(input));
+  };
 
-  function handlePasswordInput(input) {
-    setPassword(input);
-  }
+  const handleConfirmPasswordInput = (input) => {
+    setConfirmPassword(input);
+  };
 
-  function handleLoginBtnClick() {
-    console.log(email, password);
-    navigation.navigate("App");
-  }
+  const handleSaveBtnClick = () => {
+    console.log(newPassword, confirmPassword);
+    navigation.navigate('Login');
+  };
+
+  const checkPasswordStrength = (password) => {
+    if (password.length < 8) {
+      return "Weak";
+    }
+    if (password.length < 12) {
+      return "Moderate";
+    }
+    return "Strong";
+  };
 
   return (
     <Block flex middle>
@@ -49,27 +60,9 @@ const NewPassword = ({ navigation }) => {
           <Block style={styles.loginContainer}>
             <Block flex>
               <Block flex={0.5} middle style={styles.instructionText}>
-                <Image source={logo} />
-              </Block>
-              <Block flex={0.17} middle style={styles.instructionText}>
-                <TouchableOpacity
-                  onPress={() => console.log("create account btn")}
-                >
-                  <Text
-                    color="#8898AA"
-                    size={12}
-                    style={{
-                      fontWeight: "bold",
-                      textDecorationLine: "underline",
-                      paddingRight: 5,
-                    }}
-                  >
-                    Create Account
-                  </Text>
-                </TouchableOpacity>
-                <Text color="#8898AA" size={12}>
-                  or Login with credentials
-                </Text>
+                <Block center>
+                  <Image source={Images.VolunteerOneIcon} style={styles.logo} />
+                </Block>
               </Block>
               <Block flex center>
                 <KeyboardAvoidingView
@@ -77,44 +70,52 @@ const NewPassword = ({ navigation }) => {
                   behavior="padding"
                   enabled
                 >
+                  <Block flex={0.2} middle style={styles.instructionText}>
+              <Text
+                    color="#8898AA"
+                    size={12}
+                    style={{
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Enter your new passoword
+                  </Text>
+              </Block>
                   <Block width={width * 0.8} style={{ marginBottom: 15 }}>
                     <TextInput
+                      secureTextEntry={true}
                       style={styles.input}
-                      placeholder="Email"
-                      onChangeText={handleEmailInput}
+                      placeholder="New Password"
+                      onChangeText={handleNewPasswordInput}
                     />
                   </Block>
+                  
                   <Block width={width * 0.8}>
                     <TextInput
                       secureTextEntry={true}
                       style={styles.input}
-                      placeholder="Password"
-                      onChangeText={handlePasswordInput}
+                      placeholder="Comfirm Password"
+                      onChangeText={handleConfirmPasswordInput}
                     />
-                    <Block row style={styles.passwordCheck}>
-                      <TouchableOpacity
-                        onPress={() => console.log("forgot password btn clicked")}
-                      >
-                        <Text
-                          color="#8898AA"
-                          size={12}
-                          style={{
-                            textDecorationLine: "underline",
-                          }}
-                        >
-                          Forgot Password?
-                        </Text>
-                      </TouchableOpacity>
-                    </Block>
                   </Block>
                   <Block middle>
+                  <Text
+                      color={argonTheme.COLORS.PRIMARY}
+                      size={14}
+                      style={{
+                        fontWeight: "bold",
+                        marginTop: 20,
+                      }}
+                    >
+                      Password strength: {passwordStrength}
+                    </Text>
                     <Button
                       color="primary"
                       style={styles.createButton}
-                      onPress={handleLoginBtnClick}
+                      onPress={handleSaveBtnClick}
                     >
                       <Text bold size={14} color={argonTheme.COLORS.WHITE}>
-                        LOGIN
+                        CREATE PASSWORD
                       </Text>
                     </Button>
                   </Block>
@@ -170,6 +171,13 @@ const styles = StyleSheet.create({
   createButton: {
     width: width * 0.5,
     marginTop: 25,
+  },
+  logo: {
+    width: 265,
+    height: 50,
+    zIndex: 2,
+    position: 'relative',
+    marginTop: '20%'
   },
 });
 
