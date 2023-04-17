@@ -1,7 +1,7 @@
 import { StyleSheet, Dimensions } from "react-native";
 import { Block, Text, Button } from "galio-framework";
 import { argonTheme } from "../../constants";
-import { events } from "../../constants/event_details";
+import { events } from "../../constants/HomeTab/event_details";
 const { width, height } = Dimensions.get("screen");
 /*
 Description:
