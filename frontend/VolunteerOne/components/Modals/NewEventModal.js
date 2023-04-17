@@ -15,13 +15,19 @@ import { Block, Text, theme } from "galio-framework";
 import { argonTheme } from "../../constants";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import ImagePicker from './ImagePicker.js';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 const { width, height } = Dimensions.get("screen");
 
+// setting the date and time for event function
+const onChange = (event, selectedDate) => {
+  const currentDate = selectedDate;
+  date = currentDate;
+  console.log(date);
+};
+/** ==================================== New Event Modal Component ==================================== **/
 
-/** ==================================== New Post Modal Component ==================================== **/
-
-class NewPostModal extends React.Component {
+class NewEventModal extends React.Component {
   
   state = {
     user: "",
@@ -29,11 +35,11 @@ class NewPostModal extends React.Component {
     title: "",
     description: "",
   };
-
+  
   render() {
 
     const handleAddNewClick = () => {
-      console.log("Adding New Post ",this.state)
+      console.log("Adding New Event ",this.state)
       // post to db
     }
 
@@ -66,9 +72,9 @@ class NewPostModal extends React.Component {
               </Pressable>
 
               <View style={styles.modalViewInside}>
-                <Text style={styles.header}>Create New Post</Text>
+                <Text style={styles.header}>New Event</Text>
 
-                <Text style={styles.secondaryHeader}>Post title</Text>
+                <Text style={styles.secondaryHeader}>Event Name</Text>
                 <Block width={width * 0.8 - 20} style={{ marginBottom: 15 }}>
                   <TextInput
                     style={styles.input}
@@ -77,12 +83,33 @@ class NewPostModal extends React.Component {
                     onChangeText={(e) => this.setState({ title: e })}
                   />
                 </Block>
-
-                <Text style={styles.secondaryHeader}>Description</Text>
                 <Block width={width * 0.8 - 20} style={{ marginBottom: 15 }}>
                   <TextInput
                     style={styles.input}
-                    placeholder="Provide post details here"
+                    placeholder="Event Location"
+                    placeholderTextColor={"lightgrey"}
+                    onChangeText={(e) => this.setState({ title: e })}
+                  />
+                </Block>
+
+
+                {/* date and time picker */}
+                <Block 
+                  style={ styles.dateTime }>
+                  <DateTimePicker 
+                    value={new Date()}
+                    mode="datetime"
+                    textColor="black"
+                    onChange={onChange}
+                    />
+                </Block>
+
+
+                {/* <Text style={styles.secondaryHeader}>Description</Text> */}
+                <Block width={width * 0.8 - 20} style={{ marginBottom: 15 }}>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Provide Event details here"
                     placeholderTextColor={"lightgrey"}
                     height={height * 0.3}
                     textAlignVertical={"top"}
@@ -99,7 +126,7 @@ class NewPostModal extends React.Component {
                     handleAddNewClick();
                   }}
                 >
-                  <Text style={styles.textStyle}>CREATE POST</Text>
+                  <Text style={styles.textStyle}>CREATE EVENT</Text>
                 </Pressable>
               </View>
               
@@ -152,6 +179,12 @@ const styles = StyleSheet.create({
   },
 
   // matt's added styles above ^^^
+  dateTime: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 15,
+  },
 
   centeredView: {
     flex: 1,
@@ -183,4 +216,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewPostModal;
+export default NewEventModal;
