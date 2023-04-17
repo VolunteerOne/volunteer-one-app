@@ -6,7 +6,7 @@ const { width,height } = Dimensions.get("screen");
 
 import { Images, argonTheme } from "../../constants";
 import { TextInput } from "react-native-gesture-handler";
-import mockData from "../../constants/profile";
+import mockData from "../../constants/ProfileTab/profile";
 
 
 class Settings extends React.Component {
