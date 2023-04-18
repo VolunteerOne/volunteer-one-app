@@ -9,8 +9,18 @@ import profile from '../../constants/ProfileTab/profile';
 
 const { width } = Dimensions.get('screen');
 
+
 class ViewFollowingPage extends React.Component {
-  renderFollowing = () => {
+  
+  renderFollowing = () => {    
+    // determine the user 
+    /* 1. Get the props */
+    const {navigation,route}=this.props
+    /* 2. Get the param */
+    theUser = route.params.theUser;   // determine which profile you are viewing
+    console.log("Viewing followers of: ", theUser)
+
+    
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -18,8 +28,8 @@ class ViewFollowingPage extends React.Component {
         
         {/* map all notifications using loop */}
         <Block flex>
-          {profile.following.followingList.map((profile,i) => (
-             <ProfileItem key={i} item={profile} horizontal />
+          {profile[theUser].following.followingList.map((profile,i) => (
+             <ProfileItem key={i} item={profile} horizontal following/>
           ))}
         </Block>
     
