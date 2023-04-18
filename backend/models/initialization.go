@@ -15,6 +15,7 @@ var tables = []Model{
 	&Organization{},
 	&OrgUsers{},
 	&Users{},
+	&Event{},
 }
 
 func Init() {
