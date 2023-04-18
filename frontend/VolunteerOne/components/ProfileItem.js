@@ -52,11 +52,11 @@ class ProfileItem extends React.Component {
           {/*================== username ==================*/}
           {/* TODO: link to profile */}
           {/* <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}> */}
-          {/* <TouchableWithoutFeedback onPress={() => navigation.push('Profile',  {theUser: item.username,})}>  */}
+          <TouchableWithoutFeedback onPress={() => navigation.push('Profile', {theUser: item.username,})}> 
             <Block flex>
               <Text size={12} style={styles.cardTitle} bold>{item.username}</Text>
             </Block>
-          {/* </TouchableWithoutFeedback> */}
+          </TouchableWithoutFeedback>
           
           {/*================== buttons ==================*/}
           <Block row={horizontal} style={styles.cardDescription}>
