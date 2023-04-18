@@ -34,8 +34,8 @@ export default [
     horizontal: true
   },
   {
-    name: 'Global Volunteers',
-    title: 'Aliya Diya liked your post.',
+    name: 'Aliya Diwa',
+    title: 'Aliya Diwa liked your post.',
     image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDV8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=400&q=60',
     time: 21,
     // cta: 'View article' 
