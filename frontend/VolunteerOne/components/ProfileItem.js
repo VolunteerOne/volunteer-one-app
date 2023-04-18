@@ -8,7 +8,6 @@ import { withNavigation } from '@react-navigation/compat';
 import PropTypes from 'prop-types';
 import { StyleSheet, Dimensions, Image, TouchableWithoutFeedback, Alert } from 'react-native';
 import { Block, Text, theme } from 'galio-framework';
-
 import { argonTheme } from '../constants';
 import { Button } from "../components";
 
