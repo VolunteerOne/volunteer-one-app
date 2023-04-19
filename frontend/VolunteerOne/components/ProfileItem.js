@@ -8,7 +8,6 @@ import { withNavigation } from '@react-navigation/compat';
 import PropTypes from 'prop-types';
 import { StyleSheet, Dimensions, Image, TouchableWithoutFeedback, Alert } from 'react-native';
 import { Block, Text, theme } from 'galio-framework';
-
 import { argonTheme } from '../constants';
 import { Button } from "../components";
 
@@ -52,11 +51,11 @@ class ProfileItem extends React.Component {
           {/*================== username ==================*/}
           {/* TODO: link to profile */}
           {/* <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}> */}
-          {/* <TouchableWithoutFeedback onPress={() => navigation.push('Profile',  {theUser: item.username,})}>  */}
+          <TouchableWithoutFeedback onPress={() => navigation.push('Profile', {theUser: item.username,})}> 
             <Block flex>
               <Text size={12} style={styles.cardTitle} bold>{item.username}</Text>
             </Block>
-          {/* </TouchableWithoutFeedback> */}
+          </TouchableWithoutFeedback>
           
           {/*================== buttons ==================*/}
           <Block row={horizontal} style={styles.cardDescription}>
