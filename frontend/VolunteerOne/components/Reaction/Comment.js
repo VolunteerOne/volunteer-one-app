@@ -1,51 +1,54 @@
 
 import React, { useState }  from "react";
 import { Block, Button, Card, Text, Input, theme} from "galio-framework";
-import { StyleSheet, TextInput, View, TouchableOpacity } from "react-native";
+import { StyleSheet, TextInput, View, TouchableOpacity, Pressable } from "react-native";
 import Icon from "../Icon";
 
 const Comment = () => {
-        const [show, setShow] = useState(false);
-        const [text, setText] = useState('');
+  const [show, setShow] = useState(false);
+  const [comment, setComment] = useState("");
 
 
-        return (
-            <View style={styles.view}>
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => setShow(!show)}
-                onChangeText={newText => setText(newText)}
-                defaultValue={text}
-                >
-                <Block flex row>
-                <Icon
-                  family="MaterialIcons"
-                  size={15}
-                  name="comment"
-                  color="#32325D"
-                />
-                <Text style={styles.titleText}>Comment</Text>
-                </Block>
-          </TouchableOpacity>
+  return (
+      <View style={styles.view}>
+      <TouchableOpacity
+          style={styles.button}
+          onPress={() => setShow(!show)}
+          onChangeText={newText => setText(newText)}
+          >
+          <Block flex row>
+          <Icon
+            family="MaterialIcons"
+            size={15}
+            name="comment"
+            color="#32325D"
+          />
+          <Text style={styles.titleText}>Comment</Text>
+          </Block>
+    </TouchableOpacity>
 
-          { show ? 
-            <View style={styles.comment}>
-                <TextInput
-                    placeholder="Write a comment..."
-                    style={{
-                      alignSelf: 'baseline',
-                      paddingBottom: -50,
-                      height: 40
-                        }}/>
-                          <TouchableOpacity style={{position: 'relative', paddingTop: 10}} onPress={() => setShow(!show)}>
-          <Text style={{ 
-}}>                                                Close</Text>
-      </TouchableOpacity>
-            </View>
+    { show ? 
+      <View style={styles.comment}>
+          <TextInput
+              placeholder="Write a comment..."
+              style={{
+                alignSelf: 'baseline',
+                paddingBottom: -50,
+                height: 40
+              }}
+              onChangeText={newComment => setComment(newComment)}
+              defaultValue={comment}
+          />
+      <Pressable
+        style={{paddingLeft: 330, paddingTop: 10, position: 'absolute'}}
+        onPress={() => setShow(!show)} >
+        <Text>X</Text>
+      </Pressable>
+    </View>
 
-                : null }
-</View>
-        );
+          : null }
+  </View>
+  );
 };
 const styles = StyleSheet.create({
   view: {
@@ -73,7 +76,7 @@ const styles = StyleSheet.create({
     comment: {
       backgroundColor: "#FFFFFF",
       borderRadius: 8,
-      width: 340,
+      width: 350,
       marginLeft: -90,
       marginTop: -40,
       height: 40,
