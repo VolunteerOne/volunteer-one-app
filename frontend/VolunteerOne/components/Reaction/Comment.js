@@ -6,12 +6,16 @@ import Icon from "../Icon";
 
 const Comment = () => {
         const [show, setShow] = useState(false);
+        const [text, setText] = useState('');
+
 
         return (
-            <View>
+            <View style={styles.view}>
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => setShow(!show)}
+                onChangeText={newText => setText(newText)}
+                defaultValue={text}
                 >
                 <Block flex row>
         <Icon
@@ -26,19 +30,27 @@ const Comment = () => {
           </TouchableOpacity>
 
           { show ? 
-          <Card style={styles.comment}>
-            <TextInput
-            placeholder="Write a comment..."
-            style={{
-                marginTop: -15, paddingLeft: 15,
-            width: 360}}
-            ></TextInput> 
-            </Card>
+            <View style={styles.comment}>
+                <TextInput
+                    placeholder="Write a comment..."
+                    style={{
+                      alignSelf: 'baseline',
+                      paddingBottom: -50,
+                      height: 40
+                        }}/>
+            </View>
+
+        
                 : null }
 </View>
         );
 };
 const styles = StyleSheet.create({
+  view: {
+    position: 'absolute',
+    marginLeft: 75,
+
+  },
     titleText: {
         fontSize: 15,
         color: "#32325D",
@@ -54,13 +66,16 @@ const styles = StyleSheet.create({
         height: 30,
         marginLeft: 120,
         marginTop: -30,
+        zIndex : 1,
     },
     comment: {
       backgroundColor: "#FFFFFF",
       borderRadius: 8,
-      width: 366,
-      marginLeft: -82,
-      marginTop: -5,
+      width: 340,
+      marginLeft: -90,
+      marginTop: -40,
+      height: 40,
+      zIndex: 5
     }
 
 });

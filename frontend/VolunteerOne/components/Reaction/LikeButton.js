@@ -21,6 +21,7 @@ class LikeButton extends React.Component {
         }
 
         return (
+            <Block style={styles.block}>
             <TouchableOpacity style={styles.button}
             onPress={incrementLikes} >      
       <Block flex row>
@@ -38,11 +39,15 @@ class LikeButton extends React.Component {
 
             </Block>
           </TouchableOpacity>
+          </Block>
         );
         }
         
 }
 const styles = StyleSheet.create({
+    block: {
+    //    height: '100%'
+    },
     titleText: {
         fontSize: 15,
         color: "#32325D",
@@ -56,6 +61,8 @@ const styles = StyleSheet.create({
         height: 20,
         marginTop: -30,
         marginLeft: 27,
+        zIndex : 1,
+        
     }
 
 });
