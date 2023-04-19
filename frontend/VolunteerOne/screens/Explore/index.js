@@ -13,6 +13,7 @@ const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 import Icon from "react-native-vector-icons/Ionicons";
 import Events from "../../constants/eventsSwipeCards";
+import { ExploreImage } from '../../components';
 
 
 /** ==================================== Explore Tab ==================================== **/
@@ -165,17 +166,7 @@ export default class App extends React.Component {
                 PASS
               </Text>
             </Animated.View>
-
-            <Image
-              style={{
-                flex: 1,
-                height: null,
-                width: null,
-                resizeMode: "cover",
-                borderRadius: 20,
-              }}
-              source={item.uri}
-            />
+             <ExploreImage item={item} />
           </Animated.View>
         );
       } else {
@@ -241,16 +232,7 @@ export default class App extends React.Component {
               </Text>
             </Animated.View>
 
-            <Image
-              style={{
-                flex: 1,
-                height: null,
-                width: null,
-                resizeMode: "cover",
-                borderRadius: 20,
-              }}
-              source={item.uri}
-            />
+           
           </Animated.View>
         );
       }

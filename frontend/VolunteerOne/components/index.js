@@ -9,6 +9,7 @@ import Select from './Select';
 import PostImageCard from './PostImageCard';
 import PostNoImageCard from './PostNoImageCard';
 import Reaction from './Reaction';
+import ExploreImage from './ExploreImage';
 
 
 export {
@@ -22,5 +23,6 @@ export {
   Select,
   PostImageCard,
   PostNoImageCard,
-  Reaction
+  Reaction,
+  ExploreImage
 };

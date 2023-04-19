@@ -2,7 +2,8 @@ import { StyleSheet } from "react-native";
 import CardHeader from "./CardHeader";
 import { Block } from "galio-framework";
 import CardBody from "./CardBody";
-
+import Reaction from "../Reaction";
+import React from "react";
 /*
 Description:
   This component returns an event card. Receives the data to insert into the card 
@@ -20,6 +21,9 @@ const PostImageCard = ({ data }) => {
         profileImage={data["profileImage"]}
       />
       <CardBody data={data} />
+      <Block>
+      </Block>
+      <Reaction></Reaction>
     </Block>
   );
 };
@@ -30,7 +34,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 15,
     marginBottom: 10,
-    margin: 10
+    margin: 10,
   },
 
   shadowProp: {
