@@ -19,27 +19,27 @@ type eventService struct {
 
 // CreateEvent implements EventService
 func (s eventService) CreateEvent(event models.Event) (models.Event, error) {
-	panic("unimplemented")
+	return s.eventRepository.CreateEvent(event);
 }
 
 // DeleteEvent implements EventService
 func (s eventService) DeleteEvent(event models.Event) error {
-	panic("unimplemented")
+	return s.eventRepository.DeleteEvent(event);
 }
 
 // GetEventById implements EventService
 func (s eventService) GetEventById(id string) (models.Event, error) {
-	panic("unimplemented")
+	return s.eventRepository.GetEventById(id);
 }
 
 // GetEvents implements EventService
 func (s eventService) GetEvents() ([]models.Event, error) {
-	panic("unimplemented")
+	return s.eventRepository.GetEvents();
 }
 
 // UpdateEvent implements EventService
 func (s eventService) UpdateEvent(event models.Event) (models.Event, error) {
-	panic("unimplemented")
+	return s.eventRepository.UpdateEvent(event);
 }
 
 func NewEventService(r repository.EventRepository) EventService {
