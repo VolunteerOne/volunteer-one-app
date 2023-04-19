@@ -18,15 +18,14 @@ const Comment = () => {
                 defaultValue={text}
                 >
                 <Block flex row>
-        <Icon
-      family="MaterialIcons"
-      size={15}
-      name="comment"
-      color="#32325D"
-    />
+                <Icon
+                  family="MaterialIcons"
+                  size={15}
+                  name="comment"
+                  color="#32325D"
+                />
                 <Text style={styles.titleText}>Comment</Text>
                 </Block>
-
           </TouchableOpacity>
 
           { show ? 
@@ -38,9 +37,12 @@ const Comment = () => {
                       paddingBottom: -50,
                       height: 40
                         }}/>
+                          <TouchableOpacity style={{position: 'relative', paddingTop: 10}} onPress={() => setShow(!show)}>
+          <Text style={{ 
+}}>                                                Close</Text>
+      </TouchableOpacity>
             </View>
 
-        
                 : null }
 </View>
         );
@@ -75,7 +77,8 @@ const styles = StyleSheet.create({
       marginLeft: -90,
       marginTop: -40,
       height: 40,
-      zIndex: 5
+      zIndex: 5,
+      flexDirection: 'row'
     }
 
 });
