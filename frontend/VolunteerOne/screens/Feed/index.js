@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Dimensions, ScrollView, Text } from "react-native";
+import { StyleSheet, Dimensions, ScrollView, Text, View } from "react-native";
 import { Block, theme } from "galio-framework";
 import NewPostModal from "../../components/Modals/NewPostModal";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -16,9 +16,17 @@ class Feed extends React.Component {
   renderPosts = () => {
     var postsList = posts.map(function (data) {
         if (data["image"] != null)
-          return <PostImageCard key={data["id"]} data={data} />;
+          return (
+            <View className="data" key={data["id"]} data>
+            <PostImageCard data={data} />
+            </View>
+          );
         else
-          return <PostNoImageCard key={data["id"]} data={data} />;
+          return (
+            <View className="data" key={data["id"]} data>
+            <PostNoImageCard key={data["id"]} data={data} />
+            </View>
+          );
     });
 
     return (
