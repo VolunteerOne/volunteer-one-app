@@ -1,38 +1,39 @@
 import React from "react";
-import { withNavigation } from "@react-navigation/compat";
 import PropTypes from "prop-types";
-import {
-  StyleSheet,
-  Dimensions,
-  Image,
-  TouchableWithoutFeedback,
-  Alert,
-} from "react-native";
+import { StyleSheet, TouchableWithoutFeedback, Alert } from "react-native";
 import { Block, Text, theme } from "galio-framework";
-
-import { argonTheme } from "../constants";
 import { Button } from "../components";
 import { Avatar } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/native";
+
+/*
+Event Item component receives the details of the event such as organization, title, and event id.
+The event items are displayed in your bookmark page which is accessible from your user profile. 
+If you click on an event item, it will take you to its corresponding event post. 
+You also have the ability to remove events from your bookmark by clicking on the remove button 
+
+props
+data - Type (obj):                  {organization, name, id}
+handleRemoveItem - Type (func):     handles removal of the item
+*/
 const EventItem = (props) => {
-  const navigation = useNavigation();
-  console.log(props);
-  const { full, style, imageStyle } = props;
+  //receive props
   const handleRemoveItem = props.handleRemoveItem;
   const eventInfo = props.data;
+  //navigation used to navigate to event details page if event item is clicked on
+  const navigation = useNavigation();
+  //styling
+  const imageStyles = [styles.horizontalImage];
+  const cardContainer = [styles.card, styles.shadow];
 
-  const imageStyles = [
-    full ? styles.fullImage : styles.horizontalImage,
-    imageStyle,
-  ];
-  const cardContainer = [styles.card, styles.shadow, style];
-  const imgContainer = [
-    styles.imageContainer,
-    styles.horizontalStyles,
-
-    styles.shadow,
-  ];
-
+  /*
+    When user taps on remove, they are asked to give confirmation. If they select
+    yes, then the item is removed from the bookmark. If no is selected, the action 
+    is cancled 
+    
+    parameters 
+    id - Type (int):    event id that was selected for removal 
+  */
   const confirmationAlert = (id) => {
     Alert.alert("Are you sure?", "", [
       {
@@ -50,28 +51,18 @@ const EventItem = (props) => {
       }
     >
       <Block row={true} card style={cardContainer}>
-        {/*================== profile image ==================*/}
-        {/* TODO: link to profile  */}
-
         <Block>
           <Avatar style={imageStyles} />
         </Block>
 
-        {/*================== username ==================*/}
-        {/* TODO: link to profile */}
-        {/* <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}> */}
-        {/* <TouchableWithoutFeedback onPress={() => navigation.push('Profile',  {theUser: item.username,})}>  */}
         <Block flex>
           <Text size={12} style={styles.cardTitle} bold>
             {eventInfo["organization"]}
           </Text>
-          <Text size={12}> {eventInfo["name"]}</Text>
+          <Text size={12}>{eventInfo["name"]}</Text>
         </Block>
-        {/* </TouchableWithoutFeedback> */}
 
-        {/*================== buttons ==================*/}
         <Block row={true} style={styles.cardDescription}>
-          {/*================== remove button ==================*/}
           <Button
             small
             style={{ backgroundColor: "grey" }}
@@ -79,12 +70,6 @@ const EventItem = (props) => {
           >
             Remove
           </Button>
-
-          {/*================== options button (3 dots) ==================*/}
-          {/* TODO: will need to change this touchable to a popup */}
-          {/* <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}>
-              <Text size={12} style={styles.cardDescription} bold>•••</Text>
-            </TouchableWithoutFeedback> */}
         </Block>
       </Block>
     </TouchableWithoutFeedback>
@@ -92,12 +77,8 @@ const EventItem = (props) => {
 };
 
 EventItem.propTypes = {
-  item: PropTypes.object,
-  horizontal: PropTypes.bool,
-  full: PropTypes.bool,
-  ctaColor: PropTypes.string,
-  imageStyle: PropTypes.any,
-  following: PropTypes.bool,
+  data: PropTypes.object,
+  handleRemoveItem: PropTypes.func,
 };
 
 const styles = StyleSheet.create({
@@ -110,8 +91,6 @@ const styles = StyleSheet.create({
   },
   cardTitle: {},
   cardDescription: {
-    // alignItems: 'center', // Centered vertically - 3 dots
-    // flex:1,
     marginRight: 20,
     borderRadius: 3,
     elevation: 1,
