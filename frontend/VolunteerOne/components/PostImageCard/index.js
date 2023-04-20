@@ -23,7 +23,7 @@ const PostImageCard = ({ data }) => {
       <CardBody data={data} />
       <Block>
       </Block>
-      <Reaction></Reaction>
+      <Reaction likeCount={data["likeCount"]} />
     </Block>
   );
 };

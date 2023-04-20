@@ -1,10 +1,11 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, useState } from "react-native";
 import LikeButton from "./LikeButton";
 import Comment from "./Comment";
 import { Block, Card, Text, theme } from "galio-framework";
 
 
-const Reaction = () => {
+const Reaction = ({ likeCount }) => {
+
     return (
       <View
       style={{
@@ -22,7 +23,7 @@ const Reaction = () => {
 
       <Block flex row>
 
-      <LikeButton></LikeButton>
+      <LikeButton likeCount={likeCount}></LikeButton>
       <Comment></Comment>
       </Block>
       

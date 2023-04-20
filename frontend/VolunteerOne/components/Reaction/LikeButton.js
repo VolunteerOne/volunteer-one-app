@@ -2,14 +2,12 @@
 import React from "react";
 import { Block, Button, Text } from "galio-framework";
 import { StyleSheet, TouchableOpacity} from "react-native";
-import { Svg } from "react-native-svg";
 import Icon from "../Icon";
 
 class LikeButton extends React.Component {
     state = {
-        count: 0
+        count: this.props.likeCount
     }
-
 
     render() {    
         const incrementLikes = () => {
