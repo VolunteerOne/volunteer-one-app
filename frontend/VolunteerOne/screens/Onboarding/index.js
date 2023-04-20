@@ -22,7 +22,7 @@ class Onboarding extends React.Component {
         <StatusBar hidden />
         <Block flex center>
         <ImageBackground
-            source={Images.RegisterBackground}
+            source={Images.Onboarding}
             style={{ height, width, zIndex: 1 }}
           />
         </Block>
