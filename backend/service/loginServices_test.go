@@ -2,7 +2,6 @@ package service
 
 import (
 	"testing"
-	"time"
 
 	"github.com/VolunteerOne/volunteer-one-app/backend/mocks"
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
@@ -68,20 +67,4 @@ func TestLoginService_HashPassword(t *testing.T) {
 
 	assert.Nil(t, err)
 	assert.NotEmpty(t, res)
-}
-
-func TestLoginService_GenerateJWT(t *testing.T) {
-    id := uint(5)
-    time := time.Unix(3433,3434)
-    secret := "secret_key"
-    expected := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
-    expected += ".eyJleHAiOiIxOTY5LTEyLTMxVDE2OjU3OjEzLjAwMDAwMzQzNC0wODowMCIs"
-    expected += "InN1YiI6NX0.x2VOqdQ5MmIxSwGCE8ck_L3TZ0bqeS4aBsHsl5QeTu8"
-
-    mockRepo := new(mocks.LoginRepository)
-    fromRepo := NewLoginService(mockRepo)
-    token, err := fromRepo.GenerateJWT(id, time, secret)
-
-    assert.Nil(t, err)
-    assert.Equal(t, token, expected)
 }

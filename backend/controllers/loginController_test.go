@@ -2,11 +2,13 @@ package controllers
 
 import (
 	"fmt"
+	"time"
 
 	"net/http/httptest"
 	"testing"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/stretchr/testify/assert"
 
 	"github.com/VolunteerOne/volunteer-one-app/backend/mocks"
@@ -151,17 +153,24 @@ func TestLoginController_EmailFound(t *testing.T) {
 
 	// example user model to pass in empty
 	var emptyUser models.Users
+	var delegations models.Delegations
 
 	// expected user model
 	var user models.Users
 	user.Email = email
 	user.Password = password
 
+    // fake jwt times
+	fakeAccessExpire := jwt.NewNumericDate(time.Now().Add(time.Minute * 15))
+	fakeRefreshExpire := jwt.NewNumericDate(time.Now().Add(time.Hour * 24 * 30))
+
 	// setup mock
 	mockService := new(mocks.LoginService)
 	// mock the function
 	mockService.On("FindUserFromEmail", email, emptyUser).Return(user, nil)
-  mockService.On("CompareHashedAndUserPass", []byte(password), password).Return(nil)
+	mockService.On("CompareHashedAndUserPass", []byte(password), password).Return(nil)
+    mockService.On("GenerateJWT", uint(0), fakeAccessExpire, fakeRefreshExpire, "", c).Return("","",nil) 
+    mockService.On("SaveRefreshToken", uint(0), "", delegations).Return(nil)
 
 
 	// run actual handler
