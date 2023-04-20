@@ -12,8 +12,10 @@ export default [
     { 
         id: "2", 
         uri: require('../assets/events/2.jpeg'),
+        title: "Soup Kitchen Project",
         author: "Global Volunteers",
-        date: "2023-04-10"
+        date: "2023-04-15",
+        causeAreas: "Children & Youth, Community"
 
     },
     { 

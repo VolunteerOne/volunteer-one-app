@@ -53,7 +53,7 @@ const NewPassword = ({ navigation }) => {
     <Block flex middle>
       <StatusBar hidden />
       <ImageBackground
-        source={Images.RegisterBackground}
+        source={Images.Onboarding}
         style={{ width, height, zIndex: 1 }}
       >
         <Block safe flex middle>

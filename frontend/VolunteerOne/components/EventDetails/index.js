@@ -20,21 +20,21 @@ const EventDetails = ({ eventID }) => {
   //if the eventID is found, display data
   if (eventDetails) {
     //retrieves and formats the body of the event post
-    let bodyContent = eventDetails["eventBody"].map(function (data) {
+    let bodyContent = eventDetails["eventBody"].map(function (data, index) {
       return (
-        <>
+        <Block key={index}>
           <Text style={styles.descriptionTitle}>{data["title"]}</Text>
           <Text>{data["description"]}</Text>
-        </>
+        </Block>
       );
     });
     //retrieves and formats the company info of the event post
-    let companyInfo = eventDetails["companyInfo"].map(function (data) {
+    let companyInfo = eventDetails["companyInfo"].map(function (data, index) {
       return (
-        <>
+        <Block key={index}>
           <Text style={styles.descriptionTitle}>{data["title"]}</Text>
           <Text>{data["description"]}</Text>
-        </>
+        </Block>
       );
     });
     //Event Details gets returned

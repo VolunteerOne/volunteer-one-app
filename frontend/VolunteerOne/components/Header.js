@@ -39,6 +39,20 @@ const BellButton = ({ isWhite, style, navigation }) => (
   </TouchableOpacity>
 );
 
+const SearchButton = ({ isWhite, style, navigation }) => (
+  <TouchableOpacity
+    style={[styles.button, style]}
+    onPress={() => navigation.navigate("Search")}
+  >
+    <MaterialCommunityIcons
+      size={24}
+      name="card-search-outline"
+      color={theme.COLORS[isWhite ? "WHITE" : "ICON"]}
+    />
+    <Block middle style={styles.notify} />
+  </TouchableOpacity>
+);
+
 const SettingsButton = ({ isWhite, style, navigation }) => (
   <TouchableOpacity
     style={[styles.button, style]}
@@ -109,6 +123,18 @@ class Header extends React.Component {
           />,
         ];
       case "Announcements":
+      return [
+        <SearchButton
+          key="search"
+          navigation={navigation}
+          isWhite={white}
+        />,
+        <BellButton
+          key="notification"
+          navigation={navigation}
+          isWhite={white}
+        />
+      ];
       case "Explore":
       case "Feed":
         return [
