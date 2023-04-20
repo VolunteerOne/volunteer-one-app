@@ -8,7 +8,9 @@ const Comment = () => {
   const [show, setShow] = useState(false);
   const [comment, setComment] = useState("");
 
-
+  function sendValues(comment) {
+    console.log(comment);
+};
   return (
       <View style={styles.view}>
       <TouchableOpacity
@@ -34,16 +36,38 @@ const Comment = () => {
               style={{
                 alignSelf: 'baseline',
                 paddingBottom: -50,
-                height: 40
+                height: 40,
+                marginLeft: 10
               }}
               onChangeText={newComment => setComment(newComment)}
-              defaultValue={comment}
+              value={comment}
           />
-      <Pressable
-        style={{paddingLeft: 330, paddingTop: 10, position: 'absolute'}}
-        onPress={() => setShow(!show)} >
-        <Text>X</Text>
+
+    <View style={styles.submit}>
+      <Pressable onPress={() => {sendValues(comment); setComment('') }}>
+      <Icon
+            family="MaterialIcons"
+            size={15}
+            name="send"
+            color="#32325D"
+          />
+          
+
       </Pressable>
+    </View>
+{/* 
+    <View style={styles.close}>
+      <Pressable onPress={() => setShow(!show)}>
+      <Icon
+            family="MaterialIcons"
+            size={15}
+            name="close"
+            color="#32325D"
+          />
+
+      </Pressable>
+    </View> */}
+
     </View>
 
           : null }
@@ -74,16 +98,30 @@ const styles = StyleSheet.create({
         zIndex : 1,
     },
     comment: {
+      borderColor: "#32325D",
       backgroundColor: "#FFFFFF",
       borderRadius: 8,
-      width: 350,
+      width: 340,
       marginLeft: -90,
       marginTop: -40,
       height: 40,
       zIndex: 5,
-      flexDirection: 'row'
-    }
+      flexDirection: 'row',
+      borderColor: 'gray', borderWidth: 1
 
+    },
+    submit: {
+      position: 'absolute',
+      marginLeft: 315,
+      height: 30,
+      marginTop: 12
+    },
+    close: {
+      position: 'absolute',
+      marginLeft: 315,
+      height: 50,
+      marginTop: -17
+    }
 });
 
 export default Comment;
