@@ -14,6 +14,34 @@ type LoginService struct {
 	mock.Mock
 }
 
+// ChangePassword provides a mock function with given fields: _a0, _a1
+func (_m *LoginService) ChangePassword(_a0 []byte, _a1 models.Users) error {
+	ret := _m.Called(_a0, _a1)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func([]byte, models.Users) error); ok {
+		r0 = rf(_a0, _a1)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// CompareHashedAndUserPass provides a mock function with given fields: _a0, _a1
+func (_m *LoginService) CompareHashedAndUserPass(_a0 []byte, _a1 string) error {
+	ret := _m.Called(_a0, _a1)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func([]byte, string) error); ok {
+		r0 = rf(_a0, _a1)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // CreateUser provides a mock function with given fields: _a0
 func (_m *LoginService) CreateUser(_a0 models.Users) (models.Users, error) {
 	ret := _m.Called(_a0)
