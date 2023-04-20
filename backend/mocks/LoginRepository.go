@@ -28,23 +28,61 @@ func (_m *LoginRepository) ChangePassword(_a0 []byte, _a1 models.Users) error {
 	return r0
 }
 
-// CreateUser provides a mock function with given fields: _a0
-func (_m *LoginRepository) CreateUser(_a0 models.Users) (models.Users, error) {
+// DeleteRefreshToken provides a mock function with given fields: _a0
+func (_m *LoginRepository) DeleteRefreshToken(_a0 models.Delegations) error {
 	ret := _m.Called(_a0)
 
-	var r0 models.Users
-	var r1 error
-	if rf, ok := ret.Get(0).(func(models.Users) (models.Users, error)); ok {
-		return rf(_a0)
-	}
-	if rf, ok := ret.Get(0).(func(models.Users) models.Users); ok {
+	var r0 error
+	if rf, ok := ret.Get(0).(func(models.Delegations) error); ok {
 		r0 = rf(_a0)
 	} else {
-		r0 = ret.Get(0).(models.Users)
+		r0 = ret.Error(0)
 	}
 
-	if rf, ok := ret.Get(1).(func(models.Users) error); ok {
-		r1 = rf(_a0)
+	return r0
+}
+
+// FindRefreshToken provides a mock function with given fields: _a0, _a1
+func (_m *LoginRepository) FindRefreshToken(_a0 float64, _a1 models.Delegations) (models.Delegations, error) {
+	ret := _m.Called(_a0, _a1)
+
+	var r0 models.Delegations
+	var r1 error
+	if rf, ok := ret.Get(0).(func(float64, models.Delegations) (models.Delegations, error)); ok {
+		return rf(_a0, _a1)
+	}
+	if rf, ok := ret.Get(0).(func(float64, models.Delegations) models.Delegations); ok {
+		r0 = rf(_a0, _a1)
+	} else {
+		r0 = ret.Get(0).(models.Delegations)
+	}
+
+	if rf, ok := ret.Get(1).(func(float64, models.Delegations) error); ok {
+		r1 = rf(_a0, _a1)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// FindTokenFromID provides a mock function with given fields: _a0, _a1
+func (_m *LoginRepository) FindTokenFromID(_a0 uint, _a1 models.Delegations) (models.Delegations, error) {
+	ret := _m.Called(_a0, _a1)
+
+	var r0 models.Delegations
+	var r1 error
+	if rf, ok := ret.Get(0).(func(uint, models.Delegations) (models.Delegations, error)); ok {
+		return rf(_a0, _a1)
+	}
+	if rf, ok := ret.Get(0).(func(uint, models.Delegations) models.Delegations); ok {
+		r0 = rf(_a0, _a1)
+	} else {
+		r0 = ret.Get(0).(models.Delegations)
+	}
+
+	if rf, ok := ret.Get(1).(func(uint, models.Delegations) error); ok {
+		r1 = rf(_a0, _a1)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -74,6 +112,20 @@ func (_m *LoginRepository) FindUserFromEmail(_a0 string, _a1 models.Users) (mode
 	}
 
 	return r0, r1
+}
+
+// SaveRefreshToken provides a mock function with given fields: _a0, _a1, _a2
+func (_m *LoginRepository) SaveRefreshToken(_a0 uint, _a1 string, _a2 models.Delegations) error {
+	ret := _m.Called(_a0, _a1, _a2)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(uint, string, models.Delegations) error); ok {
+		r0 = rf(_a0, _a1, _a2)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
 }
 
 // SaveResetCodeToUser provides a mock function with given fields: _a0, _a1

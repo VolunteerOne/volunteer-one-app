@@ -44,6 +44,7 @@ func TestUserController_CreateSuccess(t *testing.T) {
 	user.Password = ""
 
 	mockService.On("CreateUser", user).Return(user, nil)
+    mockService.On("HashPassword", []byte("")).Return([]byte(""), nil)
 
 	res := NewUsersController(mockService)
 
@@ -84,6 +85,7 @@ func TestUserController_CreateNull(t *testing.T) {
 	user.Password = ""
 	// user.Password = """
 	mockService.On("CreateUser", user).Return(user, nil)
+    mockService.On("HashPassword", []byte("")).Return([]byte(""), nil)
 
 	res := NewUsersController(mockService)
 
