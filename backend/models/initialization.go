@@ -14,7 +14,8 @@ var tables = []Model{
 	&Object{},
 	&User{},
 	&Organization{},
-
+	&Friend{},
+	// &Posts{},
 	&Users{},
 }
 

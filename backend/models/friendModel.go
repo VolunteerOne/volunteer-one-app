@@ -3,20 +3,10 @@ package models
 import (
 	"gorm.io/gorm"
 )
-<<<<<<< Updated upstream
 
 type Friend struct {
 	gorm.Model
-	id          uint `gorm:"autoincrement;primaryKey"`
-	friendOneID uint
-	friendTwoID uint
+	FriendOneHandle string `gorm:"NOT NULL"`
+	FriendTwoHandle string `gorm:"NOT NULL"`
+	RelationshipBit string `gorm:"default:'pending'"` // other option is 'friends'
 }
-=======
-type Friend struct {
-	gorm.Model
-	id       		uint   `gorm:"autoincrement;primaryKey"`
-	friendOneID 	uint
-	friendTwoID		uint
-
-}
->>>>>>> Stashed changes
