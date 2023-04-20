@@ -18,7 +18,7 @@ class Feed extends React.Component {
         if (data["image"] != null)
           return (
             <View className="data" key={data["id"]} data>
-            <PostImageCard data={data} />
+            <PostImageCard key={data["id"]} data={data} />
             </View>
           );
         else
