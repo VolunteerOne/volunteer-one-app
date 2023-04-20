@@ -16,9 +16,9 @@ Props received:
             constants folder. 
 */
 const EventDetails = ({ eventID }) => {
+  let eventDetails = events.find((o) => o.id === eventID);
   //if the eventID is found, display data
-  if (eventID in events) {
-    let eventDetails = events[eventID];
+  if (eventDetails) {
     //retrieves and formats the body of the event post
     let bodyContent = eventDetails["eventBody"].map(function (data) {
       return (

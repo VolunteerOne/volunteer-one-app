@@ -17,6 +17,7 @@ import Profile from "../screens/Profile";
 import Feed from "../screens/Feed";
 import ViewFriends from "../screens/Profile/ViewFriends";
 import ViewNotifications from "../screens/Notifications";
+import ViewBookmarks from "../screens/Profile/ViewBookmarks";
 import CreateAccount from "../screens/Onboarding/CreateAccount";
 import Register from "../screens/Onboarding/Register";
 import Login from "../screens/Onboarding/Login";
@@ -236,6 +237,33 @@ function ProfileStack(props) {
               navigation={navigation}
               scene={scene}
             />
+          ),
+          headerTransparent: false,
+          headerShown: true,
+        }}
+      />
+      <Stack.Screen
+        name="Bookmarks"
+        component={ViewBookmarks}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              back
+              title="Manage Events"
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          headerTransparent: false,
+          headerShown: true,
+        }}
+      />
+      <Stack.Screen
+        name="ViewEvent"
+        component={ViewEvent}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header back title="Event" navigation={navigation} scene={scene} />
           ),
           headerTransparent: false,
           headerShown: true,
