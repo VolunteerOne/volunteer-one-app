@@ -11,8 +11,11 @@ import (
 type LoginRepository interface {
 	FindUserFromEmail(string, models.Users) (models.Users, error)
 	SaveResetCodeToUser(uuid.UUID, models.Users) error
-	CreateUser(models.Users) (models.Users, error)
 	ChangePassword([]byte, models.Users) error
+	FindTokenFromID(uint, models.Delegations) (models.Delegations, error)
+	SaveRefreshToken(uint, string, models.Delegations) error
+    FindRefreshToken(float64, models.Delegations) (models.Delegations, error)
+    DeleteRefreshToken(models.Delegations) (error)
 }
 
 type loginRepository struct {
@@ -45,19 +48,46 @@ func (l loginRepository) SaveResetCodeToUser(resetCode uuid.UUID, user models.Us
 	return l.DB.Save(&user).Error
 }
 
-// Add the user to the DB
-func (l loginRepository) CreateUser(user models.Users) (models.Users, error) {
-	log.Println("[LoginRepository] Create user...")
-
-	// User will be created
-	err := l.DB.Create(&user).Error
-
-	return user, err
-}
-
 func (l loginRepository) ChangePassword(newPassword []byte, user models.Users) error {
 	log.Println("Entering ChangePassword repository")
 
 	user.Password = string(newPassword)
 	return l.DB.Save(&user).Error
+}
+
+func (l loginRepository) FindTokenFromID(userid uint, deleg models.Delegations) (models.Delegations, error) {
+	log.Println("[LoginRepository] Find Delegation...")
+
+	err := l.DB.Where("users_id = ?", userid).First(&deleg).Error
+	return deleg, err
+}
+
+func (l loginRepository) SaveRefreshToken(userid uint, refreshToken string, deleg models.Delegations) error {
+	log.Println("[LoginRepository] Save Refresh Token...")
+
+	deleg.UsersID = userid
+	deleg.RefreshToken = refreshToken
+
+	err := l.DB.Save(&deleg).Error
+
+	if err != nil {
+        log.Println("[LoginRepository:SaveRefreshToken] Have To Update Token Only...")
+        return l.DB.Model(&deleg).Where("users_id = ?", userid).Update("refresh_token", refreshToken).Error
+	}
+
+	return err
+}
+
+func (l loginRepository) FindRefreshToken(userid float64, deleg models.Delegations) (models.Delegations, error) {
+    log.Println("[LoginRepository] Find Refresh Token...")
+
+    err := l.DB.Where("users_id = ?", userid).First(&deleg).Error
+
+    return deleg, err
+}
+
+func (l loginRepository) DeleteRefreshToken(deleg models.Delegations) (error) {
+    log.Println("[LoginRepository] Delete Refresh Token...")
+
+	return l.DB.Unscoped().Delete(&deleg).Error
 }

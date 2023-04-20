@@ -3,7 +3,7 @@ import React from 'react';
 import { StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { Block, theme } from 'galio-framework';
 import ProfileItem from '../../components/ProfileItem';
-import friends from '../../constants/friends';
+import profile from '../../constants/ProfileTab/profile';
 
 // ================================= View Friends Page ================================= //
 
@@ -11,6 +11,14 @@ const { width } = Dimensions.get('screen');
 
 class ViewFriendsPage extends React.Component {
   renderFriends = () => {
+    // determine the user 
+    /* 1. Get the props */
+    const {navigation,route}=this.props
+    /* 2. Get the param */
+    theUser = route.params.theUser;   // determine which profile you are viewing
+    console.log("Viewing friends of: ", theUser)
+
+
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -18,8 +26,8 @@ class ViewFriendsPage extends React.Component {
         
         {/* map all notifications using loop */}
         <Block flex>
-          {friends.map(profile => (
-             <ProfileItem item={profile} horizontal />
+          {profile[theUser].friends.friendsList.map((profile,i) => (
+             <ProfileItem key={i} item={profile} horizontal />
           ))}
         </Block>
     
