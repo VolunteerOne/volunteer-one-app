@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   Alert,
@@ -16,24 +15,20 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 
 const { width, height } = Dimensions.get("screen");
 
-
 /** ==================================== New Announcement Modal Component ==================================== **/
 
 class NewAnnouncementModal extends React.Component {
-  
   state = {
-    user: "",
     datetime: new Date(),
     title: "",
     description: "",
   };
 
   render() {
-
-    const handleAddNewClick = () => {
-      console.log("Adding New Announcement ",this.state)
-      // post to db
-    }
+    // const handleAddNewClick = () => {
+    //   console.log("Adding New Announcement ",this.state)
+    //   // post to db
+    // }
 
     return (
       <View style={styles.centeredView}>
@@ -43,14 +38,14 @@ class NewAnnouncementModal extends React.Component {
           visible={this.props.visible}
           onRequestClose={() => {
             console.log("Modal has been closed.");
-            this.props.setState();
+            this.props.handleModalVisible();
           }}
         >
           <View style={[styles.centeredView, styles.modalViewOutside]}>
             <View style={styles.modalView}>
               {/* exit modal */}
               <Pressable
-                onPress={() => this.props.setState()}
+                onPress={() => this.props.handleModalVisible()}
                 style={{ alignItems: "flex-end", margin: 5 }}
               >
                 <MaterialCommunityIcons
@@ -90,8 +85,8 @@ class NewAnnouncementModal extends React.Component {
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
                   onPress={() => {
-                    this.props.setState(); 
-                    handleAddNewClick();
+                    this.props.handleModalVisible();
+                    this.props.addNewAnnouncement(this.state);
                   }}
                 >
                   <Text style={styles.textStyle}>CREATE ANNOUNCEMENT</Text>
@@ -152,7 +147,7 @@ const styles = StyleSheet.create({
     // marginTop: 22,
   },
   modalViewOutside: {
-    backgroundColor: 'rgba(52, 52, 52, 0.75)',    // changed opacity of background when modal is open 
+    backgroundColor: "rgba(52, 52, 52, 0.75)", // changed opacity of background when modal is open
   },
   modalViewInside: {
     padding: 25,
