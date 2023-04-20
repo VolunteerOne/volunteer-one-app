@@ -3,17 +3,31 @@ import LikeButton from "./LikeButton";
 import Comment from "./Comment";
 import { Block, Card, Text, theme } from "galio-framework";
 
-import argonTheme from "../../constants";
 
 const Reaction = () => {
     return (
+      <View
+      style={{
+        borderColor: 'black',
+        borderTopWidth: StyleSheet.hairlineWidth,
+        borderTopWidth: .5,
+        marginTop: 20,
+        borderColor: "#CAD1D7"
+  
+      }}
+    >
     <Card
-        style={[styles.card, styles.shadowProp]}>
+        style={[styles.card]}>
+
+
       <Block flex row>
+
       <LikeButton></LikeButton>
       <Comment></Comment>
       </Block>
+      
     </Card>
+    </View>
     );
   };
 
@@ -21,19 +35,14 @@ const Reaction = () => {
 const styles = StyleSheet.create({
     card: {
       backgroundColor: theme.COLORS.WHITE,
-      width: 400,
-      height: 40,
-      borderRadius: 10,
-      padding: 15,
+      width: 250,
+      height: 30,
+      borderRadius: 0,
       margin: 10,
-  
-    },
-    shadowProp: {
-      shadowColor: "#171717",
-      shadowOffset: { width: -2, height: 4 },
-      shadowOpacity: 0.2,
-      shadowRadius: 3,
-    },
+      borderColor: '#fff',
+      marginTop: 12,
+      marginBottom: -15
+    }
   });
   
   export default Reaction;

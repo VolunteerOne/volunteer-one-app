@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Block, Button, Text } from "galio-framework";
-import { StyleSheet, Image } from "react-native";
+import { StyleSheet, TouchableOpacity} from "react-native";
 import { Svg } from "react-native-svg";
 import Icon from "../Icon";
 
@@ -10,6 +10,7 @@ class LikeButton extends React.Component {
         count: 0
     }
 
+
     render() {    
         const incrementLikes = () => {
             console.log("Like button pressed")
@@ -17,41 +18,44 @@ class LikeButton extends React.Component {
             this.setState ({
                 count: newCount
             })
-            
         }
 
         return (
-            <Button style={styles.button}
+            <TouchableOpacity style={styles.button}
             onPress={incrementLikes} >      
       <Block flex row>
                 <Icon
       family="MaterialIcons"
-      size={20}
+      size={15}
       name="thumb-up"
       color="#32325D"
     />
-            <Text style={styles.titleText}>Likes: {this.state.count}</Text>
-            </Block>
-          </Button>
+            {this.state.count == 0 ? 
+            <Text style={styles.titleText}>Like</Text>
+            :
+            <Text style={styles.titleText}>{this.state.count} Likes</Text>  
+            }
 
+            </Block>
+          </TouchableOpacity>
         );
         }
         
 }
 const styles = StyleSheet.create({
     titleText: {
-        fontSize: 18,
+        fontSize: 15,
         color: "#32325D",
-        marginLeft: 10,
+        marginLeft: 5,
+        marginTop: -1
       },
     button: {
         borderless: true,
         backgroundColor: '#fff',
         shadowColor: '#fff',
-        width: 'auto',
         height: 20,
         marginTop: -30,
-        marginLeft: 20,
+        marginLeft: 27,
     }
 
 });

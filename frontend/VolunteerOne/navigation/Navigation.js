@@ -17,6 +17,7 @@ import Profile from "../screens/Profile";
 import Feed from "../screens/Feed";
 import ViewFriends from "../screens/Profile/ViewFriends";
 import ViewNotifications from "../screens/Notifications";
+import Search from "../screens/Search";
 import CreateAccount from "../screens/Onboarding/CreateAccount";
 import Register from "../screens/Onboarding/Register";
 import Login from "../screens/Onboarding/Login";
@@ -60,6 +61,22 @@ function AnnouncementsStack(props) {
             />
           ),
           cardStyle: { backgroundColor: "#F8F9FE" },
+        }}
+      />
+      <Stack.Screen
+        name="Search"
+        component={Search}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              back
+              title="Search"
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          headerTransparent: false,
+          headerShown: true,
         }}
       />
       <Stack.Screen
@@ -410,7 +427,7 @@ function BottomNav() {
       }}
     >
       <Tab.Screen
-        name="Announcements"
+        name="AnnouncementsStack"
         component={AnnouncementsStack}
         options={{
           headerShown: false,
@@ -421,7 +438,7 @@ function BottomNav() {
         }}
       />
       <Tab.Screen
-        name="Explore"
+        name="ExploreStack"
         component={ExploreStack}
         options={{
           headerShown: false,
@@ -433,7 +450,7 @@ function BottomNav() {
         }}
       />
       <Tab.Screen
-        name="Feed"
+        name="FeedStack"
         component={FeedStack}
         options={{
           headerShown: false,
@@ -449,7 +466,7 @@ function BottomNav() {
         }}
       />
       <Tab.Screen
-        name="Profile"
+        name="ProfileStack"
         component={ProfileStack}
         options={{
           headerShown: false,
