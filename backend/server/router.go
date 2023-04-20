@@ -19,20 +19,22 @@ func NewRouter() *gin.Engine {
 
 	loginRepository := repository.NewLoginRepository(database.GetDatabase())
 	usersRepository := repository.NewUsersRepository(database.GetDatabase())
-
+	organizationRepository := repository.NewOrganizationRepository(database.GetDatabase())
 	// *********************************************************
 	// INITIALIZE SERVICES HERE
 	// *********************************************************
 
 	loginService := service.NewLoginService(loginRepository)
 	usersService := service.NewUsersService(usersRepository)
-
+	organizationService := service.NewOrganizationService(organizationRepository)
+	
 	// *********************************************************
 	// INITIALIZE CONTROLLERS HERE
 	// *********************************************************
 
 	loginController := controllers.NewLoginController(loginService)
 	usersController := controllers.NewUsersController(usersService)
+	organizationController := controllers.NewOrganizationController(organizationService)
 
 	userGroup := router.Group("user")
 
@@ -47,20 +49,18 @@ func NewRouter() *gin.Engine {
 	//Simple login, checks database against users inputted email and password to login
 	loginGroup.GET("/:email/:password", loginController.Login)
 	//Get the users email, sends a forgotten password code to them
-	loginGroup.POST("/:email", loginController.PasswordReset)
+	loginGroup.POST("/:email", loginController.SendEmailForPassReset)
 	//Get the secret code from the users email, if matches reset password
-	//loginGroup.POST("/:resetCode", loginController.Login)
+	loginGroup.PUT("/:email/:resetcode/:newpassword", loginController.PasswordReset)
+
 	router.POST("/signup", loginController.Signup)
 
 	organizationGroup := router.Group("organization")
-	{
-		organization := new(controllers.OrganizationController)
-		organizationGroup.POST("/", organization.Create)
-		organizationGroup.GET("/", organization.All)
-		organizationGroup.GET("/:id", organization.One)
-		organizationGroup.DELETE("/:id", organization.Delete)
-		organizationGroup.PUT("/:id", organization.Update)
-	}
+	organizationGroup.POST("/", organizationController.Create)
+	organizationGroup.GET("/", organizationController.All)
+	organizationGroup.GET("/:id", organizationController.One)
+	organizationGroup.DELETE("/:id", organizationController.Delete)
+	organizationGroup.PUT("/:id", organizationController.Update)
 
 	orgUsersGroup := router.Group("orgUsers")
 	{

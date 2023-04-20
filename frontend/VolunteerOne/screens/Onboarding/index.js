@@ -22,7 +22,7 @@ class Onboarding extends React.Component {
         <StatusBar hidden />
         <Block flex center>
         <ImageBackground
-            source={Images.RegisterBackground}
+            source={Images.Onboarding}
             style={{ height, width, zIndex: 1 }}
           />
         </Block>
@@ -33,11 +33,10 @@ class Onboarding extends React.Component {
             <Block flex space="around" style={{ zIndex: 2 }}>
               <Block style={styles.title}>
                 <Block>
-                  <Text color="white" style={{fontWeight: 'bold'} }size={75}>
-                    Volunteer
-                  </Text>
-                  <Text color="white" style={{fontWeight: 'bold'}} size={75}>
-                    One
+                  <Text color="white" style={{fontWeight: 'bold'} } size={50}adjustsFontSizeToFit={true}
+numberOfLines={1}
+>
+                    VolunteerOne
                   </Text>
                 </Block>
                 <Block>

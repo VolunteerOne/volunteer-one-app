@@ -1,141 +1,134 @@
-// This file was added by Matt
-// It contains the component for a New post modal item 
-// which is dispayed when a user wants to make a new announcement
-// it works like a popup. 
 
-import React from 'react';
-import {Alert, Modal, StyleSheet, Pressable, View, Dimensions, TextInput, Image, ScrollView} from 'react-native';
-import { Block, Text, theme } from 'galio-framework';
+import React from "react";
+import {
+  Alert,
+  Modal,
+  StyleSheet,
+  Pressable,
+  View,
+  Dimensions,
+  TextInput,
+  Image,
+  ScrollView,
+} from "react-native";
+import { Block, Text, theme } from "galio-framework";
 import { argonTheme } from "../../constants";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import ImagePicker from './ImagePicker.js';
-
 
 const { width, height } = Dimensions.get("screen");
 
-function handleCreatePostBtnClick() {
-// write function for create announcement button here
 
-
-}
+/** ==================================== New Post Modal Component ==================================== **/
 
 class NewPostModal extends React.Component {
+  
   state = {
-    modalVisible: false,
+    user: "",
+    datetime: new Date(),
+    title: "",
+    description: "",
   };
 
-
   render() {
-    const {modalVisible} = this.state;
-    return (
 
+    const handleAddNewClick = () => {
+      console.log("Adding New Post ",this.state)
+      // post to db
+    }
+
+    return (
       <View style={styles.centeredView}>
-        
         <Modal
-          propagateSwipe={true}
           animationType="fade"
           transparent={true}
-          visible={modalVisible}
+          visible={this.props.visible}
           onRequestClose={() => {
-            Alert.alert('Modal has been closed.');
-            this.setState({modalVisible: !modalVisible});
-          }}>
-             
-             <ScrollView> 
-          <View style={styles.centeredView}>    
+            console.log("Modal has been closed.");
+            this.props.setState();
+          }}
+        >
+          
+          <View style={[styles.centeredView, styles.modalViewOutside]}>
+          <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}> 
             <View style={styles.modalView}>
-              {/* x icont to exit modal */}
+            
+              {/* exit modal */}
               <Pressable
-                onPress={() => this.setState({modalVisible: !modalVisible})}
-                style={{alignItems: 'flex-end'}}>
-                <Image
-                style={styles.exit}
-                source={require('../../assets/imgs/exit.png')} />
+                onPress={() => this.props.setState()}
+                style={{ alignItems: "flex-end", margin: 5 }}
+              >
+                <MaterialCommunityIcons
+                  size={24}
+                  name="close"
+                  color={theme.COLORS.ICON}
+                />
               </Pressable>
-              
-              <View style={styles.modalViewInside}>
-   
-                <Text style={styles.header}>
-                  Create New Post 
-                </Text>
-     
 
-                <Text style={styles.secondaryHeader}>
-                  Post title
-                </Text>
+              <View style={styles.modalViewInside}>
+                <Text style={styles.header}>Create New Post</Text>
+
+                <Text style={styles.secondaryHeader}>Post title</Text>
                 <Block width={width * 0.8 - 20} style={{ marginBottom: 15 }}>
                   <TextInput
-                    style={styles.input} 
+                    style={styles.input}
                     placeholder="Enter a title"
-                    placeholderTextColor={"lightgrey"}                  
-                    // onChangeText={handleTitleInput}
+                    placeholderTextColor={"lightgrey"}
+                    onChangeText={(e) => this.setState({ title: e })}
                   />
                 </Block>
 
-                <Text style={styles.secondaryHeader}>
-                  Description
-                </Text>
-                <Block width={width * 0.8 - 20}  style={{ marginBottom: 15 }}>
+                <Text style={styles.secondaryHeader}>Description</Text>
+                <Block width={width * 0.8 - 20} style={{ marginBottom: 15 }}>
                   <TextInput
                     style={styles.input}
                     placeholder="Provide post details here"
                     placeholderTextColor={"lightgrey"}
                     height={height * 0.3}
-                    textAlignVertical={'top'}
+                    textAlignVertical={"top"}
                     paddingTop={10}
                     multiline={true}
-                    // onChangeText={handleDescriptionInput}
+                    onChangeText={(e) => this.setState({ description: e })}
                   />
                 </Block>
-  
                 <ImagePicker></ImagePicker>
-                
                 <Pressable
                   style={[styles.button, styles.buttonClose]}
-                  onPress={() => {this.setState({modalVisible: !modalVisible}); handleCreatePostBtnClick();}}>
+                  onPress={() => {
+                    this.props.setState(); 
+                    handleAddNewClick();
+                  }}
+                >
                   <Text style={styles.textStyle}>CREATE POST</Text>
                 </Pressable>
-
               </View>
+              
             </View>
+            </ScrollView>
           </View>
-          </ScrollView>
+          
         </Modal>
-        {/* button that shows before opening modal */}
-        <Pressable
-          style={[styles.button, styles.buttonOpen]}
-          onPress={() => this.setState({modalVisible: true})}>
-          <Text style={styles.textStyle}>New Post</Text>
-        </Pressable>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  exit: {
-    margin:10,
-    marginBottom: 0,
-    justifyContent:"flex-end",
-    width: 15,
-    height: 15,
-  },
-
   header: {
     fontSize: 25,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: "#525F7F",
     marginBottom: 20,
   },
   secondaryHeader: {
     fontSize: 17,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: "#525F7F",
-    marginBottom:5,
+    marginBottom: 5,
   },
-  
   input: {
     borderColor: argonTheme.COLORS.BORDER,
-    borderWidth: .5,
+    borderWidth: 0.5,
     borderRadius: 5,
     height: 44,
     backgroundColor: "#FFFFFF",
@@ -145,30 +138,30 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     elevation: 2,
     paddingLeft: 10,
-   
   },
   modalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    paddingTop: 0,
-    shadowColor: '#000',
+    backgroundColor: "white",
+    shadowColor: "#000",
     shadowOffset: {
-      width: 0,
-      height: 2,
+      width: 5,
+      height: 5,
     },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 5,
   },
+
   // matt's added styles above ^^^
 
   centeredView: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
+    justifyContent: "center",
+    alignItems: "center",
+    // marginTop: 22,
   },
-
+  modalViewOutside: {
+    backgroundColor: 'rgba(52, 52, 52, 0.75)',    // changed opacity of background when modal is open 
+  },
   modalViewInside: {
     padding: 25,
     paddingTop: 0,
@@ -178,25 +171,16 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2,
   },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
-  },
   buttonClose: {
-    backgroundColor: '#5e72e4',
+    backgroundColor: "#5e72e4",
     padding: 10,
-    marginTop:10,
-    marginBottom: 15,
+    marginTop: 10,
   },
   textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
-
 
 export default NewPostModal;

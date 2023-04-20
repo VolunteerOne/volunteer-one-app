@@ -14,9 +14,10 @@ import { Images, argonTheme } from "../../constants";
 import { HeaderHeight } from "../../constants/utils";
 import RecentActivityCard from "../../components/RecentActivityCard";
 import UpcomingEventsCard from "../../components/UpcomingEventsCard";
+import { useRoute } from '@react-navigation/native';
 
 // constants
-import mockData from "../../constants/profile";
+import mockData from "../../constants/ProfileTab/profile";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -24,9 +25,20 @@ const thumbMeasure = (width - 48 - 32) / 3;
 
 /** ==================================== Profile Screen ==================================== **/
 
-const ProfileScreen = ({ navigation }) => {
+const ProfileScreen = ({ route, navigation }) => {
+  // pass user name param when navigating to a profile - matt
+  let anotherUser = false;    // false if viewing own profile
+  let theUser = "Jessica Jones";    // default user
+  if(typeof route.params !== "undefined") {
+    theUser = route.params.theUser;
+    anotherUser = true;   // viewing a different user
+    
+  }
+  console.log("Viewing user: ", theUser);
+
+
   let isVolunteer = true;
-  if (mockData.userType == "organization") {
+  if (mockData[theUser].userType == "organization") {
     isVolunteer = false;
   }
 
@@ -37,13 +49,13 @@ const ProfileScreen = ({ navigation }) => {
     console.log("Message btn pressed");
   };
 
-  const handleViewAllRecentActivityBtn = () => {
-    console.log("handleViewAllRecentActivityBtn");
-  };
+  // const handleViewAllRecentActivityBtn = () => {
+  //   console.log("handleViewAllRecentActivityBtn");
+  // };
 
-  const handleViewAllUpcomingEventsBtn = () => {
-    console.log("handleViewAllUpcomingEventsBtn");
-  };
+  // const handleViewAllUpcomingEventsBtn = () => {
+  //   console.log("handleViewAllUpcomingEventsBtn");
+  // };
 
   return (
     <ScrollView>
@@ -61,7 +73,7 @@ const ProfileScreen = ({ navigation }) => {
               <Block flex style={styles.profileCard}>
                 <Block middle style={styles.avatarContainer}>
                   <Image
-                    source={{ uri: mockData.image }}
+                    source={{ uri: mockData[theUser].image }}
                     style={styles.avatar}
                   />
                 </Block>
@@ -101,14 +113,14 @@ const ProfileScreen = ({ navigation }) => {
                           color="#525F7F"
                           style={{ marginBottom: 4 }}
                         >
-                          {mockData.hours}
+                          {mockData[theUser].hours}
                         </Text>
                         <Text size={12} color={argonTheme.COLORS.TEXT}>
                           Hours
                         </Text>
                       </Block>
                       <TouchableOpacity
-                        onPress={() => navigation.navigate("ViewFriends")}
+                        onPress={() => navigation.navigate("ViewFriends", {theUser: theUser})}
                       >
                         <Block middle>
                           <Text
@@ -117,7 +129,7 @@ const ProfileScreen = ({ navigation }) => {
                             size={18}
                             style={{ marginBottom: 4 }}
                           >
-                            {mockData.friends}
+                            {mockData[theUser].friends.value}
                           </Text>
                           <Text size={12} color={argonTheme.COLORS.TEXT}>
                             Friends
@@ -125,7 +137,7 @@ const ProfileScreen = ({ navigation }) => {
                         </Block>
                       </TouchableOpacity>
                       <TouchableOpacity
-                        onPress={() => navigation.navigate("ViewFollowing")}
+                        onPress={() => navigation.navigate("ViewFollowing", {theUser: theUser})}
                       >
                         <Block middle>
                           <Text
@@ -134,7 +146,7 @@ const ProfileScreen = ({ navigation }) => {
                             size={18}
                             style={{ marginBottom: 4 }}
                           >
-                            {mockData.following}
+                            {mockData[theUser].following.value}
                           </Text>
                           <Text size={12} color={argonTheme.COLORS.TEXT}>
                             Following
@@ -147,11 +159,11 @@ const ProfileScreen = ({ navigation }) => {
                 <Block flex>
                   <Block middle style={styles.nameInfo}>
                     <Text bold size={28} color="#32325D">
-                      {mockData.name}
-                      {isVolunteer && `, ${mockData.age}`}
+                      {mockData[theUser].name}
+                      {isVolunteer && `, ${mockData[theUser].age}`}
                     </Text>
                     <Text size={16} color="#32325D" style={{ marginTop: 10 }}>
-                      {mockData.city}, {mockData.country}
+                      {mockData[theUser].city}, {mockData[theUser].country}
                     </Text>
                   </Block>
                   <Block middle style={{ marginTop: 30, marginBottom: 16 }}>
@@ -173,7 +185,7 @@ const ProfileScreen = ({ navigation }) => {
                       color="#525F7F"
                       style={{ textAlign: "center" }}
                     >
-                      {mockData.description}
+                      {mockData[theUser].description}
                     </Text>
                   </Block>
                   {!isVolunteer && (
@@ -187,7 +199,7 @@ const ProfileScreen = ({ navigation }) => {
                         >
                           Upcoming Events
                         </Text>
-                        <Button
+                        {/* <Button
                           small
                           color="transparent"
                           textStyle={{
@@ -198,11 +210,11 @@ const ProfileScreen = ({ navigation }) => {
                           onPress={handleViewAllUpcomingEventsBtn}
                         >
                           View all
-                        </Button>
+                        </Button> */}
                       </Block>
                       <Block style={{ paddingBottom: -HeaderHeight * 2 }}>
                         <Block row space="between" style={{ flexWrap: "wrap" }}>
-                          {mockData.upcomingEvents.map((post) => (
+                          {mockData[theUser].upcomingEvents.map((post) => (
                             <UpcomingEventsCard data={post} />
                           ))}
                         </Block>
@@ -218,7 +230,7 @@ const ProfileScreen = ({ navigation }) => {
                     >
                       Recent Activity
                     </Text>
-                    <Button
+                    {/* <Button
                       small
                       color="transparent"
                       textStyle={{
@@ -229,12 +241,12 @@ const ProfileScreen = ({ navigation }) => {
                       onPress={handleViewAllRecentActivityBtn}
                     >
                       View all
-                    </Button>
+                    </Button> */}
                   </Block>
                   <Block style={{ paddingBottom: -HeaderHeight * 2 }}>
                     <Block row space="between" style={{ flexWrap: "wrap" }}>
-                      {mockData.recentActivity.map((post) => (
-                        <RecentActivityCard data={post} />
+                      {mockData[theUser].recentActivity.map((post, i) => (
+                        <RecentActivityCard key={i} data={post} />
                       ))}
                     </Block>
                   </Block>
