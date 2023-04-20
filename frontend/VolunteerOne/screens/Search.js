@@ -1,13 +1,13 @@
 import React from 'react';
 import { StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { Block, theme } from 'galio-framework';
-import NotificationItem from '../../components/NotificationItem';
-import notifications from '../../constants/notifications';
+import NotificationItem from '../components/NotificationItem';
+import notifications from '../constants/notifications';
 
-/** ============================== Notifications Page ============================== **/ 
+/** ============================== Search Page ============================== **/ 
 const { width } = Dimensions.get('screen');
 
-class NotificationsPage extends React.Component {
+class SearchPage extends React.Component {
   renderNotifications = () => {
     return (
       <ScrollView
@@ -16,9 +16,9 @@ class NotificationsPage extends React.Component {
         
         {/* map all notifications using loop */}
         <Block flex>
-          {notifications.map(notification => (
+          {/* {notifications.map(notification => (
            <NotificationItem item={notification} horizontal />
-          ))}
+          ))} */}
         </Block>
     
       </ScrollView>
@@ -44,4 +44,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NotificationsPage;
+export default SearchPage;
