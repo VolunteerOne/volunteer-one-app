@@ -20,19 +20,19 @@ const EventDetails = ({ eventID }) => {
   if (eventID in events) {
     let eventDetails = events[eventID];
     //retrieves and formats the body of the event post
-    let bodyContent = eventDetails["eventBody"].map(function (data) {
+    let bodyContent = eventDetails["eventBody"].map((data, i) => {
       return (
         <>
-          <Text style={styles.descriptionTitle}>{data["title"]}</Text>
+          <Text key={i} style={styles.descriptionTitle}>{data["title"]}</Text>
           <Text>{data["description"]}</Text>
         </>
       );
     });
     //retrieves and formats the company info of the event post
-    let companyInfo = eventDetails["companyInfo"].map(function (data) {
+    let companyInfo = eventDetails["companyInfo"].map((data, i) => {
       return (
         <>
-          <Text style={styles.descriptionTitle}>{data["title"]}</Text>
+          <Text key={i} style={styles.descriptionTitle}>{data["title"]}</Text>
           <Text>{data["description"]}</Text>
         </>
       );

@@ -55,7 +55,7 @@ function AnnouncementsStack(props) {
           header: ({ navigation, scene }) => (
             <Header
               title="Announcements"
-              options
+              // options
               navigation={navigation}
               scene={scene}
             />
@@ -444,9 +444,9 @@ function BottomNav() {
           headerShown: false,
           tabBarLabel: "Explore",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="bell" color={color} size={size} />
+            <MaterialCommunityIcons name="cards" color={color} size={size} />
           ),
-          tabBarBadge: 3,
+          // tabBarBadge: 3,
         }}
       />
       <Tab.Screen
@@ -462,7 +462,7 @@ function BottomNav() {
               size={size}
             />
           ),
-          tabBarBadge: 3,
+          // tabBarBadge: 3,
         }}
       />
       <Tab.Screen
