@@ -446,7 +446,7 @@ function BottomNav() {
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="cards" color={color} size={size} />
           ),
-          tabBarBadge: 3,
+          // tabBarBadge: 3,
         }}
       />
       <Tab.Screen
