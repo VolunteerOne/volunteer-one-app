@@ -3,20 +3,35 @@ package controllers
 import (
 	"net/http"
 
-	"github.com/VolunteerOne/volunteer-one-app/backend/database"
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
+	"github.com/VolunteerOne/volunteer-one-app/backend/service"
 	"github.com/gin-gonic/gin"
 )
 
-type UsersController struct{}
+type UsersController interface {
+	Create(c *gin.Context)
+	One(c *gin.Context)
+	Update(c *gin.Context)
+	Delete(c *gin.Context)
+}
+
+type usersController struct {
+	usersService service.UsersService
+}
+
+func NewUsersController(s service.UsersService) UsersController {
+	return usersController{
+		usersService: s,
+	}
+}
 
 var usersModel = new(models.Users)
 
 // Create ...
-func (controller UsersController) Create(c *gin.Context) {
+func (controller usersController) Create(c *gin.Context) {
 	var err error
 
-	db := database.GetDatabase()
+	// db := database.GetDatabase()
 
 	// Declare a struct for the desired request body
 	var body struct {
@@ -43,11 +58,21 @@ func (controller UsersController) Create(c *gin.Context) {
 		return
 	}
 
+	hash, err := controller.usersService.HashPassword([]byte(body.Password))
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Failed to hash password",
+		})
+
+		return
+	}
+
 	// Create the object in the database
 	object := models.Users{
 		Handle:    body.Handle,
 		Email:     body.Email,
-		Password:  body.Password,
+		Password:  string(hash),
 		Birthdate: body.Birthdate,
 		FirstName: body.FirstName,
 		LastName:  body.LastName,
@@ -56,9 +81,11 @@ func (controller UsersController) Create(c *gin.Context) {
 		Verified:  body.Verified,
 	}
 
-	result := db.Create(&object)
+	result, err := controller.usersService.CreateUser(object)
 
-	if result.Error != nil {
+	_ = result
+
+	if err != nil {
 
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Creation failed",
@@ -71,38 +98,16 @@ func (controller UsersController) Create(c *gin.Context) {
 	c.JSON(http.StatusOK, object)
 }
 
-func (controller UsersController) All(c *gin.Context) {
-	// var err error
-	db := database.GetDatabase()
-	var objects []models.Users
-
-	// Get objects from database
-	result := db.Find(&objects)
-
-	if result.Error != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Could not retrieve objects",
-		})
-
-		return
-	}
-
-	// Return the array of objects
-	c.JSON(http.StatusOK, objects)
-
-}
-
-func (controller UsersController) One(c *gin.Context) {
-	db := database.GetDatabase()
+func (controller usersController) One(c *gin.Context) {
 
 	// Get the id
 	id := c.Param("id")
 
 	// Get object from the database
 	var object models.Users
-	result := db.First(&object, id)
+	result, err := controller.usersService.OneUser(id, object)
 
-	if result.Error != nil {
+	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Could not retrieve object",
 		})
@@ -111,19 +116,20 @@ func (controller UsersController) One(c *gin.Context) {
 	}
 
 	// Return the object
-	c.JSON(http.StatusAccepted, object)
+	c.JSON(http.StatusOK, result)
 }
 
-func (controller UsersController) Update(c *gin.Context) {
-
-	db := database.GetDatabase()
+func (controller usersController) Update(c *gin.Context) {
 
 	// Get the existing object
 	id := c.Param("id")
 	var object models.Users
-	result := db.Find(&object, id)
 
-	if result.Error != nil {
+	result, err := controller.usersService.OneUser(id, object)
+
+	_ = result
+
+	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Could not retrieve object",
 		})
@@ -164,8 +170,13 @@ func (controller UsersController) Update(c *gin.Context) {
 	object.Verified = body.Verified
 
 	// Update the object
-	result = db.Save(&object)
-	if result.Error != nil {
+
+	result1, err := controller.usersService.UpdateUser(object)
+
+	_ = result1
+
+	if err != nil {
+		// result = db.Save(&object)
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Could not update object",
 		})
@@ -175,17 +186,19 @@ func (controller UsersController) Update(c *gin.Context) {
 
 	// Respond
 	c.JSON(http.StatusOK, object)
+
 }
 
-func (controller UsersController) Delete(c *gin.Context) {
-	db := database.GetDatabase()
+func (controller usersController) Delete(c *gin.Context) {
 
 	// Get the existing object
 	id := c.Param("id")
 	var object models.Users
-	result := db.Find(&object, id)
+	result, err := controller.usersService.OneUser(id, object)
 
-	if result.Error != nil {
+	_ = result
+
+	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Could not retrieve object",
 		})
@@ -194,8 +207,11 @@ func (controller UsersController) Delete(c *gin.Context) {
 	}
 
 	// Delete the object
-	result = db.Delete(&object)
-	if result.Error != nil {
+	result1, err := controller.usersService.DeleteUser(object)
+
+	_ = result1
+
+	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Could not delete object",
 		})

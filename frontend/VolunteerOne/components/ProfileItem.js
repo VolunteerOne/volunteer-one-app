@@ -6,16 +6,15 @@
 import React from 'react';
 import { withNavigation } from '@react-navigation/compat';
 import PropTypes from 'prop-types';
-import { StyleSheet, Dimensions, Image, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, Dimensions, Image, TouchableWithoutFeedback, Alert } from 'react-native';
 import { Block, Text, theme } from 'galio-framework';
-
 import { argonTheme } from '../constants';
 import { Button } from "../components";
 
 class ProfileItem extends React.Component {
   render() {
-    const { navigation, item, horizontal, full, style, ctaColor, imageStyle } = this.props;
-    
+    const { navigation, item, horizontal, full, style, ctaColor, imageStyle, following } = this.props;
+
     const imageStyles = [
       full ? styles.fullImage : styles.horizontalImage,
       imageStyle
@@ -23,8 +22,19 @@ class ProfileItem extends React.Component {
     const cardContainer = [styles.card, styles.shadow, style];
     const imgContainer = [styles.imageContainer,
       horizontal ? styles.horizontalStyles : styles.verticalStyles,
+
       styles.shadow
     ];
+
+    const confirmationAlert = () =>
+      Alert.alert('Are you sure?', '', [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ]);
 
     return (
       
@@ -32,7 +42,7 @@ class ProfileItem extends React.Component {
           
           {/*================== profile image ==================*/}
           {/* TODO: link to profile  */}
-          <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}>
+          <TouchableWithoutFeedback onPress={() => navigation.push('Profile', {theUser: item.username,})}> 
             <Block>
               <Image source={{uri: item.image}} style={imageStyles} />
             </Block>
@@ -40,7 +50,8 @@ class ProfileItem extends React.Component {
 
           {/*================== username ==================*/}
           {/* TODO: link to profile */}
-          <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}>
+          {/* <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}> */}
+          <TouchableWithoutFeedback onPress={() => navigation.push('Profile', {theUser: item.username,})}> 
             <Block flex>
               <Text size={12} style={styles.cardTitle} bold>{item.username}</Text>
             </Block>
@@ -51,18 +62,17 @@ class ProfileItem extends React.Component {
             {/*================== remove button ==================*/}
             <Button
               small
-              style={{ backgroundColor: 'grey' }}>
-              Remove
+              style={{ backgroundColor: 'grey' }}
+              onPress={confirmationAlert}>
+              { following ? "Unfollow" : "Remove" }
             </Button>
 
             {/*================== options button (3 dots) ==================*/}
             {/* TODO: will need to change this touchable to a popup */}
-            <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}>
+            {/* <TouchableWithoutFeedback onPress={() => navigation.navigate('Pro')}>
               <Text size={12} style={styles.cardDescription} bold>•••</Text>
-            </TouchableWithoutFeedback>
+            </TouchableWithoutFeedback> */}
           </Block>
-
-
       </Block>
      
     );
@@ -75,6 +85,7 @@ ProfileItem.propTypes = {
   full: PropTypes.bool,
   ctaColor: PropTypes.string,
   imageStyle: PropTypes.any,
+  following: PropTypes.bool,
 }
 
 const styles = StyleSheet.create({
@@ -88,8 +99,9 @@ const styles = StyleSheet.create({
   cardTitle: {
   },
   cardDescription: {
-    alignItems: 'center', // Centered vertically - 3 dots
-    flex:1,
+    // alignItems: 'center', // Centered vertically - 3 dots
+    // flex:1,
+    marginRight: 20,
     borderRadius: 3,
     elevation: 1,
     overflow: 'hidden',

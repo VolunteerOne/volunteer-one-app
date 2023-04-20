@@ -15,8 +15,9 @@ const EventCard = ({ data }) => {
   return (
     <Block style={[styles.card, styles.shadowProp]}>
       <CardHeader
-        organization={data["organization"]}
+        organization={data["organization"]['name']}
         timePosted={data["timePosted"]}
+        profileImage={data["organization"]['image']}
       />
       <CardBody data={data} />
     </Block>
