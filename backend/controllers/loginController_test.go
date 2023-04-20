@@ -164,6 +164,7 @@ func TestEmailFound(t *testing.T) {
 	mockService := new(mocks.LoginService)
 	// mock the function
 	mockService.On("FindUserFromEmail", email, emptyUser).Return(user, nil)
+    mockService.On("CompareHashedAndUserPass", []byte(password), password).Return(nil)
 
 	// run actual handler
 	res := NewLoginController(mockService)
@@ -225,6 +226,7 @@ func TestPasswordsDontMatch(t *testing.T) {
 
 	mockService := new(mocks.LoginService)
 	mockService.On("FindUserFromEmail", email, emptyUser).Return(user, nil)
+    mockService.On("CompareHashedAndUserPass", []byte(password), "not right password").Return(fmt.Errorf("error"))
 
 	res := NewLoginController(mockService)
 	res.Login(c)
