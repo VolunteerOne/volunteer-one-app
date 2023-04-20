@@ -5,6 +5,7 @@ import (
 
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
 	"github.com/VolunteerOne/volunteer-one-app/backend/repository"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type UsersService interface {
@@ -12,6 +13,7 @@ type UsersService interface {
 	OneUser(id string, user models.Users) (models.Users, error)
 	UpdateUser(user models.Users) (models.Users, error)
 	DeleteUser(user models.Users) (models.Users, error)
+	HashPassword(password []byte) ([]byte, error)
 }
 
 type usersService struct {
@@ -30,7 +32,6 @@ func (u usersService) CreateUser(user models.Users) (models.Users, error) {
 	return u.usersRepository.CreateUser(user)
 }
 
-
 func (u usersService) OneUser(id string, user models.Users) (models.Users, error) {
 	log.Println("[UsersService] Get One User...")
 
@@ -47,4 +48,9 @@ func (u usersService) DeleteUser(user models.Users) (models.Users, error) {
 	log.Println("[UsersService] Delete User...")
 
 	return u.usersRepository.DeleteUser(user)
+}
+
+func (u usersService) HashPassword(password []byte) ([]byte, error) {
+	hash, err := bcrypt.GenerateFromPassword([]byte(password), 10)
+	return hash, err
 }
