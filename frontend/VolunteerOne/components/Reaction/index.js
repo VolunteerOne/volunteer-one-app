@@ -4,7 +4,7 @@ import Comment from "./Comment";
 import { Block, Card, Text, theme } from "galio-framework";
 
 
-const Reaction = ({ likeCount }) => {
+const Reaction = ({ likeCount, commentCount }) => {
 
     return (
       <View
@@ -19,12 +19,10 @@ const Reaction = ({ likeCount }) => {
     >
     <Card
         style={[styles.card]}>
-
-
       <Block flex row>
 
       <LikeButton likeCount={likeCount}></LikeButton>
-      <Comment></Comment>
+      <Comment commentCount={commentCount}></Comment>
       </Block>
       
     </Card>
@@ -37,7 +35,7 @@ const styles = StyleSheet.create({
     card: {
       backgroundColor: theme.COLORS.WHITE,
       width: 250,
-      height: 30,
+      height: 100,
       borderRadius: 0,
       margin: 10,
       borderColor: '#fff',
