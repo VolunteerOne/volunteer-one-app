@@ -4,13 +4,19 @@ import { Block, Button, Card, Text, Input, theme} from "galio-framework";
 import { StyleSheet, TextInput, View, TouchableOpacity, Pressable } from "react-native";
 import Icon from "../Icon";
 
-const Comment = () => {
+const Comment = ({commentCount}) => {
   const [show, setShow] = useState(false);
   const [comment, setComment] = useState("");
+  const [showComment, setShowComment] = useState(false);
+  const [count, setCount] = useState(commentCount);
+
 
   function sendValues(comment) {
     console.log(comment);
-};
+    setCount(count => count + 1);
+    console.log(count);
+  };
+
   return (
       <View style={styles.view}>
       <TouchableOpacity
@@ -25,11 +31,14 @@ const Comment = () => {
             name="comment"
             color="#32325D"
           />
-          <Text style={styles.titleText}>Comment</Text>
+            {count == 0 ? 
+            <Text style={styles.titleText}>Comment</Text>
+            :
+            <Text style={styles.titleText}>{count} Comments</Text>  
+            }
           </Block>
     </TouchableOpacity>
 
-    { show ? 
       <View style={styles.comment}>
           <TextInput
               placeholder="Write a comment..."
@@ -44,33 +53,41 @@ const Comment = () => {
           />
 
     <View style={styles.submit}>
-      <Pressable onPress={() => {sendValues(comment); setComment('') }}>
+      <Pressable onPress={() => {sendValues(comment); setComment('')}}>
       <Icon
             family="MaterialIcons"
             size={15}
             name="send"
             color="#32325D"
           />
-          
-
       </Pressable>
     </View>
-{/* 
+
     <View style={styles.close}>
-      <Pressable onPress={() => setShow(!show)}>
+      {/* <Pressable onPress={() => setShow(!show)}>
       <Icon
             family="MaterialIcons"
             size={15}
             name="close"
             color="#32325D"
           />
-
-      </Pressable>
-    </View> */}
-
+      </Pressable> */}
     </View>
 
+    <View style={styles.viewComments}>
+      <Pressable onPress={() => setShowComment(!showComment)}>
+        {/* <Text>view comments</Text> */}
+      </Pressable>
+      { showComment ? 
+      <View>
+        <Text>{comment}</Text>
+        </View>
+
           : null }
+    </View>
+
+
+    </View>
   </View>
   );
 };
@@ -94,7 +111,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         height: 30,
         marginLeft: 120,
-        marginTop: -30,
+        marginTop: -60,
         zIndex : 1,
     },
     comment: {
@@ -103,7 +120,7 @@ const styles = StyleSheet.create({
       borderRadius: 8,
       width: 340,
       marginLeft: -90,
-      marginTop: -40,
+      marginTop: -0,
       height: 40,
       zIndex: 5,
       flexDirection: 'row',
@@ -119,9 +136,15 @@ const styles = StyleSheet.create({
     close: {
       position: 'absolute',
       marginLeft: 315,
-      height: 50,
+      height: 15,
       marginTop: -17
-    }
+    },
+    viewComments: {
+      position: 'absolute',
+      marginLeft: 200,
+      height: 15,
+      marginTop: -17
+    },
 });
 
 export default Comment;
