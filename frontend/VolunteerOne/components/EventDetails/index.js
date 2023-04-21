@@ -36,25 +36,25 @@ const EventDetails = ({ eventID }) => {
     Alert.alert("Organization has been notified!");
   };
 
+  let eventDetails = events.find((o) => o.id === eventID);
   //if the eventID is found, display data
-  if (eventID in events) {
-    let eventDetails = events[eventID];
+  if (eventDetails) {
     //retrieves and formats the body of the event post
-    let bodyContent = eventDetails["eventBody"].map((data, i) => {
+    let bodyContent = eventDetails["eventBody"].map(function (data, index) {
       return (
-        <>
-          <Text key={i} style={styles.descriptionTitle}>{data["title"]}</Text>
+        <Block key={index}>
+          <Text style={styles.descriptionTitle}>{data["title"]}</Text>
           <Text>{data["description"]}</Text>
-        </>
+        </Block>
       );
     });
     //retrieves and formats the company info of the event post
-    let companyInfo = eventDetails["companyInfo"].map((data, i) => {
+    let companyInfo = eventDetails["companyInfo"].map(function (data, index) {
       return (
-        <>
-          <Text key={i} style={styles.descriptionTitle}>{data["title"]}</Text>
+        <Block key={index}>
+          <Text style={styles.descriptionTitle}>{data["title"]}</Text>
           <Text>{data["description"]}</Text>
-        </>
+        </Block>
       );
     });
     //Event Details gets returned
