@@ -27,8 +27,7 @@ class NotificationItem extends React.Component {
     ];
 
     return (
-      // <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
-      <TouchableWithoutFeedback onPress={() => navigation.navigate('Onboarding')}>
+      <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
       <Block row={horizontal} card style={cardContainer}>
 
           {/* profile image */}

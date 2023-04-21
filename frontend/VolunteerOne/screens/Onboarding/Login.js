@@ -14,6 +14,7 @@ import { Block, Text } from "galio-framework";
 
 import { Button } from "../../components";
 import { Images, argonTheme } from "../../constants";
+import loginCredentials from "../../constants/loginCredentials";
 
 
 const { width, height } = Dimensions.get("screen");
@@ -34,11 +35,16 @@ const Login = ({ navigation }) => {
 
   function handleLoginBtnClick() {
     console.log(email, password);
-    setStatus(!errLogin);
-    // navigation.navigate("App");
+    // validate username and passwords
+    if (email in loginCredentials) {
+      if (loginCredentials[email].password == password) {
+          navigation.navigate("App");
+      }
+    } else {
+      setStatus(true);
+    }      
   }
   const [errLogin, setStatus] = useState(false);
-
 
   return (
     <Block flex middle>
