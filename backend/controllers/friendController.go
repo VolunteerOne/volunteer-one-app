@@ -3,7 +3,6 @@ package controllers
 import (
 	"net/http"
 
-	"github.com/VolunteerOne/volunteer-one-app/backend/database"
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
 	"github.com/VolunteerOne/volunteer-one-app/backend/service"
 	"github.com/gin-gonic/gin"
@@ -31,11 +30,9 @@ var friendModel = new(models.Friend)
 
 func (controller friendController) Create(c *gin.Context) {
 	var err error
-	// db := database.GetDatabase()
 	var body struct {
-		friendOneHandle string
-		friendTwoHandle string
-		relationshipBit string
+		FriendOneHandle string
+		FriendTwoHandle string
 	}
 	err = c.Bind(&body)
 	if err != nil {
@@ -46,8 +43,8 @@ func (controller friendController) Create(c *gin.Context) {
 	}
 
 	object := models.Friend{
-		FriendOneHandle: body.friendOneHandle,
-		FriendTwoHandle: body.friendTwoHandle,
+		FriendOneHandle: body.FriendOneHandle,
+		FriendTwoHandle: body.FriendTwoHandle,
 		RelationshipBit: "pending",
 	}
 
@@ -69,13 +66,10 @@ func (controller friendController) Create(c *gin.Context) {
 }
 
 func (controller friendController) Reject(c *gin.Context) {
-	// db := database.GetDatabase()
 
-	// Get the existing object
 	id := c.Param("id")
-	var object models.Friend
+
 	result, err := controller.friendService.OneFriend(id)
-	_ = result
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -86,7 +80,7 @@ func (controller friendController) Reject(c *gin.Context) {
 	}
 
 	// Delete the object
-	err1 := controller.friendService.RejectFriend(object)
+	err1 := controller.friendService.RejectFriend(result)
 
 	if err1 != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -104,12 +98,10 @@ func (controller friendController) Reject(c *gin.Context) {
 }
 
 func (controller friendController) Accept(c *gin.Context) {
-	db := database.GetDatabase()
 	id := c.Param("id")
-	var object models.Friend
-	result := db.First(&object, id)
+	result, err1 := controller.friendService.OneFriend(id)
 
-	if result.Error != nil {
+	if err1 != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Could not retrieve object",
 		})
@@ -117,26 +109,9 @@ func (controller friendController) Accept(c *gin.Context) {
 		return
 	}
 
-	var body struct {
-		friendOneHandle string
-		friendTwoHandle string
-		relationshipBit string
-	}
+	result.RelationshipBit = "friends"
 
-	if err := c.Bind(&body); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Request body is invalid",
-		})
-
-		return
-	}
-
-	object.FriendOneHandle = body.friendOneHandle
-	object.FriendTwoHandle = body.friendTwoHandle
-	object.RelationshipBit = "friends"
-
-	results1, err := controller.friendService.AcceptFriend(object)
-	_ = results1
+	results1, err := controller.friendService.AcceptFriend(result)
 
 	if err != nil {
 
@@ -148,20 +123,16 @@ func (controller friendController) Accept(c *gin.Context) {
 	}
 
 	// Respond
-	c.JSON(http.StatusOK, object)
+	c.JSON(http.StatusOK, results1)
 }
 
 func (controller friendController) One(c *gin.Context) {
-	db := database.GetDatabase()
 
-	// Get the id
 	id := c.Param("id")
 
-	// Get object from the database
-	var object models.Friend
-	result := db.First(&object, id)
+	result, err1 := controller.friendService.OneFriend(id)
 
-	if result.Error != nil {
+	if err1 != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Could not retrieve object",
 		})
@@ -170,7 +141,7 @@ func (controller friendController) One(c *gin.Context) {
 	}
 
 	// Return the object
-	c.JSON(http.StatusAccepted, result)
+	c.JSON(http.StatusOK, result)
 }
 
 func (controller friendController) All(c *gin.Context) {
