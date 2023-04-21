@@ -42,11 +42,15 @@ func (controller eventController) Create(c *gin.Context) {
 
 	var body struct {
 		OrganizationID  uint
-		Name        string
-		Address		string
-		Date 		time.Time
-		Description string
-		Interests	string
+		Name        	string
+		Address			string
+		Date 			time.Time
+		Description 	string
+		Interests		string
+		Skills			string
+		GoodFor			string
+		CauseAreas		string
+		Requirements 	string	
 	}
 
 	err = c.Bind(&body)
@@ -65,6 +69,10 @@ func (controller eventController) Create(c *gin.Context) {
 		Date: body.Date,
 		Description: body.Description,
 		Interests: body.Interests,
+		Skills: body.Skills,
+		GoodFor: body.GoodFor,
+		CauseAreas: body.CauseAreas,
+		Requirements: body.Requirements,
 	}
 
 	res, err := controller.eventService.CreateEvent(event);
@@ -145,11 +153,15 @@ func (controller eventController) Update(c *gin.Context) {
 	// Get updates from the body
 	var body struct {
 		OrganizationID  uint
-		Name        string
-		Address		string
-		Date 		time.Time
-		Description string
-		Interests	string
+		Name        	string
+		Address			string
+		Date 			time.Time
+		Description 	string
+		Interests		string
+		Skills			string
+		GoodFor			string
+		CauseAreas		string
+		Requirements 	string
 	}
 
 	if err := c.Bind(&body); err != nil {
@@ -166,6 +178,10 @@ func (controller eventController) Update(c *gin.Context) {
 	event.Date = body.Date
 	event.Description = body.Description
 	event.Interests = body.Interests
+	event.Skills = body.Skills			
+	event.GoodFor = body.GoodFor			
+	event.CauseAreas = body.CauseAreas		
+	event.Requirements = body.Requirements 	
 
 	// Update the object
 	result, err := controller.eventService.UpdateEvent(event)

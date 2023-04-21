@@ -22,6 +22,7 @@ type eventRepository struct {
 // CreateEvent implements EventRepository
 func (r eventRepository) CreateEvent(event models.Event) (models.Event, error) {
 	result := r.DB.Create(&event);
+	r.DB.Preload("Organization").Find(&event)
 
 	if result.Error != nil {
 		return models.Event{}, errors.New("creation failed")
@@ -46,6 +47,7 @@ func (r eventRepository) GetEventById(id string) (models.Event, error) {
 	var event models.Event
 
 	result := r.DB.First(&event, id)
+	r.DB.Preload("Organization").Find(&event)
 
 	if result.Error != nil {
 		return models.Event{}, errors.New("get failed");
@@ -58,6 +60,7 @@ func (r eventRepository) GetEventById(id string) (models.Event, error) {
 func (r eventRepository) GetEvents() ([]models.Event, error) {
 	var events []models.Event
 	result := r.DB.Find(&events)
+	r.DB.Preload("Organization").Find(&events)
 
 	if result.Error != nil {
 		return []models.Event{}, errors.New("get failed");
@@ -69,6 +72,7 @@ func (r eventRepository) GetEvents() ([]models.Event, error) {
 // UpdateEvent implements EventRepository
 func (r eventRepository) UpdateEvent(event models.Event) (models.Event, error) {
 	result := r.DB.Save(&event) 
+	r.DB.Preload("Organization").Find(&event)
 
 	if result.Error != nil {
 		return models.Event{}, errors.New("update failed");
