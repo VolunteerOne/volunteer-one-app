@@ -1,8 +1,9 @@
 
 import React, { useState }  from "react";
 import { Block, Button, Card, Text, Input, theme} from "galio-framework";
-import { StyleSheet, TextInput, View, TouchableOpacity, Pressable } from "react-native";
+import { StyleSheet, TextInput, View, TouchableOpacity, Pressable, Dimensions } from "react-native";
 import Icon from "../Icon";
+
 
 const Comment = ({commentCount}) => {
   const [show, setShow] = useState(false);
@@ -110,7 +111,7 @@ const styles = StyleSheet.create({
         shadowColor: '#fff',
         backgroundColor: '#fff',
         height: 30,
-        marginLeft: 120,
+        marginLeft: 110,
         marginTop: -60,
         zIndex : 1,
     },
@@ -118,13 +119,14 @@ const styles = StyleSheet.create({
       borderColor: "#32325D",
       backgroundColor: "#FFFFFF",
       borderRadius: 8,
-      width: 340,
-      marginLeft: -90,
+      width: 343,
+      marginLeft: -89,
       marginTop: -0,
       height: 40,
       zIndex: 5,
       flexDirection: 'row',
-      borderColor: 'gray', borderWidth: 1
+      borderColor: "#CAD1D7",
+      borderWidth: 1
 
     },
     submit: {
@@ -141,7 +143,7 @@ const styles = StyleSheet.create({
     },
     viewComments: {
       position: 'absolute',
-      marginLeft: 200,
+      marginLeft: 190,
       height: 15,
       marginTop: -17
     },
