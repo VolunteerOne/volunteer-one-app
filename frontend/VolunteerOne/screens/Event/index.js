@@ -20,7 +20,7 @@ const Event = ({ route }) => {
         contentContainerStyle={styles.articles}
       >
         <Block flex center>
-          <EventDetails eventID={eventID} />
+          <EventDetails key={eventID} eventID={eventID} />
         </Block>
       </ScrollView>
     </Block>

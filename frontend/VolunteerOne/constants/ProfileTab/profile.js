@@ -1,6 +1,6 @@
 export default {
   // profiles
-  "Jessica Jones" : {
+  "Jessica Jones": {
     name: "Jessica Jones",
     userType: "volunteer",
     image:
@@ -94,7 +94,7 @@ export default {
     ],
   },
 
-  "Jane Hollis" : {
+  "Jane Hollis": {
     name: "Jane Hollis",
     userType: "volunteer",
     image:
@@ -188,7 +188,7 @@ export default {
     ],
   },
 
-  "Doug Salas" : {
+  "Doug Salas": {
     name: "Doug Salas",
     userType: "volunteer",
     image:
@@ -282,7 +282,7 @@ export default {
     ],
   },
 
-  "Aliya Diwa" : {
+  "Aliya Diwa": {
     name: "Aliya Diwa",
     userType: "volunteer",
     image:
@@ -376,11 +376,11 @@ export default {
     ],
   },
 
-  "Noah Fernandez" : {
+  "Noah Fernandez": {
     name: "Noah Fernandez",
     userType: "volunteer",
     image:
-    "https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1326&q=80",
+      "https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1326&q=80",
     age: "36",
     city: "Houston",
     country: "USA",
@@ -408,7 +408,7 @@ export default {
         {
           username: "Jane Hollis",
           image:
-          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1287&q=80",
+            "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1287&q=80",
         },
         {
           username: "Bryce Hansen",
@@ -470,7 +470,7 @@ export default {
     ],
   },
 
-  "Bryce Hansen" : {
+  "Bryce Hansen": {
     name: "Bryce Hansen",
     userType: "volunteer",
     image:
@@ -565,7 +565,7 @@ export default {
   },
 
   // organizations
-  "Habitat for Humanity" : {
+  "Habitat for Humanity": {
     name: "Habitat for Humanity",
     userType: "organization",
     image:
@@ -606,10 +606,11 @@ export default {
     ],
   },
 
-  "Global Volunteers" : {
+  "Global Volunteers": {
     name: "Global Volunteers",
     userType: "organization",
-    image: "https://yt3.googleusercontent.com/ytc/AL5GRJU2cI52r0t8YZXC_4LtTJHT8-jitUP6Pq_w59b1=s900-c-k-c0x00ffffff-no-rj",
+    image:
+      "https://yt3.googleusercontent.com/ytc/AL5GRJU2cI52r0t8YZXC_4LtTJHT8-jitUP6Pq_w59b1=s900-c-k-c0x00ffffff-no-rj",
     city: "St. Paul",
     country: "USA",
     description:
@@ -646,7 +647,7 @@ export default {
     ],
   },
 
-  "Global Humanitarian Aid" : {
+  "Global Humanitarian Aid": {
     name: "Global Humanitarian Aid",
     userType: "organization",
     image:
@@ -687,7 +688,7 @@ export default {
     ],
   },
 
-  "Volunteer One" : {
+  "Volunteer One": {
     name: "Volunteer One",
     userType: "organization",
     image:
@@ -727,5 +728,4 @@ export default {
       },
     ],
   },
-
 };
