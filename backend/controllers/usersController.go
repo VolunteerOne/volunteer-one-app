@@ -58,11 +58,21 @@ func (controller usersController) Create(c *gin.Context) {
 		return
 	}
 
+	hash, err := controller.usersService.HashPassword([]byte(body.Password))
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Failed to hash password",
+		})
+
+		return
+	}
+
 	// Create the object in the database
 	object := models.Users{
 		Handle:    body.Handle,
 		Email:     body.Email,
-		Password:  body.Password,
+		Password:  string(hash),
 		Birthdate: body.Birthdate,
 		FirstName: body.FirstName,
 		LastName:  body.LastName,
@@ -97,8 +107,6 @@ func (controller usersController) One(c *gin.Context) {
 	var object models.Users
 	result, err := controller.usersService.OneUser(id, object)
 
-	_ = result
-
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Could not retrieve object",
@@ -108,7 +116,7 @@ func (controller usersController) One(c *gin.Context) {
 	}
 
 	// Return the object
-	c.JSON(http.StatusAccepted, object)
+	c.JSON(http.StatusOK, result)
 }
 
 func (controller usersController) Update(c *gin.Context) {

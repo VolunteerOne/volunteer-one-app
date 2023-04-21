@@ -22,8 +22,18 @@ func (_m *LoginController) PasswordReset(c *gin.Context) {
 	_m.Called(c)
 }
 
-// Signup provides a mock function with given fields: c
-func (_m *LoginController) Signup(c *gin.Context) {
+// RefreshToken provides a mock function with given fields: c
+func (_m *LoginController) RefreshToken(c *gin.Context) {
+	_m.Called(c)
+}
+
+// SendEmailForPassReset provides a mock function with given fields: c
+func (_m *LoginController) SendEmailForPassReset(c *gin.Context) {
+	_m.Called(c)
+}
+
+// VerifyAccessToken provides a mock function with given fields: c
+func (_m *LoginController) VerifyAccessToken(c *gin.Context) {
 	_m.Called(c)
 }
 
