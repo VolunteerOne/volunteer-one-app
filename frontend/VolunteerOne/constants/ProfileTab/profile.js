@@ -685,13 +685,13 @@ export default {
         date: "February 15, 2025",
         title: "Help pack disaster relief bags",
         image:
-          "https://images.unsplash.com/photo-1516559828984-fb3b99548b21?ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80",
+          "https://plus.unsplash.com/premium_photo-1663091589975-c94f43dfae70?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
       },
       {
         date: "March 15, 2025",
         title: "Volunteer at the Soup Kitchen",
         image:
-          "https://images.unsplash.com/photo-1519368358672-25b03afee3bf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2004&q=80",
+          "https://plus.unsplash.com/premium_photo-1681195079023-4f4e39e93382?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
       },
     ],
   },
@@ -709,14 +709,14 @@ export default {
       {
         date: "January 22, 2023",
         description:
-          "Just finished an volunteer session at the gym, teaching kids how to dance! 💪 Feeling pumped and energized! #FitnessGoals #GymLife #HealthyLifestyle",
+          "Volunteers gathered to plant a community garden, preparing the soil, planting vegetables and flowers, and maintaining the garden to provide fresh produce to the local community.",
         likes: "1",
         comments: "1",
       },
       {
         date: "January 20, 2023",
         description:
-          "Feeling grateful and blessed to celebrate my 5th anniversary volunteering with American Running Society! 💕 Time flies when you're having fun! #VolunteeringWins #Anniversary #Blessed",
+          "Volunteers teamed up with Habitat for Humanity to build affordable housing for families in need, working on construction projects such as framing, painting, and landscaping.",
         likes: "2",
         comments: "2",
       },
@@ -724,15 +724,15 @@ export default {
     upcomingEvents: [
       {
         date: "February 15, 2025",
-        title: "Help pack disaster relief bags",
+        title: "Coastal Cleanup",
         image:
-          "https://images.unsplash.com/photo-1516559828984-fb3b99548b21?ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80",
+          "https://images.unsplash.com/photo-1562684750-0553aea79845?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1171&q=80",
       },
       {
         date: "March 15, 2025",
-        title: "Volunteer at the Soup Kitchen",
+        title: "Home Renovation for the Elderly",
         image:
-          "https://images.unsplash.com/photo-1519368358672-25b03afee3bf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2004&q=80",
+          "https://images.unsplash.com/photo-1599619585752-c3edb42a414c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
       },
     ],
   },
@@ -750,14 +750,14 @@ export default {
       {
         date: "January 22, 2023",
         description:
-          "Just finished an volunteer session at the gym, teaching kids how to dance! 💪 Feeling pumped and energized! #FitnessGoals #GymLife #HealthyLifestyle",
+          "Last month, our volunteers organized a community cleanup day, where we collected trash and litter from local parks, streets, and public areas, promoting a cleaner and healthier environment for our community.",
         likes: "1",
         comments: "1",
       },
       {
         date: "January 20, 2023",
         description:
-          "Feeling grateful and blessed to celebrate my 5th anniversary volunteering with American Running Society! 💕 Time flies when you're having fun! #VolunteeringWins #Anniversary #Blessed",
+          "Volunteers organized and participated in a literacy fair, providing free books, reading activities, and educational games to promote literacy skills and a love for reading among children and families.",
         likes: "2",
         comments: "2",
       },
@@ -765,15 +765,15 @@ export default {
     upcomingEvents: [
       {
         date: "February 15, 2025",
-        title: "Help pack disaster relief bags",
+        title: "Literacy Program",
         image:
-          "https://images.unsplash.com/photo-1516559828984-fb3b99548b21?ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80",
+          "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
       },
       {
         date: "March 15, 2025",
-        title: "Volunteer at the Soup Kitchen",
+        title: "Trail Maintenance",
         image:
-          "https://images.unsplash.com/photo-1519368358672-25b03afee3bf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2004&q=80",
+          "https://images.unsplash.com/photo-1595202761821-57d3a4e5dc9f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
       },
     ],
   },
