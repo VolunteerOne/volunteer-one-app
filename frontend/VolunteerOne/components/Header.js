@@ -66,6 +66,18 @@ const SettingsButton = ({ isWhite, style, navigation }) => (
   </TouchableOpacity>
 );
 
+const BookMarkButton = ({ isWhite, style, navigation }) => (
+  <TouchableOpacity
+    style={[styles.button, style]}
+    onPress={() => navigation.navigate("Bookmarks")}
+  >
+    <MaterialCommunityIcons
+      size={24}
+      name="book"
+      color={theme.COLORS[isWhite ? "WHITE" : "ICON"]}
+    />
+  </TouchableOpacity>
+);
 /** ==================================== Header Component ==================================== **/
 
 class Header extends React.Component {
@@ -99,6 +111,11 @@ class Header extends React.Component {
     switch (title) {
       case "Profile":
         return [
+          <BookMarkButton
+            key="bookmarks"
+            navigation={navigation}
+            isWhite={white}
+          />,
           <SettingsButton
             key="settings"
             navigation={navigation}
