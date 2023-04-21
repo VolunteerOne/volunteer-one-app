@@ -14,17 +14,17 @@ const { width } = Dimensions.get('screen');
 
 class Feed extends React.Component {
   renderPosts = () => {
-    var postsList = posts.map(function (data) {
-        if (data["image"] != null)
+    var postsList = posts.map((data) => {
+        if (data["image"] != null && data.id != null)
           return (
-            <View className="data" key={data["id"]} data>
-            <PostImageCard key={data["id"]} data={data} />
+            <View key={data.id}>
+            <PostImageCard key={data.id} data={data} />
             </View>
           );
-        else
+        else if (data.id != null)
           return (
-            <View className="data" key={data["id"]} data>
-            <PostNoImageCard key={data["id"]} data={data} />
+            <View key={data.id}>
+            <PostNoImageCard key={data.id} data={data} />
             </View>
           );
     });

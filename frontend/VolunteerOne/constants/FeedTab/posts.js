@@ -19,6 +19,7 @@ export default [
       likeCount: 32
     },
     {
+      id: 2,
       author: 'Aliya Diwa',
       timePosted: new Date("2023-03-22T00:00:00"),
       profileImage: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDV8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=400&q=60',
