@@ -34,8 +34,11 @@ const Login = ({ navigation }) => {
 
   function handleLoginBtnClick() {
     console.log(email, password);
-    navigation.navigate("App");
+    setStatus(!errLogin);
+    // navigation.navigate("App");
   }
+  const [errLogin, setStatus] = useState(false);
+
 
   return (
     <Block flex middle>
@@ -105,6 +108,13 @@ const Login = ({ navigation }) => {
                         >
                           Forgot Password?
                         </Text>
+
+                        <Text
+                          color="red"
+                          size={12}>
+                          {`${errLogin ? 'Invalid username or password, please try again' : ''}`}
+                        </Text>
+    
                       </TouchableOpacity>
                     </Block>
                   </Block>
