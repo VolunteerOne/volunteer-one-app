@@ -1,33 +1,48 @@
 import React from 'react';
-import { StyleSheet, Dimensions, ScrollView } from 'react-native';
+import { StyleSheet, Dimensions, ScrollView, TextInput } from 'react-native';
 import { Block, theme } from 'galio-framework';
-import NotificationItem from '../components/NotificationItem';
+import UserAndOrgItem from '../components/UserAndOrgItem';
 import notifications from '../constants/notifications';
 
-/** ============================== Search Page ============================== **/ 
 const { width } = Dimensions.get('screen');
 
 class SearchPage extends React.Component {
+  state = {
+    searchQuery: '',
+  };
+
+  handleSearch = query => {
+    this.setState({ searchQuery: query });
+  };
+
   renderNotifications = () => {
+    const { searchQuery } = this.state;
+    const filteredNotifications = notifications.filter(notification =>
+      notification.title.toLowerCase().includes(searchQuery.toLowerCase()),
+    );
+
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.notifications}>
-        
-        {/* map all notifications using loop */}
-        <Block flex>
-          {/* {notifications.map(notification => (
-           <NotificationItem item={notification} horizontal />
-          ))} */}
-        </Block>
-    
+        {filteredNotifications.map(notification => (
+          <UserAndOrgItem item={notification} horizontal key={notification.id} />
+        ))}
       </ScrollView>
-    )
-  }
+    );
+  };
 
   render() {
+    const { searchQuery } = this.state;
+
     return (
       <Block flex center style={styles.home}>
+        <TextInput
+          style={styles.searchInput}
+          placeholder="Search for Volunteers or Organizations..."
+          value={searchQuery}
+          onChangeText={this.handleSearch}
+        />
         {this.renderNotifications()}
       </Block>
     );
@@ -36,11 +51,22 @@ class SearchPage extends React.Component {
 
 const styles = StyleSheet.create({
   home: {
-    width: width,    
+    width: width,
   },
   notifications: {
     width: width - theme.SIZES.BASE * 2,
     paddingVertical: theme.SIZES.BASE,
+  },
+  searchInput: {
+    backgroundColor: '#fff',
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 4,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    marginBottom: 5,
+    width: width - theme.SIZES.BASE * 2,
+    marginTop: 20,
   },
 });
 
