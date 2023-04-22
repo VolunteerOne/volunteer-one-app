@@ -45,14 +45,6 @@ export default [
     time: 5,
   },
   {
-    name: 'Global Volunteers',
-    title: 'Global Volunteers just posted a new event: Operation Clean Sweep',
-    id: 'event3',
-    image: 'https://yt3.googleusercontent.com/ytc/AL5GRJU2cI52r0t8YZXC_4LtTJHT8-jitUP6Pq_w59b1=s900-c-k-c0x00ffffff-no-rj',
-    time: 8,
-    horizontal: true
-  },
-  {
     name: 'Daniel Smith',
     title: 'Daniel Smith liked your post.',
     image: 'https://picsum.photos/400?random=1',
