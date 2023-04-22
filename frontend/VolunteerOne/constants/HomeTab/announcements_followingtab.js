@@ -1,6 +1,6 @@
 export const following = [
   {
-    id: "event1",
+    id: 1,
     organization: {
       name: "Global Humanitarian Aid",
       image:
@@ -17,7 +17,7 @@ export const following = [
     type: "event",
   },
   {
-    id: "event2",
+    id: 2,
     organization: {
       name: "Habitat for Humanity",
       image:
@@ -34,7 +34,7 @@ export const following = [
     type: "event",
   },
   {
-    id: "announcement1",
+    id: 13,
     organization: {
       name: "Global Volunteers",
       image:
@@ -46,7 +46,7 @@ export const following = [
     timePosted: new Date("2021-03-01T00:00:00"),
   },
   {
-    id: "event3",
+    id: 3,
     organization: {
       name: "Global Volunteers",
       image:
@@ -62,11 +62,11 @@ export const following = [
     type: "event",
   },
   {
-    id: "event4",
+    id: 4,
     organization: {
       name: "American Running Society",
       image:
-      'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?fit=crop&w=240&q=80',
+        "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?fit=crop&w=240&q=80",
     },
     name: "Fun Run",
     subject: "5k run for charity",
@@ -78,7 +78,7 @@ export const following = [
     type: "event",
   },
   {
-    id: "announcement2",
+    id: 17,
     organization: {
       name: "Nourish & Nurture Network",
       image:
