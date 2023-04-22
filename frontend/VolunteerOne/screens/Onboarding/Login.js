@@ -16,7 +16,6 @@ import { Block, Text } from "galio-framework";
 
 import { Button } from "../../components";
 import { Images, argonTheme } from "../../constants";
-import loginCredentials from "../../constants/loginCredentials";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -36,16 +35,8 @@ const Login = ({ navigation }) => {
 
   function handleLoginBtnClick() {
     console.log(email, password);
-    // validate username and passwords
-    if (email in loginCredentials) {
-      if (loginCredentials[email].password == password) {
-          navigation.navigate("App");
-      }
-    } else {
-      setStatus(true);
-    }      
+    navigation.navigate("App");
   }
-  const [errLogin, setStatus] = useState(false);
 
   return (
     // <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
@@ -128,13 +119,6 @@ const Login = ({ navigation }) => {
                         <Text bold size={14} color={argonTheme.COLORS.WHITE}>
                           LOGIN
                         </Text>
-                        
-                        <Text
-                          color="red"
-                          size={12}>
-                          {`${errLogin ? 'Invalid username or password, please try again' : ''}`}
-                        </Text>
-    
                       </Button>
                     </Block>
                   </Block>
