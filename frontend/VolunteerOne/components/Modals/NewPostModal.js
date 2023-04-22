@@ -9,6 +9,7 @@ import {
   TextInput,
   Image,
   ScrollView,
+  KeyboardAvoidingView,
 } from "react-native";
 import { Block, Text, theme } from "galio-framework";
 import { argonTheme } from "../../constants";
@@ -23,7 +24,7 @@ class NewPostModal extends React.Component {
   state = {
     datetime: new Date(),
     description: "",
-    image: null
+    image: null,
   };
 
   render() {
@@ -60,43 +61,40 @@ class NewPostModal extends React.Component {
                   />
                 </Pressable>
 
-                <View style={styles.modalViewInside}>
-                  <Text style={styles.header}>Create New Post</Text>
-
-                  {/* <Text style={styles.secondaryHeader}>Post title</Text>
-                  <Block width={width * 0.8 - 20} style={{ marginBottom: 15 }}>
-                    <TextInput
-                      style={styles.input}
-                      placeholder="Enter a title"
-                      placeholderTextColor={"lightgrey"}
-                      onChangeText={(e) => this.setState({ title: e })}
-                    />
-                  </Block> */}
-
-                  {/* <Text style={styles.secondaryHeader}>Description</Text> */}
-                  <Block width={width * 0.8 - 20} style={{ marginBottom: 15 }}>
-                    <TextInput
-                      style={styles.input}
-                      placeholder="Provide post details here"
-                      placeholderTextColor={"lightgrey"}
-                      height={height * 0.3}
-                      textAlignVertical={"top"}
-                      paddingTop={10}
-                      multiline={true}
-                      onChangeText={(e) => this.setState({ description: e })}
-                    />
-                  </Block>
-                  <ImagePicker></ImagePicker>
-                  <Pressable
-                    style={[styles.button, styles.buttonClose]}
-                    onPress={() => {
-                      this.props.handleModalVisible();
-                      this.props.addNewPost(this.state);
-                    }}
-                  >
-                    <Text style={styles.textStyle}>CREATE POST</Text>
-                  </Pressable>
-                </View>
+                <KeyboardAvoidingView
+                  style={{ flex: 1 }}
+                  behavior="padding"
+                  enabled
+                >
+                  <View style={styles.modalViewInside}>
+                    <Text style={styles.header}>Create New Post</Text>
+                    <Block
+                      width={width * 0.8 - 20}
+                      style={{ marginBottom: 15 }}
+                    >
+                      <TextInput
+                        style={styles.input}
+                        placeholder="Provide post details here"
+                        placeholderTextColor={"lightgrey"}
+                        height={height * 0.3}
+                        textAlignVertical={"top"}
+                        paddingTop={10}
+                        multiline={true}
+                        onChangeText={(e) => this.setState({ description: e })}
+                      />
+                    </Block>
+                    <ImagePicker></ImagePicker>
+                    <Pressable
+                      style={[styles.button, styles.buttonClose]}
+                      onPress={() => {
+                        this.props.handleModalVisible();
+                        this.props.addNewPost(this.state);
+                      }}
+                    >
+                      <Text style={styles.textStyle}>CREATE POST</Text>
+                    </Pressable>
+                  </View>
+                </KeyboardAvoidingView>
               </View>
             </ScrollView>
           </View>
