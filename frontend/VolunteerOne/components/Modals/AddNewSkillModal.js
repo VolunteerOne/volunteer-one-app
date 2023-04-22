@@ -28,44 +28,43 @@ class AddNewSkillModal extends React.Component {
 
   render() {
     const handleAddNewClick = () => {
-      this.props.addSkill(this.state)
+      this.props.addSkill(this.state);
     };
 
     return (
       <View style={styles.centeredView}>
-        <Modal
-          animationType="fade"
-          transparent={true}
-          visible={this.props.visible}
-          onRequestClose={() => {
-            this.props.setState();
-          }}
-        >
-          <View style={[styles.centeredView, styles.modalViewOutside]}>
-            <ScrollView
-              contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
-            >
-              <View style={styles.modalView}>
-                {/* exit modal */}
-                <Pressable
-                  onPress={() => this.props.setState()}
-                  style={{ alignItems: "flex-end", margin: 5 }}
-                >
-                  <MaterialCommunityIcons
-                    size={24}
-                    name="close"
-                    color={theme.COLORS.ICON}
-                  />
-                </Pressable>
-
-                <View style={styles.modalViewInside}>
-                  <Text style={styles.header}>Add New Skill</Text>
-
-                  <KeyboardAvoidingView
-                    style={{ flex: 1 }}
-                    behavior="padding"
-                    enabled
+        <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={this.props.visible}
+            onRequestClose={() => {
+              this.props.setState();
+            }}
+          >
+            <View style={[styles.centeredView, styles.modalViewOutside]}>
+              <ScrollView
+                contentContainerStyle={{
+                  flexGrow: 1,
+                  justifyContent: "center",
+                }}
+              >
+                <View style={styles.modalView}>
+                  {/* exit modal */}
+                  <Pressable
+                    onPress={() => this.props.setState()}
+                    style={{ alignItems: "flex-end", margin: 5 }}
                   >
+                    <MaterialCommunityIcons
+                      size={24}
+                      name="close"
+                      color={theme.COLORS.ICON}
+                    />
+                  </Pressable>
+
+                  <View style={styles.modalViewInside}>
+                    <Text style={styles.header}>Add New Skill</Text>
+
                     <Block width={width * 0.8} style={{ marginBottom: 15 }}>
                       <Input
                         borderless
@@ -82,21 +81,21 @@ class AddNewSkillModal extends React.Component {
                         onChangeText={(e) => this.setState({ skill: e })}
                       />
                     </Block>
-                  <Pressable
-                    style={[styles.button, styles.buttonClose]}
-                    onPress={() => {
-                      this.props.setState();
-                      handleAddNewClick();
-                    }}
-                  >
-                    <Text style={styles.textStyle}>ADD</Text>
-                  </Pressable>
-                  </KeyboardAvoidingView>
+                    <Pressable
+                      style={[styles.button, styles.buttonClose]}
+                      onPress={() => {
+                        this.props.setState();
+                        handleAddNewClick();
+                      }}
+                    >
+                      <Text style={styles.textStyle}>ADD</Text>
+                    </Pressable>
+                  </View>
                 </View>
-              </View>
-            </ScrollView>
-          </View>
-        </Modal>
+              </ScrollView>
+            </View>
+          </Modal>
+        </KeyboardAvoidingView>
       </View>
     );
   }
