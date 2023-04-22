@@ -8,14 +8,15 @@ import {
   KeyboardAvoidingView,
   Image,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { Block, Text } from "galio-framework";
 
 import { Button } from "../../components";
 import { Images, argonTheme } from "../../constants";
 import loginCredentials from "../../constants/loginCredentials";
-
 
 const { width, height } = Dimensions.get("screen");
 
@@ -47,101 +48,103 @@ const Login = ({ navigation }) => {
   const [errLogin, setStatus] = useState(false);
 
   return (
-    <Block flex middle>
-      <StatusBar hidden />
-      <ImageBackground
-        source={Images.Onboarding}
-        style={{ width, height, zIndex: 1 }}
-      >
-        <Block safe flex middle>
-          <Block style={styles.loginContainer}>
-            <Block flex>
-              <Block flex={0.5} middle style={styles.instructionText}>
-                <Block center>
-                  <Image source={Images.VolunteerOneIcon} style={styles.logo} />
-                </Block>
-              </Block>
-              <Block flex={0.17} middle style={styles.instructionText}>
-                <TouchableOpacity
-                  onPress={() => navigation.navigate('CreateAccount')}
-                >
-                  <Text
-                    color="#8898AA"
-                    size={12}
-                    style={{
-                      fontWeight: "bold",
-                      textDecorationLine: "underline",
-                      paddingRight: 5,
-                    }}
-                  >
-                    Create Account
-                  </Text>
-                </TouchableOpacity>
-                <Text color="#8898AA" size={12}>
-                  or Login with credentials
-                </Text>
-              </Block>
-              <Block flex center>
-                <KeyboardAvoidingView
-                  style={{ flex: 1 }}
-                  behavior="padding"
-                  enabled
-                >
-                  <Block width={width * 0.8} style={{ marginBottom: 15 }}>
-                    <TextInput
-                      style={styles.input}
-                      placeholder="Email"
-                      onChangeText={handleEmailInput}
-                    />
+    // <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <Block flex middle>
+          <StatusBar hidden />
+          <ImageBackground
+            source={Images.Onboarding}
+            style={{ width, height, zIndex: 1 }}
+          >
+            <Block safe flex middle>
+              <Block style={styles.loginContainer}>
+                <Block flex>
+                  <Block flex={0.5} middle style={styles.instructionText}>
+                    <Block center>
+                      <Image
+                        source={Images.VolunteerOneIcon}
+                        style={styles.logo}
+                      />
+                    </Block>
                   </Block>
-                  <Block width={width * 0.8}>
-                    <TextInput
-                      secureTextEntry={true}
-                      style={styles.input}
-                      placeholder="Password"
-                      onChangeText={handlePasswordInput}
-                    />
-                    <Block row style={styles.passwordCheck}>
-                      <TouchableOpacity
-                        onPress={() => navigation.navigate('ForgotPassword')}
+                  <Block flex={0.17} middle style={styles.instructionText}>
+                    <TouchableOpacity
+                      onPress={() => navigation.navigate("CreateAccount")}
+                    >
+                      <Text
+                        color="#8898AA"
+                        size={12}
+                        style={{
+                          fontWeight: "bold",
+                          textDecorationLine: "underline",
+                          paddingRight: 5,
+                        }}
                       >
-                        <Text
-                          color="#8898AA"
-                          size={12}
-                          style={{
-                            textDecorationLine: "underline",
-                          }}
-                        >
-                          Forgot Password?
-                        </Text>
+                        Create Account
+                      </Text>
+                    </TouchableOpacity>
+                    <Text color="#8898AA" size={12}>
+                      or Login with credentials
+                    </Text>
+                  </Block>
+                  <Block flex center>
+                    <Block width={width * 0.8} style={{ marginBottom: 15 }}>
+                      <TextInput
+                        style={styles.input}
+                        placeholder="Email"
+                        onChangeText={handleEmailInput}
+                      />
+                    </Block>
 
+                    <Block width={width * 0.8}>
+                      <TextInput
+                        secureTextEntry={true}
+                        style={styles.input}
+                        placeholder="Password"
+                        onChangeText={handlePasswordInput}
+                      />
+                      <Block row style={styles.passwordCheck}>
+                        <TouchableOpacity
+                        // onPress={() => navigation.navigate("ForgotPassword")}
+                        >
+                          <Text
+                            color="#8898AA"
+                            size={12}
+                            style={{
+                              textDecorationLine: "underline",
+                            }}
+                          >
+                            Forgot Password?
+                          </Text>
+                        </TouchableOpacity>
+                      </Block>
+                    </Block>
+                    <Block middle>
+                      <Button
+                        color="primary"
+                        style={styles.createButton}
+                        onPress={handleLoginBtnClick}
+                      >
+                        <Text bold size={14} color={argonTheme.COLORS.WHITE}>
+                          LOGIN
+                        </Text>
+                        
                         <Text
                           color="red"
                           size={12}>
                           {`${errLogin ? 'Invalid username or password, please try again' : ''}`}
                         </Text>
     
-                      </TouchableOpacity>
+                      </Button>
                     </Block>
                   </Block>
-                  <Block middle>
-                    <Button
-                      color="primary"
-                      style={styles.createButton}
-                      onPress={handleLoginBtnClick}
-                    >
-                      <Text bold size={14} color={argonTheme.COLORS.WHITE}>
-                        LOGIN
-                      </Text>
-                    </Button>
-                  </Block>
-                </KeyboardAvoidingView>
+                </Block>
               </Block>
             </Block>
-          </Block>
+          </ImageBackground>
         </Block>
-      </ImageBackground>
-    </Block>
+      </TouchableWithoutFeedback>
+    // </KeyboardAvoidingView>
   );
 };
 // }
@@ -192,10 +195,9 @@ const styles = StyleSheet.create({
     width: 265,
     height: 50,
     zIndex: 2,
-    position: 'relative',
-    marginTop: '20%'
+    position: "relative",
+    marginTop: "20%",
   },
 });
-
 
 export default Login;
