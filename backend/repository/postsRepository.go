@@ -27,6 +27,7 @@ type LikesRepository interface {
 	DeleteLike(Like models.Likes) error
 	FindLike(id string) (models.Likes, error)
 	AllLikes() ([]models.Likes, error)
+	GetLikes(id string) (int64, error)
 }
 
 type postsRepository struct {
@@ -188,4 +189,15 @@ func (r likesRepository) AllLikes() ([]models.Likes, error) {
 		return []models.Likes{}, errors.New("could not retrive like")
 	}
 	return likes, nil
+}
+
+func (r likesRepository) GetLikes(id string) (int64, error) {
+	var likes models.Likes
+	var count int64
+	result := r.DB.Where("PostID=?", id).Find(&likes).Count(&count)
+
+	if result.Error != nil {
+		return count, errors.New("could not retrive like")
+	}
+	return count, nil
 }

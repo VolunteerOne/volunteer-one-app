@@ -46,6 +46,7 @@ type LikesService interface {
 	DeleteLike(like models.Likes) error
 	FindLike(id string) (models.Likes, error)
 	AllLikes() ([]models.Likes, error)
+	GetLikes(id string) (int64, error)
 }
 
 type likesService struct {
@@ -112,4 +113,8 @@ func (f likesService) FindLike(id string) (models.Likes, error) {
 
 func (f likesService) AllLikes() ([]models.Likes, error) {
 	return f.likesRepository.AllLikes()
+}
+
+func (f likesService) GetLikes(id string) (int64, error) {
+	return f.likesRepository.GetLikes(id)
 }

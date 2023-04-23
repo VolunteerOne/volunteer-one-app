@@ -333,6 +333,7 @@ type LikesController interface {
 	DeleteLike(c *gin.Context)
 	FindLike(c *gin.Context)
 	AllLikes(c *gin.Context)
+	GetLikes(c *gin.Context)
 }
 
 type likesController struct {
@@ -433,6 +434,23 @@ func (controller likesController) FindLike(c *gin.Context) {
 func (controller likesController) AllLikes(c *gin.Context) {
 	// Get object from the database
 	likes, err := controller.likesService.AllLikes()
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Could not retrieve objects",
+		})
+
+		return
+	}
+
+	// Return the array of objects
+	c.JSON(http.StatusOK, likes)
+}
+
+func (controller likesController) GetLikes(c *gin.Context) {
+	id := c.Param("id")
+	// Get object from the database
+	likes, err := controller.likesService.GetLikes(id)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
