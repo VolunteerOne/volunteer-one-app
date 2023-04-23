@@ -3,7 +3,8 @@ import { Block, Text, Button } from "galio-framework";
 import { argonTheme } from "../../constants";
 import { events } from "../../constants/HomeTab/event_details";
 import { useState } from "react";
-const { width, height } = Dimensions.get("screen");
+import LikeButton from "./LikeButton";
+const { width } = Dimensions.get("screen");
 /*
 Description:
   This component displays the event details of an organization's post when a user presses
@@ -60,8 +61,11 @@ const EventDetails = ({ eventID }) => {
     //Event Details gets returned
     return (
       <Block style={[styles.card, styles.shadowProp]}>
-        <Block style={styles.headerContent}>
-          <Text style={styles.headerTitle}>{eventDetails["title"]}</Text>
+        <Block gap={8}>
+          <Block row>
+            <Text style={styles.headerTitle}>{eventDetails["title"]}</Text>
+            <LikeButton />
+          </Block>
           <Text style={styles.headerText}>{eventDetails["organization"]}</Text>
           <Text style={styles.headerText}>{eventDetails["datePosted"]}</Text>
         </Block>
@@ -118,11 +122,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 500,
   },
-  headerContent: {
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    gap: 8,
-  },
   descriptionTitle: {
     color: "#5E72E4",
     fontWeight: 700,
@@ -137,8 +136,6 @@ const styles = StyleSheet.create({
   },
   body: {
     marginTop: 10,
-    flexDirection: "column",
-    justifyContent: "flex-start",
     gap: 8,
     marginBottom: 10,
   },
