@@ -8,6 +8,8 @@ import {
   Dimensions,
   TextInput,
   Image,
+  ScrollView,
+  KeyboardAvoidingView,
 } from "react-native";
 import { Block, Text, theme } from "galio-framework";
 import { argonTheme } from "../../constants";
@@ -42,57 +44,72 @@ class NewAnnouncementModal extends React.Component {
           }}
         >
           <View style={[styles.centeredView, styles.modalViewOutside]}>
-            <View style={styles.modalView}>
-              {/* exit modal */}
-              <Pressable
-                onPress={() => this.props.handleModalVisible()}
-                style={{ alignItems: "flex-end", margin: 5 }}
-              >
-                <MaterialCommunityIcons
-                  size={24}
-                  name="close"
-                  color={theme.COLORS.ICON}
-                />
-              </Pressable>
-
-              <View style={styles.modalViewInside}>
-                <Text style={styles.header}>New Announcement</Text>
-
-                <Text style={styles.secondaryHeader}>Post title</Text>
-                <Block width={width * 0.8 - 20} style={{ marginBottom: 15 }}>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Enter a title"
-                    placeholderTextColor={"lightgrey"}
-                    onChangeText={(e) => this.setState({ title: e })}
-                  />
-                </Block>
-
-                <Text style={styles.secondaryHeader}>Description</Text>
-                <Block width={width * 0.8 - 20} style={{ marginBottom: 15 }}>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Provide announcement details here"
-                    placeholderTextColor={"lightgrey"}
-                    height={height * 0.3}
-                    textAlignVertical={"top"}
-                    paddingTop={10}
-                    multiline={true}
-                    onChangeText={(e) => this.setState({ description: e })}
-                  />
-                </Block>
-
+            <ScrollView
+              contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
+            >
+              <View style={styles.modalView}>
+                {/* exit modal */}
                 <Pressable
-                  style={[styles.button, styles.buttonClose]}
-                  onPress={() => {
-                    this.props.handleModalVisible();
-                    this.props.addNewAnnouncement(this.state);
-                  }}
+                  onPress={() => this.props.handleModalVisible()}
+                  style={{ alignItems: "flex-end", margin: 5 }}
                 >
-                  <Text style={styles.textStyle}>CREATE ANNOUNCEMENT</Text>
+                  <MaterialCommunityIcons
+                    size={24}
+                    name="close"
+                    color={theme.COLORS.ICON}
+                  />
                 </Pressable>
+                <KeyboardAvoidingView
+                  style={{ flex: 1 }}
+                  behavior="padding"
+                  enabled
+                >
+                  <View style={styles.modalViewInside}>
+                    <Text style={styles.header}>New Announcement</Text>
+
+                    <Text style={styles.secondaryHeader}>Post title</Text>
+                    <Block
+                      width={width * 0.8 - 20}
+                      style={{ marginBottom: 15 }}
+                    >
+                      <TextInput
+                        style={styles.input}
+                        placeholder="Enter a title"
+                        placeholderTextColor={"lightgrey"}
+                        onChangeText={(e) => this.setState({ title: e })}
+                      />
+                    </Block>
+
+                    <Text style={styles.secondaryHeader}>Description</Text>
+                    <Block
+                      width={width * 0.8 - 20}
+                      style={{ marginBottom: 15 }}
+                    >
+                      <TextInput
+                        style={styles.input}
+                        placeholder="Provide announcement details here"
+                        placeholderTextColor={"lightgrey"}
+                        height={height * 0.3}
+                        textAlignVertical={"top"}
+                        paddingTop={10}
+                        multiline={true}
+                        onChangeText={(e) => this.setState({ description: e })}
+                      />
+                    </Block>
+
+                    <Pressable
+                      style={[styles.button, styles.buttonClose]}
+                      onPress={() => {
+                        this.props.handleModalVisible();
+                        this.props.addNewAnnouncement(this.state);
+                      }}
+                    >
+                      <Text style={styles.textStyle}>CREATE ANNOUNCEMENT</Text>
+                    </Pressable>
+                  </View>
+                </KeyboardAvoidingView>
               </View>
-            </View>
+            </ScrollView>
           </View>
         </Modal>
       </View>
