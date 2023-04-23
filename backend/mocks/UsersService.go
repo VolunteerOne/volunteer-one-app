@@ -60,6 +60,32 @@ func (_m *UsersService) DeleteUser(user models.Users) (models.Users, error) {
 	return r0, r1
 }
 
+// HashPassword provides a mock function with given fields: password
+func (_m *UsersService) HashPassword(password []byte) ([]byte, error) {
+	ret := _m.Called(password)
+
+	var r0 []byte
+	var r1 error
+	if rf, ok := ret.Get(0).(func([]byte) ([]byte, error)); ok {
+		return rf(password)
+	}
+	if rf, ok := ret.Get(0).(func([]byte) []byte); ok {
+		r0 = rf(password)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]byte)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func([]byte) error); ok {
+		r1 = rf(password)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // OneUser provides a mock function with given fields: id, user
 func (_m *UsersService) OneUser(id string, user models.Users) (models.Users, error) {
 	ret := _m.Called(id, user)

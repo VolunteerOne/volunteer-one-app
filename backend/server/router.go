@@ -3,6 +3,7 @@ package server
 import (
 	"github.com/VolunteerOne/volunteer-one-app/backend/controllers"
 	"github.com/VolunteerOne/volunteer-one-app/backend/database"
+	"github.com/VolunteerOne/volunteer-one-app/backend/middleware"
 	"github.com/VolunteerOne/volunteer-one-app/backend/repository"
 	"github.com/VolunteerOne/volunteer-one-app/backend/service"
 	"github.com/gin-gonic/gin"
@@ -44,7 +45,7 @@ func NewRouter() *gin.Engine {
 
 	// userGroup := new(controllers.UsersController)
 	userGroup.POST("/", usersController.Create)
-	userGroup.GET("/:id", usersController.One)
+	userGroup.GET("/:id", middleware.BasicAuth, usersController.One)
 	userGroup.DELETE("/:id", usersController.Delete)
 	userGroup.PUT("/:id", usersController.Update)
 
@@ -56,8 +57,10 @@ func NewRouter() *gin.Engine {
 	loginGroup.POST("/:email", loginController.SendEmailForPassReset)
 	//Get the secret code from the users email, if matches reset password
 	loginGroup.PUT("/:email/:resetcode/:newpassword", loginController.PasswordReset)
-
-	router.POST("/signup", loginController.Signup)
+    //Check valid access token
+    loginGroup.POST("/verify", middleware.BasicAuth, loginController.VerifyAccessToken)
+    //Get refresh token
+    loginGroup.POST("/refresh", loginController.RefreshToken)
 
 	organizationGroup := router.Group("organization")
 	organizationGroup.POST("/", organizationController.Create)

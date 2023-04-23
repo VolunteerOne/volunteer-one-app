@@ -232,7 +232,8 @@ export default class App extends React.Component {
               </Text>
             </Animated.View>
 
-           
+            <ExploreImage item={item} />
+
           </Animated.View>
         );
       }
