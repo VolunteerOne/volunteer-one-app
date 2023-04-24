@@ -8,7 +8,7 @@ export default {
     password: "1234"
   },
 
-  "Jjones" : {
+  "jessica.jones@gmail.com" : {
     password: "password"
   },
 };
