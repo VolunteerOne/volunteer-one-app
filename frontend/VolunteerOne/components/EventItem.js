@@ -52,7 +52,11 @@ const EventItem = (props) => {
     >
       <Block row={true} card style={cardContainer}>
         <Block>
-          <Avatar style={imageStyles} />
+          <Avatar
+            style={imageStyles}
+            image={{ uri: eventInfo["image"] }}
+            color="white"
+          />
         </Block>
 
         <Block flex>
