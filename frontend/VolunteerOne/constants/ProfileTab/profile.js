@@ -12,7 +12,7 @@ export default {
       "Adventurous soul, travel enthusiast, and coffee addict ☕️ | Passionate about capturing moments through my lens 📸 | Advocate for women's empowerment 💪 | #Wanderlust #Photography #GirlPower",
     hours: "50",
     friends: {
-      value: 129,
+      value: 5,
       friendsList: [
         {
           username: "Jane Hollis",
