@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert
 } from "react-native";
 import { Block, Checkbox, Text, theme } from "galio-framework";
 
@@ -32,7 +33,7 @@ const Register = ({ route, navigation }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [seePassword, setSeePassword] = useState(false);
+  const [seePassword, setSeePassword] = useState(true);
 
   const [passwordStrength, setPasswordStrength] = useState("weak");
   const [showPasswordStrength, setShowPasswordStrength] = useState(false);
@@ -54,6 +55,7 @@ const Register = ({ route, navigation }) => {
   function handleRegisterBtnClick() {
     setShowPasswordStrength(false);
     console.log(name, email, password);
+    Alert.alert("Account created!\n\nCheck your email for login instructions.");
   }
 
   return (
@@ -112,7 +114,7 @@ const Register = ({ route, navigation }) => {
                               setSeePassword((seePassword) => !seePassword)
                             }
                           >
-                            {seePassword ? (
+                            {!seePassword ? (
                               <MaterialCommunityIcons
                                 size={24}
                                 name="eye"
