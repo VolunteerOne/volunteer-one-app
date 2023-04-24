@@ -54,7 +54,7 @@ Props received:
   organization - String
   timePosted - Date object 
 */
-const CardHeader = ({ organization, timePosted,  profileImage}) => {
+const CardHeader = ({ organization, timePosted, profileImage }) => {
   //getting time to display
   const timeDisplayed = getDateDiff(new Date(), timePosted);
   return (
