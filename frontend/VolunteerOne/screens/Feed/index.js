@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { StyleSheet, Dimensions, ScrollView, Text } from "react-native";
+import React from "react";
+import { StyleSheet, Dimensions, ScrollView, Text, View } from "react-native";
 import { Block, theme } from "galio-framework";
 import NewPostModal from "../../components/Modals/NewPostModal";
 import profiles from "../../constants/ProfileTab/profile";
@@ -40,10 +40,19 @@ const Feed = ({ navigation, route }) => {
   };
 
   renderPosts = () => {
-    var postsList = posts.map((data, i) => {
-      if (data["image"] != null)
-        return <PostImageCard key={i} data={data} />;
-      else return <PostNoImageCard key={i} data={data} />;
+    var postsList = posts.map((data) => {
+        if (data["image"] != null && data.id != null)
+          return (
+            <View key={data.id}>
+            <PostImageCard key={data.id} data={data} />
+            </View>
+          );
+        else if (data.id != null)
+          return (
+            <View key={data.id}>
+            <PostNoImageCard key={data.id} data={data} />
+            </View>
+          );
     });
 
     return (
