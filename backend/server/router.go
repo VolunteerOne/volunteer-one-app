@@ -22,6 +22,7 @@ func NewRouter() *gin.Engine {
 	usersRepository := repository.NewUsersRepository(database.GetDatabase())
 	organizationRepository := repository.NewOrganizationRepository(database.GetDatabase())
 	eventRepository := repository.NewEventRepository(database.GetDatabase())
+	eventMemberRepository := repository.NewEventMemberRepository(database.GetDatabase())
 
 	// *********************************************************
 	// INITIALIZE SERVICES HERE
@@ -31,7 +32,8 @@ func NewRouter() *gin.Engine {
 	usersService := service.NewUsersService(usersRepository)
 	organizationService := service.NewOrganizationService(organizationRepository)
 	eventService := service.NewEventService(eventRepository)
-	
+	eventMemberService := service.NewEventMemberService(eventMemberRepository)
+
 	// *********************************************************
 	// INITIALIZE CONTROLLERS HERE
 	// *********************************************************
@@ -40,6 +42,8 @@ func NewRouter() *gin.Engine {
 	usersController := controllers.NewUsersController(usersService)
 	organizationController := controllers.NewOrganizationController(organizationService)
 	eventController := controllers.NewEventController(eventService)
+	eventMemberController := controllers.NewEventMemberController(eventMemberService)
+
 
 	userGroup := router.Group("user")
 
@@ -75,6 +79,13 @@ func NewRouter() *gin.Engine {
 	eventGroup.GET("/:id", eventController.One)
 	eventGroup.DELETE("/:id", eventController.Delete)
 	eventGroup.PUT("/:id", eventController.Update)
+
+	eventMemberGroup := router.Group("eventMembers")
+	eventMemberGroup.POST("/", eventMemberController.Create)
+	eventMemberGroup.GET("/", eventMemberController.All)
+	eventMemberGroup.GET("/:id", eventMemberController.One)
+	eventMemberGroup.DELETE("/:id", eventMemberController.Delete)
+	eventMemberGroup.PUT("/:id", eventMemberController.Update)
 
 	orgUsersGroup := router.Group("orgUsers")
 	{
