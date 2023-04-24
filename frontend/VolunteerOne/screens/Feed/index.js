@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { StyleSheet, Dimensions, ScrollView, Text, View } from "react-native";
 import { Block, theme } from "galio-framework";
 import NewPostModal from "../../components/Modals/NewPostModal";
