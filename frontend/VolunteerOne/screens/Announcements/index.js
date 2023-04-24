@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Dimensions, ScrollView, Text } from "react-native";
 import { Button } from "../../components";
 import { Block, theme } from "galio-framework";
 import EventCard from "../../components/EventCard";
 import { following } from "../../constants/HomeTab/announcements_followingtab";
 import { all } from "../../constants/HomeTab/announcements_alltab";
+import profiles from "../../constants/ProfileTab/profile";
 import argonTheme from "../../constants/Theme";
 import NewAnnouncementModal from "../../components/Modals/NewAnnouncementModal";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -13,25 +14,49 @@ const { width } = Dimensions.get("screen");
 
 /** ==================================== Announcements Tab ==================================== **/
 
-class Announcements extends React.Component {
-  renderArticles = () => {
-    //route prop contains toggle parameter that tells the page to render content for the followers tab or all tab
-    const { route } = this.props;
+const Announcements = ({ navigation, route }) => {
+
+  const JESSICA = "Jessica Jones";
+  const [user, setUser] = useState(profiles[JESSICA]);
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [announcements, setAnnouncements] = useState(following)
+
+  const handleModalVisible = () => {
+    setModalVisible(!modalVisible);
+  };
+
+  const addNewAnnouncement = (data) => {
+    // console.log('Adding New Announcement', data)
+    const newAnnouncement = {
+      id: announcements.length +1,
+      organization: {
+        name: user.name,
+        image: user.image
+      },
+      announcement: `${data['title']}\n\n${data['description']}`,
+      type: "announcement",
+      timePosted: data['datetime'],
+    }
+    // console.log(newAnnouncement)
+    setAnnouncements([newAnnouncement, ...announcements])
+  }
+
+  const renderArticles = () => {
     //by default show followers page
     let toggle = true;
-    //depending on if the user clicks on Followers button or All button, the data gets generated differently
     route.params ? (toggle = route.params.toggle) : (toggle = true);
     //list to display all the events
     var eventsList = [];
     if (toggle) {
       //display followers data
-      eventsList = following.map(function (data) {
-        return <EventCard key={data["id"]} data={data} />;
+      eventsList = announcements.map((data, i) => {
+        return <EventCard key={i} data={data} />;
       });
     } else {
-      //display all data
-      eventsList = all.map(function (data) {
-        return <EventCard key={data["id"]} data={data} />;
+      // display all data
+      eventsList = all.map((data) => {
+        return <EventCard key={i} data={data} />;
       });
     }
 
@@ -47,52 +72,38 @@ class Announcements extends React.Component {
     );
   };
 
-  state = {
-    modalVisible: false,
-  };
-
-  render() {
-    const { modalVisible } = this.state;
-
-    const handleModalVisible = () => {
-      this.setState({ modalVisible: !modalVisible });
-    };
-
-    return (
-  
-      <Block flex center style={styles.home}>
-{/* ----------------------- new announcement button ----------------------- */}
-        <Block middle>
-          <Button
-            color="primary"
-            style={styles.button}
-            onPress={() => handleModalVisible()}
-          >
-            <Block row middle>
-              <MaterialCommunityIcons
-                size={24}
-                name="plus-box-outline"
-                color={theme.COLORS.WHITE}
-              />
-              <Text bold size={14} style={styles.buttonTitle}>
-                New Announcement
-              </Text>
-            </Block>
-          </Button>
-        </Block>
-        {modalVisible && (
-          <NewAnnouncementModal
-            visible={this.state.modalVisible}
-            setState={handleModalVisible}
-          />
-        )}
-
-{/* ----------------------- render articles ----------------------- */}
-        {this.renderArticles()}
+  return (
+    <Block flex center style={styles.home}>
+      <Block middle>
+        <Button
+          color="primary"
+          style={styles.button}
+          onPress={() => handleModalVisible()}
+        >
+          <Block row middle>
+            <MaterialCommunityIcons
+              size={24}
+              name="plus-box-outline"
+              color={theme.COLORS.WHITE}
+            />
+            <Text bold size={14} style={styles.buttonTitle}>
+              New Announcement
+            </Text>
+          </Block>
+        </Button>
       </Block>
-    );
-  }
-}
+      {modalVisible && (
+        <NewAnnouncementModal
+          visible={modalVisible}
+          handleModalVisible={handleModalVisible}
+          addNewAnnouncement={addNewAnnouncement}
+        />
+      )}
+
+      {renderArticles()}
+    </Block>
+  );
+};
 
 const styles = StyleSheet.create({
   home: {

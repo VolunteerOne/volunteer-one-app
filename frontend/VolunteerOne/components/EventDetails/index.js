@@ -1,8 +1,10 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet, Dimensions, Alert } from "react-native";
 import { Block, Text, Button } from "galio-framework";
 import { argonTheme } from "../../constants";
 import { events } from "../../constants/HomeTab/event_details";
-const { width, height } = Dimensions.get("screen");
+import { useState } from "react";
+import LikeButton from "./LikeButton";
+const { width } = Dimensions.get("screen");
 /*
 Description:
   This component displays the event details of an organization's post when a user presses
@@ -16,32 +18,54 @@ Props received:
             constants folder. 
 */
 const EventDetails = ({ eventID }) => {
+  //button state
+  const [isDisabled, setIsDisabled] = useState(false);
+  //asks user to confirm signing up for an event, if they press yes, button is disabled
+  const confirmationAlert = () =>
+    Alert.alert("Sign up for event?", "", [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      { text: "OK", onPress: () => handleSignUp() },
+    ]);
+
+  //if user signs up for event, then the button is disabled
+  const handleSignUp = () => {
+    setIsDisabled(true);
+    Alert.alert("Organization has been notified!");
+  };
+
+  let eventDetails = events.find((o) => o.id === eventID);
   //if the eventID is found, display data
-  if (eventID in events) {
-    let eventDetails = events[eventID];
+  if (eventDetails) {
     //retrieves and formats the body of the event post
-    let bodyContent = eventDetails["eventBody"].map(function (data) {
+    let bodyContent = eventDetails["eventBody"].map(function (data, index) {
       return (
-        <>
+        <Block key={index}>
           <Text style={styles.descriptionTitle}>{data["title"]}</Text>
           <Text>{data["description"]}</Text>
-        </>
+        </Block>
       );
     });
     //retrieves and formats the company info of the event post
-    let companyInfo = eventDetails["companyInfo"].map(function (data) {
+    let companyInfo = eventDetails["companyInfo"].map(function (data, index) {
       return (
-        <>
+        <Block key={index}>
           <Text style={styles.descriptionTitle}>{data["title"]}</Text>
           <Text>{data["description"]}</Text>
-        </>
+        </Block>
       );
     });
     //Event Details gets returned
     return (
       <Block style={[styles.card, styles.shadowProp]}>
-        <Block style={styles.headerContent}>
-          <Text style={styles.headerTitle}>{eventDetails["title"]}</Text>
+        <Block gap={8}>
+          <Block row>
+            <Text style={styles.headerTitle}>{eventDetails["title"]}</Text>
+            <LikeButton />
+          </Block>
           <Text style={styles.headerText}>{eventDetails["organization"]}</Text>
           <Text style={styles.headerText}>{eventDetails["datePosted"]}</Text>
         </Block>
@@ -53,9 +77,14 @@ const EventDetails = ({ eventID }) => {
         <Block style={styles.divider}></Block>
         <Block style={styles.body}>{companyInfo}</Block>
         <Block middle>
-          <Button color="primary" style={styles.signupButton}>
+          <Button
+            disabled={isDisabled}
+            color="primary"
+            onPress={confirmationAlert}
+            style={isDisabled ? styles.disabled : styles.signupButton}
+          >
             <Text bold size={14} color={argonTheme.COLORS.WHITE}>
-              Sign up
+              {isDisabled ? "Sign up Successful" : "Sign Up"}
             </Text>
           </Button>
         </Block>
@@ -93,11 +122,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 500,
   },
-  headerContent: {
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    gap: 8,
-  },
   descriptionTitle: {
     color: "#5E72E4",
     fontWeight: 700,
@@ -112,14 +136,17 @@ const styles = StyleSheet.create({
   },
   body: {
     marginTop: 10,
-    flexDirection: "column",
-    justifyContent: "flex-start",
     gap: 8,
     marginBottom: 10,
   },
   signupButton: {
     width: width * 0.8,
     marginTop: 25,
+  },
+  disabled: {
+    width: width * 0.8,
+    marginTop: 25,
+    opacity: 0.6,
   },
 });
 

@@ -18,6 +18,7 @@ import Feed from "../screens/Feed";
 import ViewFriends from "../screens/Profile/ViewFriends";
 import ViewNotifications from "../screens/Notifications";
 import Search from "../screens/Search";
+import ViewBookmarks from "../screens/Profile/ViewBookmarks";
 import CreateAccount from "../screens/Onboarding/CreateAccount";
 import Register from "../screens/Onboarding/Register";
 import Login from "../screens/Onboarding/Login";
@@ -55,7 +56,7 @@ function AnnouncementsStack(props) {
           header: ({ navigation, scene }) => (
             <Header
               title="Announcements"
-              options
+              // options
               navigation={navigation}
               scene={scene}
             />
@@ -68,12 +69,7 @@ function AnnouncementsStack(props) {
         component={Search}
         options={{
           header: ({ navigation, scene }) => (
-            <Header
-              back
-              title="Search"
-              navigation={navigation}
-              scene={scene}
-            />
+            <Header back title="Search" navigation={navigation} scene={scene} />
           ),
           headerTransparent: false,
           headerShown: true,
@@ -253,6 +249,33 @@ function ProfileStack(props) {
               navigation={navigation}
               scene={scene}
             />
+          ),
+          headerTransparent: false,
+          headerShown: true,
+        }}
+      />
+      <Stack.Screen
+        name="Bookmarks"
+        component={ViewBookmarks}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              back
+              title="Manage Events"
+              navigation={navigation}
+              scene={scene}
+            />
+          ),
+          headerTransparent: false,
+          headerShown: true,
+        }}
+      />
+      <Stack.Screen
+        name="ViewEvent"
+        component={ViewEvent}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header back title="Event" navigation={navigation} scene={scene} />
           ),
           headerTransparent: false,
           headerShown: true,
@@ -444,9 +467,9 @@ function BottomNav() {
           headerShown: false,
           tabBarLabel: "Explore",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="bell" color={color} size={size} />
+            <MaterialCommunityIcons name="cards" color={color} size={size} />
           ),
-          tabBarBadge: 3,
+          // tabBarBadge: 3,
         }}
       />
       <Tab.Screen
@@ -462,7 +485,7 @@ function BottomNav() {
               size={size}
             />
           ),
-          tabBarBadge: 3,
+          // tabBarBadge: 3,
         }}
       />
       <Tab.Screen

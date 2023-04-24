@@ -1,5 +1,6 @@
-export const events = {
-  event1: {
+export const events = [
+  {
+    id: 1,
     title: "Help pack disaster relief bags",
     organization: "Global Humanitarian Aid",
     datePosted: "posted February 15, 2023",
@@ -52,7 +53,8 @@ export const events = {
       },
     ],
   },
-  event2: {
+  {
+    id: 2,
     title: "Build & Improve Homes Community Day",
     organization: "Habitat for Humanity",
     datePosted: "posted February 15, 2023",
@@ -73,7 +75,8 @@ export const events = {
       },
       {
         title: "Skills",
-        description: "Carpentry, Electrical work, Construction, Painting, Teamwork, Communication",
+        description:
+          "Carpentry, Electrical work, Construction, Painting, Teamwork, Communication",
       },
       {
         title: "Good for",
@@ -105,7 +108,8 @@ export const events = {
       },
     ],
   },
-  event3: {
+  {
+    id: 3,
     title: "Operation Clean Sweep",
     organization: "Global Volunteers",
     datePosted: "posted February 15, 2023",
@@ -158,7 +162,8 @@ export const events = {
       },
     ],
   },
-  event4: {
+  {
+    id: 4,
     title: "Fun Run",
     organization: "American Running Society",
     datePosted: "posted February 15, 2023",
@@ -167,7 +172,7 @@ export const events = {
       {
         title: "Description",
         description:
-        "Join the Fit for Change Foundation for the Run for Health 5K, a community event promoting healthy lifestyles and raising awareness about the importance of regular exercise and physical activity for overall well-being.",
+          "Join the Fit for Change Foundation for the Run for Health 5K, a community event promoting healthy lifestyles and raising awareness about the importance of regular exercise and physical activity for overall well-being.",
       },
       {
         title: "Date",
@@ -211,4 +216,4 @@ export const events = {
       },
     ],
   },
-};
+];
