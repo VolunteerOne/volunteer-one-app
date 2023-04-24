@@ -54,7 +54,7 @@ const ProfileScreen = ({ route, navigation }) => {
 
   const handleFollowBtnPress = () => {
     setFollowText("UNFOLLOW");
-    Alert.alert("User followed!");
+    Alert.alert("Followed!");
   };
 
 
@@ -94,13 +94,16 @@ const ProfileScreen = ({ route, navigation }) => {
                     space="evenly"
                     style={{ marginTop: 20, paddingBottom: 24 }}
                   >
+                    {isVolunteer ? 
                     <Button
                       small
                       style={{ backgroundColor: argonTheme.COLORS.INFO }}
                       onPress={handleConnectBtnPress}
                     >
-                      {isVolunteer ? "CONNECT" : "JOIN"}
-                    </Button>
+                      CONNECT
+                    </Button> :
+                    null
+                    }
 
                       {isVolunteer ?
                         <Button
