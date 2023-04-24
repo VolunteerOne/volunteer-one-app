@@ -12,7 +12,7 @@ import {
 const SCREEN_HEIGHT = Dimensions.get("window").height;
 const SCREEN_WIDTH = Dimensions.get("window").width;
 import Icon from "react-native-vector-icons/Ionicons";
-import Events from "../../constants/eventsSwipeCards";
+import Events from "../../constants/ExploreTab/eventsSwipeCards";
 import { ExploreImage } from '../../components';
 
 
