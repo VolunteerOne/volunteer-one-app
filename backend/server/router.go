@@ -21,6 +21,7 @@ func NewRouter() *gin.Engine {
 	loginRepository := repository.NewLoginRepository(database.GetDatabase())
 	usersRepository := repository.NewUsersRepository(database.GetDatabase())
 	organizationRepository := repository.NewOrganizationRepository(database.GetDatabase())
+	orgUsersRepository := repository.NewOrgUsersRepository(database.GetDatabase())
 	eventRepository := repository.NewEventRepository(database.GetDatabase())
 
 	// *********************************************************
@@ -30,8 +31,9 @@ func NewRouter() *gin.Engine {
 	loginService := service.NewLoginService(loginRepository)
 	usersService := service.NewUsersService(usersRepository)
 	organizationService := service.NewOrganizationService(organizationRepository)
+	orgUsersService := service.NewOrgUsersService(orgUsersRepository)
 	eventService := service.NewEventService(eventRepository)
-	
+
 	// *********************************************************
 	// INITIALIZE CONTROLLERS HERE
 	// *********************************************************
@@ -39,6 +41,7 @@ func NewRouter() *gin.Engine {
 	loginController := controllers.NewLoginController(loginService)
 	usersController := controllers.NewUsersController(usersService)
 	organizationController := controllers.NewOrganizationController(organizationService)
+	orgUsersController := controllers.NewOrgUsersController(orgUsersService)
 	eventController := controllers.NewEventController(eventService)
 
 	userGroup := router.Group("user")
@@ -57,10 +60,10 @@ func NewRouter() *gin.Engine {
 	loginGroup.POST("/:email", loginController.SendEmailForPassReset)
 	//Get the secret code from the users email, if matches reset password
 	loginGroup.PUT("/:email/:resetcode/:newpassword", loginController.PasswordReset)
-    //Check valid access token
-    loginGroup.POST("/verify", middleware.BasicAuth, loginController.VerifyAccessToken)
-    //Get refresh token
-    loginGroup.POST("/refresh", loginController.RefreshToken)
+	//Check valid access token
+	loginGroup.POST("/verify", middleware.BasicAuth, loginController.VerifyAccessToken)
+	//Get refresh token
+	loginGroup.POST("/refresh", loginController.RefreshToken)
 
 	organizationGroup := router.Group("organization")
 	organizationGroup.POST("/", organizationController.Create)
@@ -77,14 +80,11 @@ func NewRouter() *gin.Engine {
 	eventGroup.PUT("/:id", eventController.Update)
 
 	orgUsersGroup := router.Group("orgUsers")
-	{
-		orgUsers := new(controllers.OrgUsersController)
-		orgUsersGroup.POST("/", orgUsers.CreateOrgUser)
-		orgUsersGroup.GET("/", orgUsers.ListAllOrgUsers)
-		orgUsersGroup.GET("/:id", orgUsers.FindOrgUser)
-		orgUsersGroup.PUT("/:id", orgUsers.UpdateOrgUser)
-		orgUsersGroup.DELETE("/:id", orgUsers.DeleteOrgUser)
-	}
+	orgUsersGroup.POST("/", orgUsersController.CreateOrgUser)
+	orgUsersGroup.GET("/", orgUsersController.ListAllOrgUsers)
+	orgUsersGroup.GET("/:userId", orgUsersController.FindOrgUser)
+	orgUsersGroup.PUT("/:userId", orgUsersController.UpdateOrgUser)
+	orgUsersGroup.DELETE("/:userId", orgUsersController.DeleteOrgUser)
 
 	// objectGroup := router.Group("object")
 	// {
