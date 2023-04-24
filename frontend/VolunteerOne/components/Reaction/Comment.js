@@ -15,7 +15,6 @@ const Comment = ({commentCount}) => {
   function sendValues(comment) {
     console.log(comment);
     setCount(count => count + 1);
-    console.log(count);
   };
 
   return (
