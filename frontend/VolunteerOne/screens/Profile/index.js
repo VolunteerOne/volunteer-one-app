@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import {
+  Alert,
   StyleSheet,
   Dimensions,
   ScrollView,
@@ -42,12 +43,21 @@ const ProfileScreen = ({ route, navigation }) => {
     isVolunteer = false;
   }
 
+  const [followText, setFollowText] = useState("FOLLOW");
+
   const handleConnectBtnPress = () => {
     console.log("connect btn pressed");
   };
   const handleMessageBtnPress = () => {
     console.log("Message btn pressed");
   };
+
+  const handleFollowBtnPress = () => {
+    setFollowText("UNFOLLOW");
+    Alert.alert("User followed!");
+  };
+
+
 
   // const handleViewAllRecentActivityBtn = () => {
   //   console.log("handleViewAllRecentActivityBtn");
@@ -91,13 +101,26 @@ const ProfileScreen = ({ route, navigation }) => {
                     >
                       {isVolunteer ? "CONNECT" : "JOIN"}
                     </Button>
-                    <Button
-                      small
-                      style={{ backgroundColor: argonTheme.COLORS.DEFAULT }}
-                      onPress={handleMessageBtnPress}
-                    >
-                      {isVolunteer ? "MESSAGE" : "FOLLOW"}
-                    </Button>
+
+                      {isVolunteer ?
+                        <Button
+                          small
+                          style={{ backgroundColor: argonTheme.COLORS.DEFAULT }}
+                          onPress={handleMessageBtnPress}
+                        >
+                          {"MESSAGE"}                      
+                        </Button>
+                      :
+                        <Button
+                          small
+                          style={{ backgroundColor: argonTheme.COLORS.DEFAULT }}
+                          onPress={() =>
+                            handleFollowBtnPress()}
+                        >
+                        {followText}
+                        </Button>
+                      }
+
                   </Block>
                   {isVolunteer && (
                     <Block
