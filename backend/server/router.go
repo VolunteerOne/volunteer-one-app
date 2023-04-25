@@ -23,6 +23,9 @@ func NewRouter() *gin.Engine {
 	organizationRepository := repository.NewOrganizationRepository(database.GetDatabase())
 	orgUsersRepository := repository.NewOrgUsersRepository(database.GetDatabase())
 	eventRepository := repository.NewEventRepository(database.GetDatabase())
+	postsRepository := repository.NewPostsRepository(database.GetDatabase())
+	commentsRepository := repository.NewCommentsRepository(database.GetDatabase())
+	likesRepository := repository.NewLikesRepository(database.GetDatabase())
 
 	// *********************************************************
 	// INITIALIZE SERVICES HERE
@@ -33,6 +36,9 @@ func NewRouter() *gin.Engine {
 	organizationService := service.NewOrganizationService(organizationRepository)
 	orgUsersService := service.NewOrgUsersService(orgUsersRepository)
 	eventService := service.NewEventService(eventRepository)
+	postsService := service.NewPostsService(postsRepository)
+	commentsService := service.NewCommentsService(commentsRepository)
+	likesService := service.NewLikesService(likesRepository)
 
 	// *********************************************************
 	// INITIALIZE CONTROLLERS HERE
@@ -43,6 +49,9 @@ func NewRouter() *gin.Engine {
 	organizationController := controllers.NewOrganizationController(organizationService)
 	orgUsersController := controllers.NewOrgUsersController(orgUsersService)
 	eventController := controllers.NewEventController(eventService)
+	postsController := controllers.NewPostsController(postsService)
+	commentsController := controllers.NewCommentsController(commentsService)
+	likesController := controllers.NewLikesController(likesService)
 
 	userGroup := router.Group("user")
 
@@ -86,6 +95,25 @@ func NewRouter() *gin.Engine {
 	orgUsersGroup.PUT("/:userId", orgUsersController.UpdateOrgUser)
 	orgUsersGroup.DELETE("/:userId", orgUsersController.DeleteOrgUser)
 
+	postsGroup := router.Group("posts")
+	postsGroup.POST("/", postsController.CreatePost)
+	postsGroup.GET("/", postsController.AllPosts)
+	postsGroup.GET("/:id", postsController.FindPost)
+	postsGroup.DELETE("/:id", postsController.DeletePost)
+	postsGroup.PUT("/:id", postsController.EditPost)
+
+	commentsGroup := router.Group("comments")
+	commentsGroup.POST("/", commentsController.CreateComment)
+	commentsGroup.GET("/", commentsController.AllComments)
+	commentsGroup.GET("/:id", commentsController.FindComment)
+	commentsGroup.DELETE("/:id", commentsController.DeleteComment)
+	commentsGroup.PUT("/:id", commentsController.EditComment)
+
+	likesGroup := router.Group("likes")
+	likesGroup.POST("/", likesController.CreateLike)
+	likesGroup.GET("/", likesController.AllLikes)
+	likesGroup.GET("/:id", likesController.FindLike)
+	likesGroup.DELETE("/:id", likesController.DeleteLike)
 	// objectGroup := router.Group("object")
 	// {
 	// 	object := new(controllers.ObjectController)
