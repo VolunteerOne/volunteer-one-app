@@ -20,6 +20,7 @@ func NewRouter() *gin.Engine {
 
 	loginRepository := repository.NewLoginRepository(database.GetDatabase())
 	usersRepository := repository.NewUsersRepository(database.GetDatabase())
+	friendRepository := repository.NewFriendRepository(database.GetDatabase())
 	organizationRepository := repository.NewOrganizationRepository(database.GetDatabase())
 	orgUsersRepository := repository.NewOrgUsersRepository(database.GetDatabase())
 	eventRepository := repository.NewEventRepository(database.GetDatabase())
@@ -33,6 +34,7 @@ func NewRouter() *gin.Engine {
 
 	loginService := service.NewLoginService(loginRepository)
 	usersService := service.NewUsersService(usersRepository)
+	friendService := service.NewFriendService(friendRepository)
 	organizationService := service.NewOrganizationService(organizationRepository)
 	orgUsersService := service.NewOrgUsersService(orgUsersRepository)
 	eventService := service.NewEventService(eventRepository)
@@ -46,6 +48,7 @@ func NewRouter() *gin.Engine {
 
 	loginController := controllers.NewLoginController(loginService)
 	usersController := controllers.NewUsersController(usersService)
+	friendController := controllers.NewFriendController(friendService)
 	organizationController := controllers.NewOrganizationController(organizationService)
 	orgUsersController := controllers.NewOrgUsersController(orgUsersService)
 	eventController := controllers.NewEventController(eventService)
@@ -94,6 +97,13 @@ func NewRouter() *gin.Engine {
 	orgUsersGroup.GET("/:userId", orgUsersController.FindOrgUser)
 	orgUsersGroup.PUT("/:userId", orgUsersController.UpdateOrgUser)
 	orgUsersGroup.DELETE("/:userId", orgUsersController.DeleteOrgUser)
+
+	friendGroup := router.Group("friend")
+	friendGroup.POST("/", friendController.Create)
+	friendGroup.GET("/", friendController.All)
+	friendGroup.GET("/:id", friendController.One)
+	friendGroup.DELETE("/:id", friendController.Reject)
+	friendGroup.PUT("/:id", friendController.Accept)
 
 	postsGroup := router.Group("posts")
 	postsGroup.POST("/", postsController.CreatePost)
