@@ -1,14 +1,13 @@
 package service
 
 import (
-	"net/http"
-
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
 	"github.com/VolunteerOne/volunteer-one-app/backend/repository"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
+	"net/http"
 )
 
 type LoginService interface {
@@ -19,8 +18,9 @@ type LoginService interface {
 	CompareHashedAndUserPass([]byte, string) error
 	GenerateJWT(uint, *jwt.NumericDate, *jwt.NumericDate, string, *gin.Context) (string, string, error)
 	SaveRefreshToken(uint, string, models.Delegations) error
-    FindRefreshToken(float64, models.Delegations) (models.Delegations, error)
-    DeleteRefreshToken(models.Delegations) (error)
+	FindRefreshToken(float64, models.Delegations) (models.Delegations, error)
+	DeleteRefreshToken(models.Delegations) error
+	ParseUUID(string) (uuid.UUID, error)
 }
 
 type loginService struct {
@@ -63,9 +63,9 @@ func (l loginService) GenerateJWT(userid uint,
 	c *gin.Context) (string, string, error) {
 
 	accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub": userid,
-		"exp": accessExp,
-        "type": "access",
+		"sub":  userid,
+		"exp":  accessExp,
+		"type": "access",
 	})
 	accessTokenString, err := accessToken.SignedString([]byte(secret))
 
@@ -78,9 +78,9 @@ func (l loginService) GenerateJWT(userid uint,
 	}
 
 	refreshToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub": userid,
-        "exp": refreshExp,
-        "type": "refresh",
+		"sub":  userid,
+		"exp":  refreshExp,
+		"type": "refresh",
 	})
 	refreshTokenString, err := refreshToken.SignedString([]byte(secret))
 
@@ -99,11 +99,14 @@ func (l loginService) SaveRefreshToken(userid uint, refreshToken string, deleg m
 	return l.loginRepository.SaveRefreshToken(userid, refreshToken, deleg)
 }
 
-
 func (l loginService) FindRefreshToken(userid float64, deleg models.Delegations) (models.Delegations, error) {
-    return l.loginRepository.FindRefreshToken(userid, deleg)
+	return l.loginRepository.FindRefreshToken(userid, deleg)
 }
 
-func (l loginService) DeleteRefreshToken(deleg models.Delegations) (error) {
+func (l loginService) DeleteRefreshToken(deleg models.Delegations) error {
 	return l.loginRepository.DeleteRefreshToken(deleg)
+}
+
+func (l loginService) ParseUUID(s string) (uuid.UUID, error) {
+	return uuid.Parse(s)
 }

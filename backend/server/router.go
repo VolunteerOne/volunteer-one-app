@@ -28,7 +28,7 @@ func NewRouter() *gin.Engine {
 	loginService := service.NewLoginService(loginRepository)
 	usersService := service.NewUsersService(usersRepository)
 	organizationService := service.NewOrganizationService(organizationRepository)
-	
+
 	// *********************************************************
 	// INITIALIZE CONTROLLERS HERE
 	// *********************************************************
@@ -53,10 +53,10 @@ func NewRouter() *gin.Engine {
 	loginGroup.POST("/:email", loginController.SendEmailForPassReset)
 	//Get the secret code from the users email, if matches reset password
 	loginGroup.PUT("/:email/:resetcode/:newpassword", loginController.PasswordReset)
-    //Check valid access token
-    loginGroup.POST("/verify", middleware.BasicAuth, loginController.VerifyAccessToken)
-    //Get refresh token
-    loginGroup.POST("/refresh", loginController.RefreshToken)
+	//Check valid access token
+	loginGroup.POST("/verify", middleware.BasicAuth, loginController.VerifyAccessToken)
+	//Get refresh token
+	loginGroup.POST("/refresh", loginController.RefreshToken)
 
 	organizationGroup := router.Group("organization")
 	organizationGroup.POST("/", organizationController.Create)

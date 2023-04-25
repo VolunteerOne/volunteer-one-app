@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"fmt"
+	"github.com/VolunteerOne/volunteer-one-app/backend/middleware"
 	"log"
 	"net/http"
 	"os"
@@ -158,7 +158,16 @@ func (l loginController) SendEmailForPassReset(c *gin.Context) {
 func (l loginController) PasswordReset(c *gin.Context) {
 	email := c.Param("email")
 	resetCode := c.Param("resetcode")
-	resetCodeParsed, err := uuid.Parse(resetCode)
+	resetCodeParsed, err := l.loginService.ParseUUID(resetCode)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Could not parse UUID",
+			"success": false,
+		})
+		return
+	}
+
 	newPassword := c.Param("newpassword")
 
 	var user models.Users
@@ -180,8 +189,8 @@ func (l loginController) PasswordReset(c *gin.Context) {
 		})
 		return
 	}
-	hash, err := l.loginService.HashPassword([]byte(newPassword))
-	if changePasswordErr := l.loginService.ChangePassword(hash, user); err != nil {
+	hash, _ := l.loginService.HashPassword([]byte(newPassword))
+	if changePasswordErr := l.loginService.ChangePassword(hash, user); changePasswordErr != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message":        "Failed to change password",
 			"success":        false,
@@ -222,18 +231,16 @@ func (l loginController) RefreshToken(c *gin.Context) {
 	}
 
 	// Decode/validate it
-	token, err := jwt.Parse(refreshToken[0], func(token *jwt.Token) (interface{}, error) {
-		// Don't forget to validate the alg is what you expect:
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
-		}
-
-		// hmacSampleSecret is a []byte containing your secret, e.g. []byte("my_secret_key")
-		return []byte(os.Getenv("JWT_SECRET")), nil
-	})
+	token, err := middleware.Validate(refreshToken[0], os.Getenv("JWT_SECRET"))
 
 	if err != nil {
 		log.Println("Error: Something went wrong when parsing the token")
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"message": "Something went wrong when parsing the token",
+			"success": false,
+		})
+		c.AbortWithStatus(http.StatusUnauthorized)
+		return
 	}
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
@@ -275,7 +282,7 @@ func (l loginController) RefreshToken(c *gin.Context) {
 			c.AbortWithStatus(http.StatusUnauthorized)
 
 			// Delete the refresh token from db -> user will have to reauthenticate
-            // User will have access for rest of life of access token but no longer
+			// User will have access for rest of life of access token but no longer
 			l.loginService.DeleteRefreshToken(delegations)
 
 			return
@@ -296,26 +303,25 @@ func (l loginController) RefreshToken(c *gin.Context) {
 			return
 		}
 
-        // Save the code
-        err = l.loginService.SaveRefreshToken(delegations.UsersID, refreshToken, delegations)
+		// Save the code
+		err = l.loginService.SaveRefreshToken(delegations.UsersID, refreshToken, delegations)
 
-        if err != nil {
-            log.Println(err)
-            c.JSON(http.StatusBadRequest, gin.H{
-                "message": "Failed to save refresh token to DB",
-                "success": false,
-            })
-            return
-        }
+		if err != nil {
+			log.Println(err)
+			c.JSON(http.StatusBadRequest, gin.H{
+				"message": "Failed to save refresh token to DB",
+				"success": false,
+			})
+			return
+		}
 
-        // Send the access/refresh token
-        c.JSON(http.StatusOK, gin.H{
-            "message":       "Token refresh success",
-            "access_token":  accessToken,
-            "refresh_token": refreshToken,
-            "success":       true,
-        })
-
+		// Send the access/refresh token
+		c.JSON(http.StatusOK, gin.H{
+			"message":       "Token refresh success",
+			"access_token":  accessToken,
+			"refresh_token": refreshToken,
+			"success":       true,
+		})
 
 	} else {
 		log.Println("Could not validate refresh token. Authenticate again")
@@ -325,7 +331,5 @@ func (l loginController) RefreshToken(c *gin.Context) {
 		})
 		c.AbortWithStatus(http.StatusUnauthorized)
 	}
-
-	// TODO
 
 }
