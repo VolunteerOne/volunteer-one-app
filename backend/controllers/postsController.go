@@ -190,7 +190,7 @@ var CommentsModel = new(models.Comments)
 func (controller commentsController) CreateComment(c *gin.Context) {
 	var err error
 	var body struct {
-		PostID             uint
+		PostsID            uint
 		Handle             string
 		CommentDescription string
 	}
@@ -203,7 +203,7 @@ func (controller commentsController) CreateComment(c *gin.Context) {
 	}
 
 	object := models.Comments{
-		PostID:             body.PostID,
+		PostsID:            body.PostsID,
 		Handle:             body.Handle,
 		CommentDescription: body.CommentDescription,
 	}
@@ -351,8 +351,8 @@ var LikesModel = new(models.Likes)
 func (controller likesController) CreateLike(c *gin.Context) {
 	var err error
 	var body struct {
-		Handle string
-		PostID uint
+		Handle  string
+		PostsID uint
 	}
 	err = c.Bind(&body)
 	if err != nil {
@@ -363,8 +363,8 @@ func (controller likesController) CreateLike(c *gin.Context) {
 	}
 
 	object := models.Likes{
-		Handle: body.Handle,
-		PostID: body.PostID,
+		Handle:  body.Handle,
+		PostsID: body.PostsID,
 	}
 
 	result, err := controller.likesService.CreateLike(object)

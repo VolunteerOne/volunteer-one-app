@@ -9,16 +9,21 @@ type Posts struct {
 	Handle          string `gorm:"NOT NULL"`
 	PostDescription string
 	Likes           uint `gorm:"default:0"`
-	CommentId       uint
 }
 
 type Comments struct {
-	PostID             uint
-	Handle             string
-	CommentDescription string
+	gorm.Model
+	PostsID            uint   `gorm:"NOT NULL"`
+	Handle             string `gorm:"NOT NULL"`
+	CommentDescription string `gorm:"NOT NULL"`
+
+	Posts Posts `gorm:"foreignkey:PostsID"`
 }
 
 type Likes struct {
-	PostID uint
-	Handle string
+	gorm.Model
+	PostsID uint   `gorm:"NOT NULL"`
+	Handle  string `gorm:"NOT NULL"`
+
+	Posts Posts `gorm:"foreignkey:PostsID"`
 }
