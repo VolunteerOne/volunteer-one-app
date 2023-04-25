@@ -21,7 +21,8 @@ const PostNoImageCard = ({ data }) => {
         profileImage={data["profileImage"]}
       />
       <CardBody data={data} />
-      <Reaction></Reaction>
+      <Reaction likeCount={data["likeCount"]}
+      commentCount={data["commentCount"]}></Reaction>
     </Block>
   );
 };

@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import {
+  Alert,
   StyleSheet,
   Dimensions,
   ScrollView,
@@ -42,12 +43,21 @@ const ProfileScreen = ({ route, navigation }) => {
     isVolunteer = false;
   }
 
+  const [followText, setFollowText] = useState("FOLLOW");
+
   const handleConnectBtnPress = () => {
     console.log("connect btn pressed");
   };
   const handleMessageBtnPress = () => {
     console.log("Message btn pressed");
   };
+
+  const handleFollowBtnPress = () => {
+    setFollowText("UNFOLLOW");
+    Alert.alert("Followed!");
+  };
+
+
 
   // const handleViewAllRecentActivityBtn = () => {
   //   console.log("handleViewAllRecentActivityBtn");
@@ -84,20 +94,36 @@ const ProfileScreen = ({ route, navigation }) => {
                     space="evenly"
                     style={{ marginTop: 20, paddingBottom: 24 }}
                   >
+                    {isVolunteer ? 
                     <Button
                       small
                       style={{ backgroundColor: argonTheme.COLORS.INFO }}
                       onPress={handleConnectBtnPress}
                     >
-                      {isVolunteer ? "CONNECT" : "JOIN"}
-                    </Button>
-                    <Button
-                      small
-                      style={{ backgroundColor: argonTheme.COLORS.DEFAULT }}
-                      onPress={handleMessageBtnPress}
-                    >
-                      {isVolunteer ? "MESSAGE" : "FOLLOW"}
-                    </Button>
+                      CONNECT
+                    </Button> :
+                    null
+                    }
+
+                      {isVolunteer ?
+                        <Button
+                          small
+                          style={{ backgroundColor: argonTheme.COLORS.DEFAULT }}
+                          onPress={handleMessageBtnPress}
+                        >
+                          {"MESSAGE"}                      
+                        </Button>
+                      :
+                        <Button
+                          small
+                          style={{ backgroundColor: argonTheme.COLORS.DEFAULT }}
+                          onPress={() =>
+                            handleFollowBtnPress()}
+                        >
+                        {followText}
+                        </Button>
+                      }
+
                   </Block>
                   {isVolunteer && (
                     <Block

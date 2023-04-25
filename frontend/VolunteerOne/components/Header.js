@@ -49,9 +49,9 @@ const SearchButton = ({ isWhite, style, navigation }) => (
       name="card-search-outline"
       color={theme.COLORS[isWhite ? "WHITE" : "ICON"]}
     />
-    <Block middle style={styles.notify} />
   </TouchableOpacity>
 );
+
 
 const SettingsButton = ({ isWhite, style, navigation }) => (
   <TouchableOpacity
@@ -124,11 +124,7 @@ class Header extends React.Component {
         ];
       case "Announcements":
       return [
-        <SearchButton
-          key="search"
-          navigation={navigation}
-          isWhite={white}
-        />,
+        
         <BellButton
           key="notification"
           navigation={navigation}
@@ -136,14 +132,15 @@ class Header extends React.Component {
         />
       ];
       case "Explore":
-      case "Feed":
         return [
-          <BellButton
-            key="notification"
-            navigation={navigation}
-            isWhite={white}
-          />,
+          <SearchButton
+          key="search"
+          navigation={navigation}
+          isWhite={white}
+        />,
         ];
+      case "Feed":
+        
       default:
         break;
     }
