@@ -38,12 +38,9 @@ func NewRouter() *gin.Engine {
 	organizationService := service.NewOrganizationService(organizationRepository)
 	orgUsersService := service.NewOrgUsersService(orgUsersRepository)
 	eventService := service.NewEventService(eventRepository)
-<<<<<<< HEAD
-=======
 	postsService := service.NewPostsService(postsRepository)
 	commentsService := service.NewCommentsService(commentsRepository)
 	likesService := service.NewLikesService(likesRepository)
->>>>>>> 82c3714e98fec1dd5313ed890a5dc8863caac2fd
 
 	// *********************************************************
 	// INITIALIZE CONTROLLERS HERE
