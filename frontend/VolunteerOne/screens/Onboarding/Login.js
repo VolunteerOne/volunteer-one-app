@@ -27,7 +27,7 @@ const Login = ({ navigation }) => {
   const [password, setPassword] = useState("");
 
   function handleEmailInput(input) {
-    setEmail(input);
+    setEmail(input.toLowerCase());
   }
 
   function handlePasswordInput(input) {
