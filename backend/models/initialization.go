@@ -13,11 +13,10 @@ type Model interface {
 var tables = []Model{
 	&Organization{},
 	&Friend{},
-	// &Posts{},
 	&OrgUsers{},
 	&Users{},
 	&Event{},
-    &Delegations{},
+	&Delegations{},
 }
 
 func Init() {
