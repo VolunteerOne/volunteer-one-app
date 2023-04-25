@@ -2,18 +2,35 @@ package controllers
 
 import (
 	"net/http"
+	"strconv"
 
-	"github.com/VolunteerOne/volunteer-one-app/backend/database"
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
+	"github.com/VolunteerOne/volunteer-one-app/backend/service"
 	"github.com/gin-gonic/gin"
 )
 
-type OrgUsersController struct{}
+type OrgUsersController interface {
+	CreateOrgUser(c *gin.Context)
+	ListAllOrgUsers(c *gin.Context)
+	FindOrgUser(c *gin.Context)
+	UpdateOrgUser(c *gin.Context)
+	DeleteOrgUser(c *gin.Context)
+}
 
-// Create organization user
-func (controller OrgUsersController) CreateOrgUser(c *gin.Context) {
+type orgUsersController struct {
+	orgUsersService service.OrgUsersService
+}
+
+// Returns the org user controller instantiated in the Router
+func NewOrgUsersController(serv service.OrgUsersService) OrgUsersController {
+	return orgUsersController{
+		orgUsersService: serv,
+	}
+}
+
+// Create new role tied to a user and organization
+func (o orgUsersController) CreateOrgUser(c *gin.Context) {
 	var err error
-	db := database.GetDatabase()
 
 	// Declare a struct for the desired request body
 	var body struct {
@@ -32,42 +49,32 @@ func (controller OrgUsersController) CreateOrgUser(c *gin.Context) {
 		return
 	}
 
-	// Create the object in the database
+	// Create orgUser object model, send to next layer
 	orgUser := models.OrgUsers{
 		UsersID:        body.UserId,
 		OrganizationID: body.OrganizationId,
 		Role:           body.Role,
 	}
 
-	result := db.Create(&orgUser)
+	result, err := o.orgUsersService.CreateOrgUser(orgUser)
 
-	db.Preload("Users").Find(&orgUser)
-	db.Preload("Organization").Find(&orgUser)
-
-	if result.Error != nil {
+	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Could not create a new Org User.",
+			"error": "Could not create new OrgUser.",
 		})
 
 		return
 	}
 
 	// Respond with success
-	c.JSON(http.StatusOK, orgUser)
+	c.JSON(http.StatusOK, result)
 }
 
-func (controller OrgUsersController) ListAllOrgUsers(c *gin.Context) {
-	// var err error
-	db := database.GetDatabase()
-	var orgUsers []models.OrgUsers
+// Lists all members with roles in organizations
+func (o orgUsersController) ListAllOrgUsers(c *gin.Context) {
+	result, err := o.orgUsersService.ListAllOrgUsers()
 
-	// Get objects from database
-	result := db.Find(&orgUsers)
-
-	db.Preload("Users").Find(&orgUsers)
-	db.Preload("Organization").Find(&orgUsers)
-
-	if result.Error != nil {
+	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Could not retrieve organization users.",
 		})
@@ -76,45 +83,59 @@ func (controller OrgUsersController) ListAllOrgUsers(c *gin.Context) {
 	}
 
 	// Return the array of objects
-	c.JSON(http.StatusOK, orgUsers)
+	c.JSON(http.StatusOK, result)
 }
 
-func (controller OrgUsersController) FindOrgUser(c *gin.Context) {
-	db := database.GetDatabase()
+// Find a user's organization roles by User ID
+func (o orgUsersController) FindOrgUser(c *gin.Context) {
+	// Get the userId
+	userId64, err := strconv.ParseUint(c.Param("userId"), 10, 64)
 
-	// Get the id
-	id := c.Param("id")
-
-	// Get object from the database
-	var orgUsers models.OrgUsers
-	result := db.First(&orgUsers, id)
-
-	if result.Error != nil {
+	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Could not find Org User with that ID.",
+			"error": "userId field must be an unsigned integer.",
 		})
 
 		return
 	}
 
-	db.Preload("Users").Find(&orgUsers)
-	db.Preload("Organization").Find(&orgUsers)
+	var body struct {
+		OrganizationId uint
+	}
+
+	// Bind struct to context and check for errors
+	err = c.Bind(&body)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Request body is invalid.",
+		})
+
+		return
+	}
+
+	// Get object from the database
+	userId := uint(userId64)
+	result, err := o.orgUsersService.FindOrgUser(userId, body.OrganizationId)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Could not find OrgUser with that userId/orgId.",
+		})
+
+		return
+	}
 
 	// Return the object
-	c.JSON(http.StatusAccepted, orgUsers)
+	c.JSON(http.StatusAccepted, result)
 }
 
-func (controller OrgUsersController) UpdateOrgUser(c *gin.Context) {
-	db := database.GetDatabase()
+func (o orgUsersController) UpdateOrgUser(c *gin.Context) {
+	// Get the userId
+	userId64, err := strconv.ParseUint(c.Param("userId"), 10, 64)
 
-	// Get the existing object
-	id := c.Param("id")
-	var orgUser models.OrgUsers
-	result := db.Find(&orgUser, id)
-
-	if result.Error != nil {
+	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Could not retrieve an Org User with that ID.",
+			"error": "userId field must be an unsigned integer.",
 		})
 
 		return
@@ -122,7 +143,8 @@ func (controller OrgUsersController) UpdateOrgUser(c *gin.Context) {
 
 	// Get updates from the body
 	var body struct {
-		Role uint
+		OrganizationId uint
+		Role           uint
 	}
 
 	if err := c.Bind(&body); err != nil {
@@ -133,46 +155,53 @@ func (controller OrgUsersController) UpdateOrgUser(c *gin.Context) {
 		return
 	}
 
-	orgUser.Role = body.Role
+	userId := uint(userId64)
+	result, err := o.orgUsersService.UpdateOrgUser(userId, body.OrganizationId, body.Role)
 
-	// Update the object
-	result = db.Save(&orgUser)
-	if result.Error != nil {
+	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Could not update object",
+			"error": "Could not update OrgUser with that userId/orgId.",
 		})
 
 		return
 	}
-
-	db.Preload("Users").Find(&orgUser)
-	db.Preload("Organization").Find(&orgUser)
 
 	// Respond
-	c.JSON(http.StatusOK, orgUser)
+	c.JSON(http.StatusOK, result)
 }
 
-func (controller OrgUsersController) DeleteOrgUser(c *gin.Context) {
-	db := database.GetDatabase()
+func (o orgUsersController) DeleteOrgUser(c *gin.Context) {
+	// Get the userId
+	userId64, err := strconv.ParseUint(c.Param("userId"), 10, 64)
 
-	// Get the existing object
-	id := c.Param("id")
-	var orgUser models.OrgUsers
-	result := db.Find(&orgUser, id)
-
-	if result.Error != nil {
+	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Could find an Org User with that ID.",
+			"error": "userId field must be an unsigned integer.",
 		})
 
 		return
 	}
 
-	// Delete the object
-	result = db.Delete(&orgUser)
-	if result.Error != nil {
+	var body struct {
+		OrganizationId uint
+	}
+
+	// Bind struct to context and check for errors
+	err = c.Bind(&body)
+	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Could not delete that Org User.",
+			"error": "Request body is invalid.",
+		})
+
+		return
+	}
+
+	userId := uint(userId64)
+	err = o.orgUsersService.DeleteOrgUser(userId, body.OrganizationId)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Could not delete OrgUser.",
 		})
 
 		return
@@ -180,7 +209,7 @@ func (controller OrgUsersController) DeleteOrgUser(c *gin.Context) {
 
 	// Respond
 	c.JSON(http.StatusOK, gin.H{
-		"message": "Org User deleted.",
+		"message": "OrgUser deleted.",
 	})
 
 }
