@@ -21,6 +21,7 @@ func NewRouter() *gin.Engine {
 	loginRepository := repository.NewLoginRepository(database.GetDatabase())
 	usersRepository := repository.NewUsersRepository(database.GetDatabase())
 	organizationRepository := repository.NewOrganizationRepository(database.GetDatabase())
+	orgUsersRepository := repository.NewOrgUsersRepository(database.GetDatabase())
 	eventRepository := repository.NewEventRepository(database.GetDatabase())
 	postsRepository := repository.NewPostsRepository(database.GetDatabase())
 	commentsRepository := repository.NewCommentsRepository(database.GetDatabase())
@@ -33,6 +34,7 @@ func NewRouter() *gin.Engine {
 	loginService := service.NewLoginService(loginRepository)
 	usersService := service.NewUsersService(usersRepository)
 	organizationService := service.NewOrganizationService(organizationRepository)
+	orgUsersService := service.NewOrgUsersService(orgUsersRepository)
 	eventService := service.NewEventService(eventRepository)
 	postsService := service.NewPostsService(postsRepository)
 	commentsService := service.NewCommentsService(commentsRepository)
@@ -45,6 +47,7 @@ func NewRouter() *gin.Engine {
 	loginController := controllers.NewLoginController(loginService)
 	usersController := controllers.NewUsersController(usersService)
 	organizationController := controllers.NewOrganizationController(organizationService)
+	orgUsersController := controllers.NewOrgUsersController(orgUsersService)
 	eventController := controllers.NewEventController(eventService)
 	postsController := controllers.NewPostsController(postsService)
 	commentsController := controllers.NewCommentsController(commentsService)
@@ -86,14 +89,11 @@ func NewRouter() *gin.Engine {
 	eventGroup.PUT("/:id", eventController.Update)
 
 	orgUsersGroup := router.Group("orgUsers")
-	{
-		orgUsers := new(controllers.OrgUsersController)
-		orgUsersGroup.POST("/", orgUsers.CreateOrgUser)
-		orgUsersGroup.GET("/", orgUsers.ListAllOrgUsers)
-		orgUsersGroup.GET("/:id", orgUsers.FindOrgUser)
-		orgUsersGroup.PUT("/:id", orgUsers.UpdateOrgUser)
-		orgUsersGroup.DELETE("/:id", orgUsers.DeleteOrgUser)
-	}
+	orgUsersGroup.POST("/", orgUsersController.CreateOrgUser)
+	orgUsersGroup.GET("/", orgUsersController.ListAllOrgUsers)
+	orgUsersGroup.GET("/:userId", orgUsersController.FindOrgUser)
+	orgUsersGroup.PUT("/:userId", orgUsersController.UpdateOrgUser)
+	orgUsersGroup.DELETE("/:userId", orgUsersController.DeleteOrgUser)
 
 	postsGroup := router.Group("posts")
 	postsGroup.POST("/", postsController.CreatePost)
