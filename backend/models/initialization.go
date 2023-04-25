@@ -17,6 +17,9 @@ var tables = []Model{
 	&Users{},
 	&Event{},
 	&Delegations{},
+	&Posts{},
+	&Comments{},
+	&Likes{},
 }
 
 func Init() {
