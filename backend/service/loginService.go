@@ -51,13 +51,11 @@ func (l loginService) ChangePassword(newPassword []byte, user models.Users) erro
 }
 
 func (l loginService) HashPassword(password []byte) ([]byte, error) {
-	hash, err := bcrypt.GenerateFromPassword([]byte(password), 10)
-	return hash, err
+	return bcrypt.GenerateFromPassword([]byte(password), 10)
 }
 
 func (l loginService) CompareHashedAndUserPass(hashedPassword []byte, stringPassword string) error {
-	err := bcrypt.CompareHashAndPassword(hashedPassword, []byte(stringPassword))
-	return err
+	return bcrypt.CompareHashAndPassword(hashedPassword, []byte(stringPassword))
 }
 
 func (l loginService) GenerateJWT(userid uint,
