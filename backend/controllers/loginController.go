@@ -73,12 +73,37 @@ func (l loginController) Login(c *gin.Context) {
 	// 30 day expire for refreshToken
 	refreshExpire := jwt.NewNumericDate(time.Now().Add(time.Hour * 24 * 30))
 
-	accessToken, refreshToken, err := l.loginService.GenerateJWT(user.ID,
-		accessExpire, refreshExpire, os.Getenv("JWT_SECRET"), c)
+	// generate the access token
+	accessTokenClaims := jwt.MapClaims{
+		"sub":  user.ID,
+		"exp":  accessExpire,
+		"type": "access",
+	}
+	accessToken, err := l.loginService.GenerateJWT(jwt.SigningMethodHS256, accessTokenClaims, os.Getenv("JWT_SECRET"))
 
 	if err != nil {
 		log.Println(err)
-		// json status already set in GenerateJWT
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "Failed to create access token",
+			"success": false,
+		})
+		return
+	}
+
+	// generate the refreshToken
+	refreshTokenClaims := jwt.MapClaims{
+		"sub":  user.ID,
+		"exp":  refreshExpire,
+		"type": "refresh",
+	}
+	refreshToken, err := l.loginService.GenerateJWT(jwt.SigningMethodHS256, refreshTokenClaims, os.Getenv("JWT_SECRET"))
+
+	if err != nil {
+		log.Println(err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "Failed to create refresh token",
+			"success": false,
+		})
 		return
 	}
 
@@ -302,12 +327,37 @@ func (l loginController) RefreshToken(c *gin.Context) {
 		// 1 day expire for refreshToken
 		refreshExpire := jwt.NewNumericDate(time.Now().Add(time.Hour * 24))
 
-		accessToken, refreshToken, err := l.loginService.GenerateJWT(delegations.UsersID,
-			accessExpire, refreshExpire, os.Getenv("JWT_SECRET"), c)
+		// generate the access token
+		accessTokenClaims := jwt.MapClaims{
+			"sub":  delegations.ID,
+			"exp":  accessExpire,
+			"type": "access",
+		}
+		accessToken, err := l.loginService.GenerateJWT(jwt.SigningMethodHS256, accessTokenClaims, os.Getenv("JWT_SECRET"))
 
 		if err != nil {
 			log.Println(err)
-			// json status already set in GenerateJWT
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error":   "Failed to create access token",
+				"success": false,
+			})
+			return
+		}
+
+		// generate the refreshToken
+		refreshTokenClaims := jwt.MapClaims{
+			"sub":  delegations.ID,
+			"exp":  refreshExpire,
+			"type": "refresh",
+		}
+		refreshToken, err := l.loginService.GenerateJWT(jwt.SigningMethodHS256, refreshTokenClaims, os.Getenv("JWT_SECRET"))
+
+		if err != nil {
+			log.Println(err)
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error":   "Failed to create refresh token",
+				"success": false,
+			})
 			return
 		}
 

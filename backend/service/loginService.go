@@ -3,12 +3,10 @@ package service
 import (
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
 	"github.com/VolunteerOne/volunteer-one-app/backend/repository"
-	"github.com/gin-gonic/gin"
 	"github.com/go-gomail/gomail"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
-	"net/http"
 )
 
 type LoginService interface {
@@ -17,7 +15,7 @@ type LoginService interface {
 	ChangePassword([]byte, models.Users) error
 	HashPassword([]byte) ([]byte, error)
 	CompareHashedAndUserPass([]byte, string) error
-	GenerateJWT(uint, *jwt.NumericDate, *jwt.NumericDate, string, *gin.Context) (string, string, error)
+	GenerateJWT(jwt.SigningMethod, jwt.Claims, string) (string, error)
 	SaveRefreshToken(uint, string, models.Delegations) error
 	FindRefreshToken(float64, models.Delegations) (models.Delegations, error)
 	DeleteRefreshToken(models.Delegations) error
@@ -58,44 +56,54 @@ func (l loginService) CompareHashedAndUserPass(hashedPassword []byte, stringPass
 	return bcrypt.CompareHashAndPassword(hashedPassword, []byte(stringPassword))
 }
 
-func (l loginService) GenerateJWT(userid uint,
-	accessExp *jwt.NumericDate,
-	refreshExp *jwt.NumericDate,
-	secret string,
-	c *gin.Context) (string, string, error) {
+func (l loginService) GenerateJWT(
+	signingMethod jwt.SigningMethod,
+	claims jwt.Claims,
+	secret string) (string, error) {
 
-	accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub":  userid,
-		"exp":  accessExp,
-		"type": "access",
-	})
-	accessTokenString, err := accessToken.SignedString([]byte(secret))
-
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error":   "Failed to create access token",
-			"success": false,
-		})
-		return "", "", err
-	}
-
-	refreshToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub":  userid,
-		"exp":  refreshExp,
-		"type": "refresh",
-	})
-	refreshTokenString, err := refreshToken.SignedString([]byte(secret))
-
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error":   "Failed to create refresh token",
-			"success": false,
-		})
-		return "", "", err
-	}
-
-	return accessTokenString, refreshTokenString, err
+	token := jwt.NewWithClaims(signingMethod, claims)
+	return token.SignedString([]byte(secret))
 }
+
+//func (l loginService) GenerateJWT(
+//	userid uint,
+//	accessExp *jwt.NumericDate,
+//	refreshExp *jwt.NumericDate,
+//	secret string,
+//	c *gin.Context) (string, string, error) {
+//
+//	accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+//		"sub":  userid,
+//		"exp":  accessExp,
+//		"type": "access",
+//	})
+//	accessTokenString, err := accessToken.SignedString([]byte(secret))
+//
+//	if err != nil {
+//		c.JSON(http.StatusBadRequest, gin.H{
+//			"error":   "Failed to create access token",
+//			"success": false,
+//		})
+//		return "", "", err
+//	}
+//
+//	refreshToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+//		"sub":  userid,
+//		"exp":  refreshExp,
+//		"type": "refresh",
+//	})
+//	refreshTokenString, err := refreshToken.SignedString([]byte(secret))
+//
+//	if err != nil {
+//		c.JSON(http.StatusBadRequest, gin.H{
+//			"error":   "Failed to create refresh token",
+//			"success": false,
+//		})
+//		return "", "", err
+//	}
+//
+//	return accessTokenString, refreshTokenString, err
+//}
 
 func (l loginService) SaveRefreshToken(userid uint, refreshToken string, deleg models.Delegations) error {
 	return l.loginRepository.SaveRefreshToken(userid, refreshToken, deleg)

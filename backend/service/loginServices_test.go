@@ -1,12 +1,10 @@
 package service
 
 import (
-	"github.com/gin-gonic/gin"
+	"testing"
+
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
-	"net/http/httptest"
-	"testing"
-	"time"
 
 	"github.com/VolunteerOne/volunteer-one-app/backend/mocks"
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
@@ -101,17 +99,16 @@ func TestLoginService_CompareHashedAndUserPass(t *testing.T) {
 }
 
 func TestLoginService_ErrorWhenSigningToken(t *testing.T) {
-	accessExpire := jwt.NewNumericDate(time.Now().Add(time.Minute * 15))
-	refreshExpire := jwt.NewNumericDate(time.Now().Add(time.Hour * 24))
-
-	w := httptest.NewRecorder()
-	c, _ := gin.CreateTestContext(w)
+	// accessExpire := jwt.NewNumericDate(time.Now().Add(time.Minute * 15))
+	// refreshExpire := jwt.NewNumericDate(time.Now().Add(time.Hour * 24))
 
 	// new mock repo object
 	mockRepo := new(mocks.LoginRepository)
 	loginService := NewLoginService(mockRepo)
 
-	_, _, err := loginService.GenerateJWT(uint(0), accessExpire, refreshExpire, "secret", c)
+	claims := jwt.MapClaims{}
+
+	_, err := loginService.GenerateJWT(jwt.SigningMethodRS384, claims, "")
 
 	assert.NotNil(t, err)
 }
