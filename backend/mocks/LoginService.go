@@ -165,6 +165,32 @@ func (_m *LoginService) HashPassword(_a0 []byte) ([]byte, error) {
 	return r0, r1
 }
 
+// MapJWTClaims provides a mock function with given fields: _a0
+func (_m *LoginService) MapJWTClaims(_a0 jwt.Token) (jwt.MapClaims, bool) {
+	ret := _m.Called(_a0)
+
+	var r0 jwt.MapClaims
+	var r1 bool
+	if rf, ok := ret.Get(0).(func(jwt.Token) (jwt.MapClaims, bool)); ok {
+		return rf(_a0)
+	}
+	if rf, ok := ret.Get(0).(func(jwt.Token) jwt.MapClaims); ok {
+		r0 = rf(_a0)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(jwt.MapClaims)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(jwt.Token) bool); ok {
+		r1 = rf(_a0)
+	} else {
+		r1 = ret.Get(1).(bool)
+	}
+
+	return r0, r1
+}
+
 // ParseUUID provides a mock function with given fields: _a0
 func (_m *LoginService) ParseUUID(_a0 string) (uuid.UUID, error) {
 	ret := _m.Called(_a0)

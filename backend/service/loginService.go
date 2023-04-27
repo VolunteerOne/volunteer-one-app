@@ -21,6 +21,7 @@ type LoginService interface {
 	FindRefreshToken(float64, models.Delegations) (models.Delegations, error)
 	DeleteRefreshToken(models.Delegations) error
 	ParseUUID(string) (uuid.UUID, error)
+	MapJWTClaims(jwt.Token) (jwt.MapClaims, bool)
 }
 
 type loginService struct {
@@ -109,4 +110,9 @@ func (l loginService) DeleteRefreshToken(deleg models.Delegations) error {
 
 func (l loginService) ParseUUID(s string) (uuid.UUID, error) {
 	return uuid.Parse(s)
+}
+
+func (l loginService) MapJWTClaims(token jwt.Token) (jwt.MapClaims, bool) {
+	claims, ok := token.Claims.(jwt.MapClaims)
+	return claims, ok
 }

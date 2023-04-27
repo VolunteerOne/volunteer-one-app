@@ -233,18 +233,17 @@ func (l loginController) RefreshToken(c *gin.Context) {
 	// Decode/validate it
 	token, err := middleware.Validate(refreshToken[0], os.Getenv("JWT_SECRET"))
 
-	if err != nil {
-		log.Println("Error: Something went wrong when parsing the token")
+	if err != nil || !token.Valid {
+		log.Println(err)
 		c.JSON(http.StatusUnauthorized, gin.H{
-			"message": "Something went wrong when parsing the token",
+			"message": err,
 			"success": false,
 		})
 		c.AbortWithStatus(http.StatusUnauthorized)
 		return
 	}
 
-	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-
+	if claims, ok := l.loginService.MapJWTClaims(*token); ok {
 		// Check if refresh
 		if claims["type"] != "refresh" {
 			log.Println("Must provide refresh token")
@@ -256,21 +255,20 @@ func (l loginController) RefreshToken(c *gin.Context) {
 			return
 		}
 
-		// Check if expired
-		if float64(time.Now().Unix()) > claims["exp"].(float64) {
-			log.Println("Refresh token is expired")
+		var delegations models.Delegations
+
+		// Get refresh token from DB
+		delegations, err = l.loginService.FindRefreshToken(claims["sub"].(float64), delegations)
+
+		if err != nil {
+			log.Println(err)
 			c.JSON(http.StatusUnauthorized, gin.H{
-				"message": "Refresh token is expired",
+				"message": err,
 				"success": false,
 			})
 			c.AbortWithStatus(http.StatusUnauthorized)
 			return
 		}
-
-		var delegations models.Delegations
-
-		// Get refresh token from DB
-		delegations, err = l.loginService.FindRefreshToken(claims["sub"].(float64), delegations)
 
 		// Check that they match -> invalidate the token if so and require user to reauthenticate
 		if delegations.RefreshToken != refreshToken[0] {
@@ -283,8 +281,16 @@ func (l loginController) RefreshToken(c *gin.Context) {
 
 			// Delete the refresh token from db -> user will have to reauthenticate
 			// User will have access for rest of life of access token but no longer
-			l.loginService.DeleteRefreshToken(delegations)
+			err = l.loginService.DeleteRefreshToken(delegations)
 
+			if err != nil {
+				log.Println("Could not delete token")
+				c.JSON(http.StatusUnauthorized, gin.H{
+					"message": "Could not delete refresh token from db",
+					"success": false,
+				})
+				c.AbortWithStatus(http.StatusUnauthorized)
+			}
 			return
 		}
 
@@ -308,7 +314,7 @@ func (l loginController) RefreshToken(c *gin.Context) {
 
 		if err != nil {
 			log.Println(err)
-			c.JSON(http.StatusBadRequest, gin.H{
+			c.JSON(http.StatusInternalServerError, gin.H{
 				"message": "Failed to save refresh token to DB",
 				"success": false,
 			})
@@ -324,12 +330,11 @@ func (l loginController) RefreshToken(c *gin.Context) {
 		})
 
 	} else {
-		log.Println("Could not validate refresh token. Authenticate again")
-		c.JSON(http.StatusUnauthorized, gin.H{
-			"message": "Could not validate refresh token. Authenticate again",
+		log.Println("Could not map JWT Claims")
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Could not map JWT Claims",
 			"success": false,
 		})
-		c.AbortWithStatus(http.StatusUnauthorized)
+		c.AbortWithStatus(http.StatusInternalServerError)
 	}
-
 }
