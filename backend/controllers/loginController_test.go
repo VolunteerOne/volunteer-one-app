@@ -356,32 +356,91 @@ func TestLoginController_SendEmailForPassReset_FailFindUser(t *testing.T) {
 	assert.Equal(t, 502, c.Writer.Status())
 }
 
-//func TestLoginController_SendEmailForPassReset_FailFindUser(t *testing.T) {
-//	w := httptest.NewRecorder()
-//	w.Code = 502 // expected code
-//	// start new gin context to pass in
-//	c, _ := gin.CreateTestContext(w)
-//
-//	email := "test@email.com"
-//	c.AddParam("email", email)
-//
-//	// setup mock
-//	mockService := new(mocks.LoginService)
-//	// mock the function
-//	var user models.Users
-//	mockService.On("FindUserFromEmail", email, user).Return(user, fmt.Errorf("error"))
-//
-//	// run actual handler
-//	res := NewLoginController(mockService)
-//	res.Login(c)
-//
-//	// check that everything happened as expected
-//	mockService.AssertExpectations(t)
-//
-//	// Verify response code
-//	assert.Equal(t, 502, w.Code)
-//}
+func TestLoginController_SendEmailForPassReset_FailSaveResetCode(t *testing.T) {
+	w := httptest.NewRecorder()
+	// start new gin context to pass in
+	c, _ := gin.CreateTestContext(w)
 
+	email := "test@email.com"
+	c.AddParam("email", email)
+
+	// setup mock
+	mockService := new(mocks.LoginService)
+	// mock the function
+	var user models.Users
+	fakeUUID := uuid.New()
+	mockService.On("GenerateUUID").Return(fakeUUID)
+	mockService.On("FindUserFromEmail", email, user).Return(user, nil)
+	mockService.On("SaveResetCodeToUser", fakeUUID, user).Return(fmt.Errorf("error"))
+
+	// run actual handler
+	res := NewLoginController(mockService)
+	res.SendEmailForPassReset(c)
+
+	// check that everything happened as expected
+	mockService.AssertExpectations(t)
+
+	// Verify response code
+	assert.Equal(t, http.StatusInternalServerError, c.Writer.Status())
+}
+
+func TestLoginController_SendEmailForPassReset_FailSendResetCodeEmail(t *testing.T) {
+	w := httptest.NewRecorder()
+	// start new gin context to pass in
+	c, _ := gin.CreateTestContext(w)
+
+	email := "test@email.com"
+	c.AddParam("email", email)
+
+	// setup mock
+	mockService := new(mocks.LoginService)
+	// mock the function
+	var user models.Users
+	fakeUUID := uuid.New()
+	mockService.On("GenerateUUID").Return(fakeUUID)
+	mockService.On("FindUserFromEmail", email, user).Return(user, nil)
+	mockService.On("SaveResetCodeToUser", fakeUUID, user).Return(nil)
+	mockService.On("SendResetCodeToEmail", "", fakeUUID.String()).Return(fmt.Errorf("error"))
+
+	// run actual handler
+	res := NewLoginController(mockService)
+	res.SendEmailForPassReset(c)
+
+	// check that everything happened as expected
+	mockService.AssertExpectations(t)
+
+	// Verify response code
+	assert.Equal(t, http.StatusInternalServerError, c.Writer.Status())
+}
+
+func TestLoginController_SendEmailForPassReset_AllGood(t *testing.T) {
+	w := httptest.NewRecorder()
+	// start new gin context to pass in
+	c, _ := gin.CreateTestContext(w)
+
+	email := "test@email.com"
+	c.AddParam("email", email)
+
+	// setup mock
+	mockService := new(mocks.LoginService)
+	// mock the function
+	var user models.Users
+	fakeUUID := uuid.New()
+	mockService.On("GenerateUUID").Return(fakeUUID)
+	mockService.On("FindUserFromEmail", email, user).Return(user, nil)
+	mockService.On("SaveResetCodeToUser", fakeUUID, user).Return(nil)
+	mockService.On("SendResetCodeToEmail", "", fakeUUID.String()).Return(nil)
+
+	// run actual handler
+	res := NewLoginController(mockService)
+	res.SendEmailForPassReset(c)
+
+	// check that everything happened as expected
+	mockService.AssertExpectations(t)
+
+	// Verify response code
+	assert.Equal(t, http.StatusOK, c.Writer.Status())
+}
 func TestLoginController_PasswordReset_CantParseUUID(t *testing.T) {
 	// Checks that the FindUserEmail fails
 	w := httptest.NewRecorder()

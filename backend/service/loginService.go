@@ -4,6 +4,7 @@ import (
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
 	"github.com/VolunteerOne/volunteer-one-app/backend/repository"
 	"github.com/gin-gonic/gin"
+	"github.com/go-gomail/gomail"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
@@ -22,6 +23,8 @@ type LoginService interface {
 	DeleteRefreshToken(models.Delegations) error
 	ParseUUID(string) (uuid.UUID, error)
 	MapJWTClaims(jwt.Token) (jwt.MapClaims, bool)
+	GenerateUUID() uuid.UUID
+	SendResetCodeToEmail(string, string) error
 }
 
 type loginService struct {
@@ -115,4 +118,17 @@ func (l loginService) ParseUUID(s string) (uuid.UUID, error) {
 func (l loginService) MapJWTClaims(token jwt.Token) (jwt.MapClaims, bool) {
 	claims, ok := token.Claims.(jwt.MapClaims)
 	return claims, ok
+}
+
+func (l loginService) GenerateUUID() uuid.UUID {
+	return uuid.New()
+}
+
+func (l loginService) SendResetCodeToEmail(email string, resetCode string) error {
+	mailer := gomail.NewMessage()
+	mailer.SetHeader("From", "edwardsung4217@gmail.com") //need to replace this with proper volunteer email
+	mailer.SetHeader("To", email)
+	mailer.SetHeader("Subject", "Password Reset Code")
+	mailer.SetBody("text/plain", "Your password reset code is "+resetCode)
+	return gomail.NewDialer("smtp.sendgrid.net", 465, "apikey", "APIKEY").DialAndSend(mailer)
 }

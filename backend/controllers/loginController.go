@@ -10,9 +10,7 @@ import (
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
 	"github.com/VolunteerOne/volunteer-one-app/backend/service"
 	"github.com/gin-gonic/gin"
-	"github.com/go-gomail/gomail"
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/google/uuid"
 )
 
 // All Controller methods should be defined in the interface
@@ -128,17 +126,21 @@ func (l loginController) SendEmailForPassReset(c *gin.Context) {
 	}
 
 	//Generate reset code
-	resetCode := uuid.New()
+	resetCode := l.loginService.GenerateUUID()
 
 	err = l.loginService.SaveResetCodeToUser(resetCode, user)
 
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Could not save reset code to user",
+			"success": false,
+		})
+		return
+	}
 	//Send reset code to user's email address
-	mailer := gomail.NewMessage()
-	mailer.SetHeader("From", "edwardsung4217@gmail.com") //need to replace this with proper volunteer email
-	mailer.SetHeader("To", user.Email)
-	mailer.SetHeader("Subject", "Password Reset Code")
-	mailer.SetBody("text/plain", "Your password reset code is "+resetCode.String())
-	if err := gomail.NewDialer("smtp.sendgrid.net", 465, "apikey", "APIKEY").DialAndSend(mailer); err != nil {
+	err = l.loginService.SendResetCodeToEmail(user.Email, resetCode.String())
+
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "Failed to send email",
 			"success": false,
