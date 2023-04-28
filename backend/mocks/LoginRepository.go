@@ -66,30 +66,6 @@ func (_m *LoginRepository) FindRefreshToken(_a0 float64, _a1 models.Delegations)
 	return r0, r1
 }
 
-// FindTokenFromID provides a mock function with given fields: _a0, _a1
-func (_m *LoginRepository) FindTokenFromID(_a0 uint, _a1 models.Delegations) (models.Delegations, error) {
-	ret := _m.Called(_a0, _a1)
-
-	var r0 models.Delegations
-	var r1 error
-	if rf, ok := ret.Get(0).(func(uint, models.Delegations) (models.Delegations, error)); ok {
-		return rf(_a0, _a1)
-	}
-	if rf, ok := ret.Get(0).(func(uint, models.Delegations) models.Delegations); ok {
-		r0 = rf(_a0, _a1)
-	} else {
-		r0 = ret.Get(0).(models.Delegations)
-	}
-
-	if rf, ok := ret.Get(1).(func(uint, models.Delegations) error); ok {
-		r1 = rf(_a0, _a1)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
-}
-
 // FindUserFromEmail provides a mock function with given fields: _a0, _a1
 func (_m *LoginRepository) FindUserFromEmail(_a0 string, _a1 models.Users) (models.Users, error) {
 	ret := _m.Called(_a0, _a1)
