@@ -588,6 +588,8 @@ dDnDFm47K0zKG7HFAkBAD9XTkjCdgQrRaURvRcX+M/L2cUej49KlaJr4Z6wKLPjL
 	c.Request.Header["Token"] = []string{signedToken}
 
 	c.Header("Token", signedToken)
+
+	mockService.On("ValidateJWT", signedToken, "").Return(refreshToken, fmt.Errorf("error"))
 	res.RefreshToken(c)
 
 	mockService.AssertExpectations(t)
@@ -619,6 +621,7 @@ func TestLoginController_RefreshToken_NotRefreshToken(t *testing.T) {
 
 	fakeToken, _ := middleware.Validate(signedToken, secret)
 	claims := jwt.MapClaims{}
+	mockService.On("ValidateJWT", signedToken, secret).Return(fakeToken, nil)
 	mockService.On("MapJWTClaims", *fakeToken).Return(claims, true)
 	res.RefreshToken(c)
 
@@ -626,7 +629,7 @@ func TestLoginController_RefreshToken_NotRefreshToken(t *testing.T) {
 	assert.Equal(t, 401, c.Writer.Status())
 }
 
-func TestLoginController_RefreshToken_ExpiredRefreshToken(t *testing.T) {
+func TestLoginController_RefreshToken_NotValidToken(t *testing.T) {
 	w := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(w)
 
@@ -635,7 +638,7 @@ func TestLoginController_RefreshToken_ExpiredRefreshToken(t *testing.T) {
 	req := httptest.NewRequest("POST", "/login/refresh", bytes.NewBuffer([]byte("")))
 
 	// generate a bad signing jwt
-	refreshExpire := jwt.NewNumericDate(time.Date(2000, time.November, 1, 1, 1, 1, 1, time.UTC))
+	refreshExpire := jwt.NewNumericDate(time.Now().Add(time.Hour * 24))
 	refreshToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"sub":  0,
 		"exp":  refreshExpire,
@@ -648,6 +651,10 @@ func TestLoginController_RefreshToken_ExpiredRefreshToken(t *testing.T) {
 	c.Request.Header["Token"] = []string{signedToken}
 
 	c.Header("Token", signedToken)
+
+	fakeToken, _ := middleware.Validate(signedToken, secret)
+	fakeToken.Valid = false
+	mockService.On("ValidateJWT", signedToken, secret).Return(fakeToken, nil)
 	res.RefreshToken(c)
 
 	mockService.AssertExpectations(t)
@@ -684,6 +691,7 @@ func TestLoginController_RefreshToken_CantFindRefreshToken(t *testing.T) {
 	claims["type"] = "refresh"
 	claims["sub"] = float64(0)
 	claims["exp"] = fmt.Sprint(refreshExpire.Unix())
+	mockService.On("ValidateJWT", signedToken, secret).Return(fakeToken, nil)
 	mockService.On("MapJWTClaims", *fakeToken).Return(claims, true)
 	mockService.On("FindRefreshToken", float64(0), delegations).Return(delegations, fmt.Errorf("error"))
 	res.RefreshToken(c)
@@ -723,6 +731,7 @@ func TestLoginController_RefreshToken_InvalidDelegationsToken(t *testing.T) {
 	claims["sub"] = float64(0)
 	claims["exp"] = fmt.Sprint(refreshExpire.Unix())
 
+	mockService.On("ValidateJWT", signedToken, secret).Return(fakeToken, nil)
 	mockService.On("MapJWTClaims", *fakeToken).Return(claims, true)
 	mockService.On("FindRefreshToken", float64(0), delegations).Return(fakeDelegations, nil)
 	mockService.On("DeleteRefreshToken", delegations).Return(fmt.Errorf("error"))
@@ -733,7 +742,7 @@ func TestLoginController_RefreshToken_InvalidDelegationsToken(t *testing.T) {
 	assert.Equal(t, 401, c.Writer.Status())
 }
 
-func TestLoginController_RefreshToken_FaileGenerateJWTAccess(t *testing.T) {
+func TestLoginController_RefreshToken_InvalidDelegationsTokenNoError(t *testing.T) {
 	w := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(w)
 
@@ -758,6 +767,49 @@ func TestLoginController_RefreshToken_FaileGenerateJWTAccess(t *testing.T) {
 
 	var delegations models.Delegations
 	var fakeDelegations models.Delegations
+	fakeToken, _ := middleware.Validate(signedToken, secret)
+	claims := jwt.MapClaims{}
+	claims["type"] = "refresh"
+	claims["sub"] = float64(0)
+	claims["exp"] = fmt.Sprint(refreshExpire.Unix())
+
+	mockService.On("ValidateJWT", signedToken, secret).Return(fakeToken, nil)
+	mockService.On("MapJWTClaims", *fakeToken).Return(claims, true)
+	mockService.On("FindRefreshToken", float64(0), delegations).Return(fakeDelegations, nil)
+	mockService.On("DeleteRefreshToken", delegations).Return(nil)
+
+	res.RefreshToken(c)
+
+	mockService.AssertExpectations(t)
+	assert.Equal(t, 401, c.Writer.Status())
+}
+
+func TestLoginController_RefreshToken_FaileGenerateJWTAccess(t *testing.T) {
+	w := httptest.NewRecorder()
+	c, _ := gin.CreateTestContext(w)
+
+	mockService := new(mocks.LoginService)
+	res := NewLoginController(mockService)
+	req := httptest.NewRequest("POST", "/login/refresh", bytes.NewBuffer([]byte("")))
+
+	// generate a bad signing jwt
+	accessExpire := jwt.NewNumericDate(time.Now().Add(time.Minute * 15))
+	refreshExpire := jwt.NewNumericDate(time.Now().Add(time.Hour * 24))
+	refreshToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"sub":  0,
+		"exp":  refreshExpire,
+		"type": "refresh",
+	})
+	os.Setenv("JWT_SECRET", "IO89UEYdRV$9tUA#jtM5hS!ch#hHqKXK")
+	secret := os.Getenv("JWT_SECRET")
+	signedToken, _ := refreshToken.SignedString([]byte(secret))
+	c.Request = req
+	c.Request.Header["Token"] = []string{signedToken}
+
+	c.Header("Token", signedToken)
+
+	var delegations models.Delegations
+	var fakeDelegations models.Delegations
 	fakeDelegations.RefreshToken = signedToken
 
 	fakeToken, _ := middleware.Validate(signedToken, secret)
@@ -766,9 +818,11 @@ func TestLoginController_RefreshToken_FaileGenerateJWTAccess(t *testing.T) {
 	claims["sub"] = float64(0)
 	claims["exp"] = fmt.Sprint(refreshExpire.Unix())
 
+	mockService.On("ValidateJWT", signedToken, secret).Return(fakeToken, nil)
 	mockService.On("MapJWTClaims", *fakeToken).Return(claims, true)
 	mockService.On("FindRefreshToken", float64(0), delegations).Return(fakeDelegations, nil)
 	accessTokenClaims, _ := getClaims()
+	mockService.On("GenerateExpiresJWT").Return(accessExpire, refreshExpire)
 	mockService.On("GenerateJWT", jwt.SigningMethodHS256, accessTokenClaims, secret).Return("", fmt.Errorf("error"))
 
 	res.RefreshToken(c)
@@ -777,50 +831,62 @@ func TestLoginController_RefreshToken_FaileGenerateJWTAccess(t *testing.T) {
 	assert.Equal(t, http.StatusBadRequest, c.Writer.Status())
 }
 
-//func TestLoginController_RefreshToken_FaileGenerateJWTRefresh(t *testing.T) {
-//	w := httptest.NewRecorder()
-//	c, _ := gin.CreateTestContext(w)
-//
-//	mockService := new(mocks.LoginService)
-//	res := NewLoginController(mockService)
-//	req := httptest.NewRequest("POST", "/login/refresh", bytes.NewBuffer([]byte("")))
-//
-//	// generate a bad signing jwt
-//	refreshExpire := jwt.NewNumericDate(time.Now().Add(time.Hour * 24))
-//	refreshToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-//		"sub":  0,
-//		"exp":  refreshExpire,
-//		"type": "refresh",
-//	})
-//	os.Setenv("JWT_SECRET", "IO89UEYdRV$9tUA#jtM5hS!ch#hHqKXK")
-//	secret := os.Getenv("JWT_SECRET")
-//	signedToken, _ := refreshToken.SignedString([]byte(secret))
-//	c.Request = req
-//	c.Request.Header["Token"] = []string{signedToken}
-//
-//	c.Header("Token", signedToken)
-//
-//	var delegations models.Delegations
-//	var fakeDelegations models.Delegations
-//	fakeDelegations.RefreshToken = signedToken
-//
-//	fakeToken, _ := middleware.Validate(signedToken, secret)
-//	claims := jwt.MapClaims{}
-//	claims["type"] = "refresh"
-//	claims["sub"] = float64(0)
-//	claims["exp"] = fmt.Sprint(refreshExpire.Unix())
-//
-//	_, refreshTokenClaims := getClaims()
-//	mockService.On("MapJWTClaims", *fakeToken).Return(claims, true)
-//	mockService.On("FindRefreshToken", float64(0), delegations).Return(fakeDelegations, nil)
-//	mockService.On("GenerateJWT", jwt.SigningMethodHS256, refreshTokenClaims, secret).Return("", nil)
-//	mockService.On("GenerateJWT", jwt.SigningMethodHS256, refreshTokenClaims, secret).Return("", fmt.Errorf("error"))
-//
-//	res.RefreshToken(c)
-//
-//	mockService.AssertExpectations(t)
-//	assert.Equal(t, http.StatusBadRequest, c.Writer.Status())
-//}
+func TestLoginController_RefreshToken_FaileGenerateJWTRefresh(t *testing.T) {
+	w := httptest.NewRecorder()
+	c, _ := gin.CreateTestContext(w)
+
+	mockService := new(mocks.LoginService)
+	res := NewLoginController(mockService)
+	req := httptest.NewRequest("POST", "/login/refresh", bytes.NewBuffer([]byte("")))
+
+	// generate a bad signing jwt
+	accessExpire := jwt.NewNumericDate(time.Now().Add(time.Minute * 15))
+	refreshExpire := jwt.NewNumericDate(time.Now().Add(time.Hour * 24))
+	claims := jwt.MapClaims{}
+	claims["type"] = "refresh"
+	claims["sub"] = float64(0)
+	claims["exp"] = refreshExpire
+	refreshToken := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	os.Setenv("JWT_SECRET", "IO89UEYdRV$9tUA#jtM5hS!ch#hHqKXK")
+	secret := os.Getenv("JWT_SECRET")
+	signedToken, _ := refreshToken.SignedString([]byte(secret))
+	c.Request = req
+	c.Request.Header["Token"] = []string{signedToken}
+
+	c.Header("Token", signedToken)
+
+	var delegations models.Delegations
+	var fakeDelegations models.Delegations
+	fakeDelegations.RefreshToken = signedToken
+
+	fakeToken, _ := middleware.Validate(signedToken, secret)
+	mockService.On("ValidateJWT", signedToken, secret).Return(fakeToken, nil)
+	mockService.On("MapJWTClaims", *fakeToken).Return(claims, true)
+	mockService.On("FindRefreshToken", float64(0), delegations).Return(fakeDelegations, nil)
+
+	mockService.On("GenerateExpiresJWT").Return(accessExpire, refreshExpire)
+
+	fakeAccessClaims := jwt.MapClaims{
+		"sub":  fakeDelegations.ID,
+		"exp":  accessExpire,
+		"type": "access",
+	}
+
+	mockService.On("GenerateJWT", jwt.SigningMethodHS256, fakeAccessClaims, secret).Return("", nil)
+
+	fakeRefreshClaims := jwt.MapClaims{
+		"sub":  fakeDelegations.ID,
+		"exp":  refreshExpire,
+		"type": "refresh",
+	}
+
+	mockService.On("GenerateJWT", jwt.SigningMethodHS256, fakeRefreshClaims, secret).Return("", fmt.Errorf("error"))
+
+	res.RefreshToken(c)
+
+	mockService.AssertExpectations(t)
+	assert.Equal(t, http.StatusBadRequest, c.Writer.Status())
+}
 
 func TestLoginController_RefreshToken_FailedSaveRefreshToken(t *testing.T) {
 	w := httptest.NewRecorder()
@@ -856,56 +922,28 @@ func TestLoginController_RefreshToken_FailedSaveRefreshToken(t *testing.T) {
 	claims["sub"] = float64(0)
 	claims["exp"] = fmt.Sprint(refreshExpire.Unix())
 
+	mockService.On("ValidateJWT", signedToken, secret).Return(fakeToken, nil)
 	mockService.On("MapJWTClaims", *fakeToken).Return(claims, true)
 	mockService.On("FindRefreshToken", float64(0), delegations).Return(fakeDelegations, nil)
 	w.Code = http.StatusOK
-	mockService.On("GenerateJWT", uint(0), accessExpire, refreshExpire, secret, c).Return("", "", nil)
-	mockService.On("SaveRefreshToken", uint(0), "", fakeDelegations).Return(fmt.Errorf("error"))
+	mockService.On("GenerateExpiresJWT").Return(accessExpire, refreshExpire)
 
-	res.RefreshToken(c)
+	fakeAccessClaims := jwt.MapClaims{
+		"sub":  fakeDelegations.ID,
+		"exp":  accessExpire,
+		"type": "access",
+	}
 
-	mockService.AssertExpectations(t)
-	assert.Equal(t, http.StatusInternalServerError, c.Writer.Status())
-}
+	mockService.On("GenerateJWT", jwt.SigningMethodHS256, fakeAccessClaims, secret).Return("", nil)
 
-func TestLoginController_RefreshToken_TokenNotValid(t *testing.T) {
-	w := httptest.NewRecorder()
-	c, _ := gin.CreateTestContext(w)
-
-	mockService := new(mocks.LoginService)
-	res := NewLoginController(mockService)
-	req := httptest.NewRequest("POST", "/login/refresh", bytes.NewBuffer([]byte("")))
-
-	// generate a bad signing jwt
-	accessExpire := jwt.NewNumericDate(time.Now().Add(time.Minute * 15))
-	refreshExpire := jwt.NewNumericDate(time.Now().Add(time.Hour * 24))
-	refreshToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub":  0,
+	fakeRefreshClaims := jwt.MapClaims{
+		"sub":  fakeDelegations.ID,
 		"exp":  refreshExpire,
 		"type": "refresh",
-	})
-	os.Setenv("JWT_SECRET", "IO89UEYdRV$9tUA#jtM5hS!ch#hHqKXK")
-	secret := os.Getenv("JWT_SECRET")
-	signedToken, _ := refreshToken.SignedString([]byte(secret))
-	c.Request = req
-	c.Request.Header["Token"] = []string{signedToken}
+	}
 
-	c.Header("Token", signedToken)
+	mockService.On("GenerateJWT", jwt.SigningMethodHS256, fakeRefreshClaims, secret).Return("", nil)
 
-	var delegations models.Delegations
-	var fakeDelegations models.Delegations
-	fakeDelegations.RefreshToken = signedToken
-
-	fakeToken, _ := middleware.Validate(signedToken, secret)
-	claims := jwt.MapClaims{}
-	claims["type"] = "refresh"
-	claims["sub"] = float64(0)
-	claims["exp"] = fmt.Sprint(refreshExpire.Unix())
-
-	mockService.On("MapJWTClaims", *fakeToken).Return(claims, true)
-	mockService.On("FindRefreshToken", float64(0), delegations).Return(fakeDelegations, nil)
-	w.Code = http.StatusOK
-	mockService.On("GenerateJWT", uint(0), accessExpire, refreshExpire, secret, c).Return("", "", nil)
 	mockService.On("SaveRefreshToken", uint(0), "", fakeDelegations).Return(fmt.Errorf("error"))
 
 	res.RefreshToken(c)
@@ -946,6 +984,7 @@ func TestLoginController_RefreshToken_FailMapClaims(t *testing.T) {
 	claims["sub"] = float64(0)
 	claims["exp"] = fmt.Sprint(refreshExpire.Unix())
 
+	mockService.On("ValidateJWT", signedToken, secret).Return(fakeToken, nil)
 	mockService.On("MapJWTClaims", *fakeToken).Return(claims, false)
 	res.RefreshToken(c)
 
@@ -987,10 +1026,28 @@ func TestLoginController_RefreshToken_ValidToken(t *testing.T) {
 	claims["sub"] = float64(0)
 	claims["exp"] = fmt.Sprint(refreshExpire.Unix())
 
+	mockService.On("ValidateJWT", signedToken, secret).Return(fakeToken, nil)
 	mockService.On("MapJWTClaims", *fakeToken).Return(claims, true)
 	mockService.On("FindRefreshToken", float64(0), delegations).Return(fakeDelegations, nil)
 	w.Code = http.StatusOK
-	mockService.On("GenerateJWT", uint(0), accessExpire, refreshExpire, secret, c).Return("", "", nil)
+
+	mockService.On("GenerateExpiresJWT").Return(accessExpire, refreshExpire)
+
+	fakeAccessClaims := jwt.MapClaims{
+		"sub":  fakeDelegations.ID,
+		"exp":  accessExpire,
+		"type": "access",
+	}
+
+	mockService.On("GenerateJWT", jwt.SigningMethodHS256, fakeAccessClaims, secret).Return("", nil)
+
+	fakeRefreshClaims := jwt.MapClaims{
+		"sub":  fakeDelegations.ID,
+		"exp":  refreshExpire,
+		"type": "refresh",
+	}
+
+	mockService.On("GenerateJWT", jwt.SigningMethodHS256, fakeRefreshClaims, secret).Return("", nil)
 	mockService.On("SaveRefreshToken", uint(0), "", fakeDelegations).Return(nil)
 
 	res.RefreshToken(c)

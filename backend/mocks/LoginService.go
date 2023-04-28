@@ -106,6 +106,34 @@ func (_m *LoginService) FindUserFromEmail(_a0 string, _a1 models.Users) (models.
 	return r0, r1
 }
 
+// GenerateExpiresJWT provides a mock function with given fields:
+func (_m *LoginService) GenerateExpiresJWT() (*jwt.NumericDate, *jwt.NumericDate) {
+	ret := _m.Called()
+
+	var r0 *jwt.NumericDate
+	var r1 *jwt.NumericDate
+	if rf, ok := ret.Get(0).(func() (*jwt.NumericDate, *jwt.NumericDate)); ok {
+		return rf()
+	}
+	if rf, ok := ret.Get(0).(func() *jwt.NumericDate); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*jwt.NumericDate)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func() *jwt.NumericDate); ok {
+		r1 = rf()
+	} else {
+		if ret.Get(1) != nil {
+			r1 = ret.Get(1).(*jwt.NumericDate)
+		}
+	}
+
+	return r0, r1
+}
+
 // GenerateJWT provides a mock function with given fields: _a0, _a1, _a2
 func (_m *LoginService) GenerateJWT(_a0 jwt.SigningMethod, _a1 jwt.Claims, _a2 string) (string, error) {
 	ret := _m.Called(_a0, _a1, _a2)
@@ -264,6 +292,32 @@ func (_m *LoginService) SendResetCodeToEmail(_a0 string, _a1 string) error {
 	}
 
 	return r0
+}
+
+// ValidateJWT provides a mock function with given fields: _a0, _a1
+func (_m *LoginService) ValidateJWT(_a0 string, _a1 string) (*jwt.Token, error) {
+	ret := _m.Called(_a0, _a1)
+
+	var r0 *jwt.Token
+	var r1 error
+	if rf, ok := ret.Get(0).(func(string, string) (*jwt.Token, error)); ok {
+		return rf(_a0, _a1)
+	}
+	if rf, ok := ret.Get(0).(func(string, string) *jwt.Token); ok {
+		r0 = rf(_a0, _a1)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*jwt.Token)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(string, string) error); ok {
+		r1 = rf(_a0, _a1)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
 }
 
 type mockConstructorTestingTNewLoginService interface {

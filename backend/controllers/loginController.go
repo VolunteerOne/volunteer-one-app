@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"github.com/VolunteerOne/volunteer-one-app/backend/middleware"
 	"log"
 	"net/http"
 	"os"
@@ -258,7 +257,7 @@ func (l loginController) RefreshToken(c *gin.Context) {
 	}
 
 	// Decode/validate it
-	token, err := middleware.Validate(refreshToken[0], os.Getenv("JWT_SECRET"))
+	token, err := l.loginService.ValidateJWT(refreshToken[0], os.Getenv("JWT_SECRET"))
 
 	if err != nil || !token.Valid {
 		log.Println(err)
@@ -322,10 +321,7 @@ func (l loginController) RefreshToken(c *gin.Context) {
 		}
 
 		// They do match so it's valid
-		// 15 minute expire for accessToken
-		accessExpire := jwt.NewNumericDate(time.Now().Add(time.Minute * 15))
-		// 1 day expire for refreshToken
-		refreshExpire := jwt.NewNumericDate(time.Now().Add(time.Hour * 24))
+		accessExpire, refreshExpire := l.loginService.GenerateExpiresJWT()
 
 		// generate the access token
 		accessTokenClaims := jwt.MapClaims{

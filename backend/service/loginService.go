@@ -1,12 +1,14 @@
 package service
 
 import (
+	"github.com/VolunteerOne/volunteer-one-app/backend/middleware"
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
 	"github.com/VolunteerOne/volunteer-one-app/backend/repository"
 	"github.com/go-gomail/gomail"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
+	"time"
 )
 
 type LoginService interface {
@@ -16,6 +18,8 @@ type LoginService interface {
 	HashPassword([]byte) ([]byte, error)
 	CompareHashedAndUserPass([]byte, string) error
 	GenerateJWT(jwt.SigningMethod, jwt.Claims, string) (string, error)
+	GenerateExpiresJWT() (*jwt.NumericDate, *jwt.NumericDate)
+	ValidateJWT(string, string) (*jwt.Token, error)
 	SaveRefreshToken(uint, string, models.Delegations) error
 	FindRefreshToken(float64, models.Delegations) (models.Delegations, error)
 	DeleteRefreshToken(models.Delegations) error
@@ -63,6 +67,19 @@ func (l loginService) GenerateJWT(
 
 	token := jwt.NewWithClaims(signingMethod, claims)
 	return token.SignedString([]byte(secret))
+}
+
+func (l loginService) GenerateExpiresJWT() (*jwt.NumericDate, *jwt.NumericDate) {
+	// 15 minute expire for accessToken
+	accessExpire := jwt.NewNumericDate(time.Now().Add(time.Minute * 15))
+	// 1 day expire for refreshToken
+	refreshExpire := jwt.NewNumericDate(time.Now().Add(time.Hour * 24))
+	return accessExpire, refreshExpire
+}
+
+func (l loginService) ValidateJWT(token string, secret string) (*jwt.Token, error) {
+	// hooks into middleware
+	return middleware.Validate(token, secret)
 }
 
 //func (l loginService) GenerateJWT(
