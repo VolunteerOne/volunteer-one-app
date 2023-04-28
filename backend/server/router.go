@@ -33,7 +33,7 @@ func NewRouter() *gin.Engine {
 	friendService := service.NewFriendService(friendRepository)
 	organizationService := service.NewOrganizationService(organizationRepository)
 	eventService := service.NewEventService(eventRepository)
-	
+
 	// *********************************************************
 	// INITIALIZE CONTROLLERS HERE
 	// *********************************************************
@@ -88,6 +88,13 @@ func NewRouter() *gin.Engine {
 		orgUsersGroup.PUT("/:id", orgUsers.UpdateOrgUser)
 		orgUsersGroup.DELETE("/:id", orgUsers.DeleteOrgUser)
 	}
+
+	organizationGroup := router.Group("organization")
+	organizationGroup.POST("/", organizationController.Create)
+	organizationGroup.GET("/", organizationController.All)
+	organizationGroup.GET("/:id", organizationController.One)
+	organizationGroup.DELETE("/:id", organizationController.Delete)
+	organizationGroup.PUT("/:id", organizationController.Update)
 
 	friendGroup := router.Group("friend")
 	friendGroup.POST("/", friendController.Create)
