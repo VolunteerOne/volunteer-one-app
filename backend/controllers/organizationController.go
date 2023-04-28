@@ -3,26 +3,41 @@ package controllers
 import (
 	"net/http"
 
-	"github.com/VolunteerOne/volunteer-one-app/backend/database"
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
+	"github.com/VolunteerOne/volunteer-one-app/backend/service"
 	"github.com/gin-gonic/gin"
 )
 
-type OrganizationController struct{}
+type OrganizationController interface{
+	Create(*gin.Context)
+	All(*gin.Context)
+	One(*gin.Context)
+	Update(*gin.Context)
+	Delete(*gin.Context)
+}
 
-var organizationModel = new(models.Organization)
+type organizationController struct {
+	organizationService service.OrganizationService
+}
 
-// Create ...
-func (controller OrganizationController) Create(c *gin.Context) {
+func NewOrganizationController(s service.OrganizationService) OrganizationController{
+	return organizationController {
+		organizationService: s,
+	}
+}
+
+// var organizationModel = new(models.Organization)
+
+//Create ...
+func (controller organizationController) Create(c *gin.Context) {
 	var err error
-	db := database.GetDatabase()
 
 	// Declare a struct for the desired request body
 	var body struct {
-		Name        string
-		Description string
-		Verified    bool
-		Interests   string
+		Name string
+		Description string 
+		Verified bool 
+		Interests string 
 	}
 
 	// Bind struct to context and check for error
@@ -37,15 +52,15 @@ func (controller OrganizationController) Create(c *gin.Context) {
 
 	// Create the object in the database
 	object := models.Organization{
-		Name:        body.Name,
+		Name:  body.Name,
 		Description: body.Description,
-		Verified:    body.Verified,
-		Interests:   body.Interests,
+		Verified: body.Verified,
+		Interests: body.Interests,
 	}
 
-	result := db.Create(&object)
+	res, err := controller.organizationService.CreateOrganization(object)
 
-	if result.Error != nil {
+	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Creation failed",
 		})
@@ -54,18 +69,15 @@ func (controller OrganizationController) Create(c *gin.Context) {
 	}
 
 	// Respond
-	c.JSON(http.StatusOK, object)
+	c.JSON(http.StatusOK, res)
 }
 
-func (controller OrganizationController) All(c *gin.Context) {
-	// var err error
-	db := database.GetDatabase()
-	var orgs []models.Organization
+func (controller organizationController) All(c *gin.Context) {
 
 	// Get objects from database
-	result := db.Find(&orgs)
+	orgs, err := controller.organizationService.GetOrganizations()
 
-	if result.Error != nil {
+	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Could not retrieve objects",
 		})
@@ -78,17 +90,14 @@ func (controller OrganizationController) All(c *gin.Context) {
 
 }
 
-func (controller OrganizationController) One(c *gin.Context) {
-	db := database.GetDatabase()
-
+func (controller organizationController) One(c *gin.Context) {
 	// Get the id
 	id := c.Param("id")
 
 	// Get object from the database
-	var org models.Organization
-	result := db.First(&org, id)
+	org, err := controller.organizationService.GetOrganizationById(id)
 
-	if result.Error != nil {
+	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Could not retrieve object",
 		})
@@ -100,16 +109,13 @@ func (controller OrganizationController) One(c *gin.Context) {
 	c.JSON(http.StatusAccepted, org)
 }
 
-func (controller OrganizationController) Update(c *gin.Context) {
+func (controller organizationController) Update(c *gin.Context) {
 
-	db := database.GetDatabase()
-
-	// Get the existing object
 	id := c.Param("id")
-	var org models.Organization
-	result := db.Find(&org, id)
 
-	if result.Error != nil {
+	org, err := controller.organizationService.GetOrganizationById(id)
+	
+	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Could not retrieve object",
 		})
@@ -119,10 +125,10 @@ func (controller OrganizationController) Update(c *gin.Context) {
 
 	// Get updates from the body
 	var body struct {
-		Name        string
-		Description string
-		Verified    bool
-		Interests   string
+		Name string
+		Description string 
+		Verified bool 
+		Interests string 
 	}
 
 	if err := c.Bind(&body); err != nil {
@@ -139,8 +145,8 @@ func (controller OrganizationController) Update(c *gin.Context) {
 	org.Interests = body.Interests
 
 	// Update the object
-	result = db.Save(&org)
-	if result.Error != nil {
+	result, err := controller.organizationService.UpdateOrganization(org)
+	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Could not update object",
 		})
@@ -149,18 +155,16 @@ func (controller OrganizationController) Update(c *gin.Context) {
 	}
 
 	// Respond
-	c.JSON(http.StatusOK, org)
+	c.JSON(http.StatusOK, result)
 }
 
-func (controller OrganizationController) Delete(c *gin.Context) {
-	db := database.GetDatabase()
+func (controller organizationController) Delete(c *gin.Context) {
 
 	// Get the existing object
 	id := c.Param("id")
-	var org models.Organization
-	result := db.Find(&org, id)
+	org, err := controller.organizationService.GetOrganizationById(id)
 
-	if result.Error != nil {
+	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Could not retrieve object",
 		})
@@ -169,8 +173,8 @@ func (controller OrganizationController) Delete(c *gin.Context) {
 	}
 
 	// Delete the object
-	result = db.Delete(&org)
-	if result.Error != nil {
+	err = controller.organizationService.DeleteOrganization(org)
+	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Could not delete object",
 		})
