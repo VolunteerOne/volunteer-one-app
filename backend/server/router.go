@@ -20,14 +20,28 @@ func NewRouter() *gin.Engine {
 
 	loginRepository := repository.NewLoginRepository(database.GetDatabase())
 	usersRepository := repository.NewUsersRepository(database.GetDatabase())
+	friendRepository := repository.NewFriendRepository(database.GetDatabase())
 	organizationRepository := repository.NewOrganizationRepository(database.GetDatabase())
+	orgUsersRepository := repository.NewOrgUsersRepository(database.GetDatabase())
+	eventRepository := repository.NewEventRepository(database.GetDatabase())
+	postsRepository := repository.NewPostsRepository(database.GetDatabase())
+	commentsRepository := repository.NewCommentsRepository(database.GetDatabase())
+	likesRepository := repository.NewLikesRepository(database.GetDatabase())
+
 	// *********************************************************
 	// INITIALIZE SERVICES HERE
 	// *********************************************************
 
 	loginService := service.NewLoginService(loginRepository)
 	usersService := service.NewUsersService(usersRepository)
+	friendService := service.NewFriendService(friendRepository)
 	organizationService := service.NewOrganizationService(organizationRepository)
+	orgUsersService := service.NewOrgUsersService(orgUsersRepository)
+	eventService := service.NewEventService(eventRepository)
+	postsService := service.NewPostsService(postsRepository)
+	commentsService := service.NewCommentsService(commentsRepository)
+	likesService := service.NewLikesService(likesRepository)
+
 
 	// *********************************************************
 	// INITIALIZE CONTROLLERS HERE
@@ -35,7 +49,13 @@ func NewRouter() *gin.Engine {
 
 	loginController := controllers.NewLoginController(loginService)
 	usersController := controllers.NewUsersController(usersService)
+	friendController := controllers.NewFriendController(friendService)
 	organizationController := controllers.NewOrganizationController(organizationService)
+	orgUsersController := controllers.NewOrgUsersController(orgUsersService)
+	eventController := controllers.NewEventController(eventService)
+	postsController := controllers.NewPostsController(postsService)
+	commentsController := controllers.NewCommentsController(commentsService)
+	likesController := controllers.NewLikesController(likesService)
 
 	userGroup := router.Group("user")
 
@@ -65,16 +85,46 @@ func NewRouter() *gin.Engine {
 	organizationGroup.DELETE("/:id", organizationController.Delete)
 	organizationGroup.PUT("/:id", organizationController.Update)
 
-	orgUsersGroup := router.Group("orgUsers")
-	{
-		orgUsers := new(controllers.OrgUsersController)
-		orgUsersGroup.POST("/", orgUsers.CreateOrgUser)
-		orgUsersGroup.GET("/", orgUsers.ListAllOrgUsers)
-		orgUsersGroup.GET("/:id", orgUsers.FindOrgUser)
-		orgUsersGroup.PUT("/:id", orgUsers.UpdateOrgUser)
-		orgUsersGroup.DELETE("/:id", orgUsers.DeleteOrgUser)
-	}
+	eventGroup := router.Group("event")
+	eventGroup.POST("/", eventController.Create)
+	eventGroup.GET("/", eventController.All)
+	eventGroup.GET("/:id", eventController.One)
+	eventGroup.DELETE("/:id", eventController.Delete)
+	eventGroup.PUT("/:id", eventController.Update)
 
+	orgUsersGroup := router.Group("orgUsers")
+	orgUsersGroup.POST("/", orgUsersController.CreateOrgUser)
+	orgUsersGroup.GET("/", orgUsersController.ListAllOrgUsers)
+	orgUsersGroup.GET("/:userId", orgUsersController.FindOrgUser)
+	orgUsersGroup.PUT("/:userId", orgUsersController.UpdateOrgUser)
+	orgUsersGroup.DELETE("/:userId", orgUsersController.DeleteOrgUser)
+
+	friendGroup := router.Group("friend")
+	friendGroup.POST("/", friendController.Create)
+	friendGroup.GET("/", friendController.All)
+	friendGroup.GET("/:id", friendController.One)
+	friendGroup.DELETE("/:id", friendController.Reject)
+	friendGroup.PUT("/:id", friendController.Accept)
+
+	postsGroup := router.Group("posts")
+	postsGroup.POST("/", postsController.CreatePost)
+	postsGroup.GET("/", postsController.AllPosts)
+	postsGroup.GET("/:id", postsController.FindPost)
+	postsGroup.DELETE("/:id", postsController.DeletePost)
+	postsGroup.PUT("/:id", postsController.EditPost)
+
+	commentsGroup := router.Group("comments")
+	commentsGroup.POST("/", commentsController.CreateComment)
+	commentsGroup.GET("/", commentsController.AllComments)
+	commentsGroup.GET("/:id", commentsController.FindComment)
+	commentsGroup.DELETE("/:id", commentsController.DeleteComment)
+	commentsGroup.PUT("/:id", commentsController.EditComment)
+
+	likesGroup := router.Group("likes")
+	likesGroup.POST("/", likesController.CreateLike)
+	likesGroup.GET("/", likesController.AllLikes)
+	likesGroup.GET("/:id", likesController.FindLike)
+	likesGroup.DELETE("/:id", likesController.DeleteLike)
 	// objectGroup := router.Group("object")
 	// {
 	// 	object := new(controllers.ObjectController)

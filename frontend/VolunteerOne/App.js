@@ -10,6 +10,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import { enableScreens } from "react-native-screens";
 enableScreens();
 
+// Disables all warnings
+import { LogBox } from "react-native"
+LogBox.ignoreAllLogs(true)
+console.disableYellowBox = true
+
 import Navigation from "./navigation/Navigation";
 
 import { Images, articles, argonTheme } from "./constants";

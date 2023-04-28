@@ -23,7 +23,8 @@ const PostImageCard = ({ data }) => {
       <CardBody data={data} />
       <Block>
       </Block>
-      <Reaction></Reaction>
+      <Reaction likeCount={data["likeCount"]}
+      commentCount={data["commentCount"]} />
     </Block>
   );
 };
@@ -31,12 +32,12 @@ const PostImageCard = ({ data }) => {
 const styles = StyleSheet.create({
   card: {
     backgroundColor: "#FFFFFF",
-    borderRadius: 8,
+    width: "100%",
+    minWidth: "100%",
+    borderRadius: 10,
     padding: 15,
-    marginBottom: 10,
     margin: 10,
   },
-
   shadowProp: {
     shadowColor: "#171717",
     shadowOffset: { width: -2, height: 4 },

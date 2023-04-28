@@ -9,6 +9,9 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Alert
 } from "react-native";
 import { Block, Checkbox, Text, theme } from "galio-framework";
 
@@ -24,14 +27,13 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 /** ==================================== Register Screen ==================================== **/
 
 const Register = ({ route, navigation }) => {
-
   const { userType } = route.params;
-  console.log('userType passed: ', userType);
+  console.log("userType passed: ", userType);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [seePassword, setSeePassword] = useState(false);
+  const [seePassword, setSeePassword] = useState(true);
 
   const [passwordStrength, setPasswordStrength] = useState("weak");
   const [showPasswordStrength, setShowPasswordStrength] = useState(false);
@@ -53,99 +55,101 @@ const Register = ({ route, navigation }) => {
   function handleRegisterBtnClick() {
     setShowPasswordStrength(false);
     console.log(name, email, password);
+    Alert.alert("Account created!\n\nCheck your email for login instructions.");
   }
 
   return (
-    <Block flex middle>
-      <StatusBar hidden />
-      <ImageBackground
-        source={Images.Onboarding}
-        style={{ width, height, zIndex: 1 }}
-      >
-        <Block safe flex middle>
-          <Block style={styles.registerContainer}>
-            <Block flex>
-              <Block flex={0.5} middle>
-                <Block center>
-                  <Image source={Images.VolunteerOneIcon} style={styles.logo} />
-                </Block>
-              </Block>
-              <Block flex={0.17} middle>
-                <Text color="#8898AA" size={14}>
-                  Sign up with credentials
-                </Text>
-              </Block>
-              <Block flex center>
-                <KeyboardAvoidingView
-                  style={{ flex: 1 }}
-                  behavior="padding"
-                  enabled
-                >
-                  <Block width={width * 0.8} style={{ marginBottom: 15 }}>
-                    <TextInput
-                      style={styles.input}
-                      placeholder="Name"
-                      onChangeText={handleNameInput}
-                    />
-                  </Block>
-                  <Block width={width * 0.8} style={{ marginBottom: 15 }}>
-                    <TextInput
-                      style={styles.input}
-                      placeholder="Email"
-                      onChangeText={handleEmailInput}
-                    />
-                  </Block>
-                  <Block width={width * 0.8} style={styles.inputPassword}>
-                    <Block row>
-                      <TextInput
-                        flex={0.9}
-                        secureTextEntry={seePassword}
-                        // style={styles.input}
-                        placeholder="Password"
-                        onChangeText={handlePasswordInput}
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding" enabled>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <Block flex middle>
+          <StatusBar hidden />
+          <ImageBackground
+            source={Images.Onboarding}
+            style={{ width, height, zIndex: 1 }}
+          >
+            <Block safe flex middle>
+              <Block style={styles.registerContainer}>
+                <Block flex>
+                  <Block flex={0.5} middle>
+                    <Block center>
+                      <Image
+                        source={Images.VolunteerOneIcon}
+                        style={styles.logo}
                       />
-                      <Block middle center style={styles.visibleIcon}>
-                        <TouchableOpacity
-                          flex={0.2}
-                          onPress={() =>
-                            setSeePassword((seePassword) => !seePassword)
-                          }
-                        >
-                          {seePassword ? (
-                            <MaterialCommunityIcons
-                              size={24}
-                              name="eye"
-                              color={theme.COLORS.ICON}
-                            />
-                          ) : (
-                            <MaterialCommunityIcons
-                              size={24}
-                              name="eye-off"
-                              color={theme.COLORS.ICON}
-                            />
-                          )}
-                        </TouchableOpacity>
-                      </Block>
                     </Block>
                   </Block>
-                  <Block middle>
-                    <Button
-                      color="primary"
-                      style={styles.createButton}
-                      onPress={handleRegisterBtnClick}
-                    >
-                      <Text bold size={14} color={argonTheme.COLORS.WHITE}>
-                        CREATE ACCOUNT
-                      </Text>
-                    </Button>
+                  <Block flex={0.17} middle>
+                    <Text color="#8898AA" size={14}>
+                      Sign up with credentials
+                    </Text>
                   </Block>
-                </KeyboardAvoidingView>
+                  <Block flex center>
+                    <Block width={width * 0.8} style={{ marginBottom: 15 }}>
+                      <TextInput
+                        style={styles.input}
+                        placeholder="Name"
+                        onChangeText={handleNameInput}
+                      />
+                    </Block>
+                    <Block width={width * 0.8} style={{ marginBottom: 15 }}>
+                      <TextInput
+                        style={styles.input}
+                        placeholder="Email"
+                        onChangeText={handleEmailInput}
+                      />
+                    </Block>
+                    <Block width={width * 0.8} style={styles.inputPassword}>
+                      <Block row>
+                        <TextInput
+                          flex={0.9}
+                          secureTextEntry={seePassword}
+                          // style={styles.input}
+                          placeholder="Password"
+                          onChangeText={handlePasswordInput}
+                        />
+                        <Block middle center style={styles.visibleIcon}>
+                          <TouchableOpacity
+                            flex={0.2}
+                            onPress={() =>
+                              setSeePassword((seePassword) => !seePassword)
+                            }
+                          >
+                            {!seePassword ? (
+                              <MaterialCommunityIcons
+                                size={24}
+                                name="eye"
+                                color={theme.COLORS.ICON}
+                              />
+                            ) : (
+                              <MaterialCommunityIcons
+                                size={24}
+                                name="eye-off"
+                                color={theme.COLORS.ICON}
+                              />
+                            )}
+                          </TouchableOpacity>
+                        </Block>
+                      </Block>
+                    </Block>
+                    <Block middle>
+                      <Button
+                        color="primary"
+                        style={styles.createButton}
+                        onPress={handleRegisterBtnClick}
+                      >
+                        <Text bold size={14} color={argonTheme.COLORS.WHITE}>
+                          CREATE ACCOUNT
+                        </Text>
+                      </Button>
+                    </Block>
+                  </Block>
+                </Block>
               </Block>
             </Block>
-          </Block>
+          </ImageBackground>
         </Block>
-      </ImageBackground>
-    </Block>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -171,8 +175,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     elevation: 2,
     paddingLeft: 10,
-    paddingTop:10,
-    marginBottom:15
+    paddingTop: 10,
+    marginBottom: 15,
   },
   registerContainer: {
     width: width * 0.9,
@@ -205,8 +209,8 @@ const styles = StyleSheet.create({
     width: 265,
     height: 50,
     zIndex: 2,
-    position: 'relative',
-    marginTop: '20%'
+    position: "relative",
+    marginTop: "20%",
   },
 });
 

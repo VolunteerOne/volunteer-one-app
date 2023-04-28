@@ -38,10 +38,8 @@ const Settings = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleAddNewSkill = (skillObj) => {
-    console.log(skillObj);
     const { skill } = skillObj;
-    console.log(skill);
-    setUserSkills([skill, ...userSkills]);
+    if (skill) setUserSkills([skill, ...userSkills]);
   };
 
   console.log(userSkills);
@@ -143,11 +141,11 @@ const Settings = ({ navigation }) => {
           </View>
           <View
             style={{
-              padding: 10,
-              // backgroundColor: "green",
+              // padding: 5,
               width: "100%",
               flexDirection: "row",
               flexWrap: "wrap",
+              justifyContent: "center",
             }}
           >
             {userSkills.map((skill) => (
