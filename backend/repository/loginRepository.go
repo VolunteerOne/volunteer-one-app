@@ -14,8 +14,8 @@ type LoginRepository interface {
 	ChangePassword([]byte, models.Users) error
 	FindTokenFromID(uint, models.Delegations) (models.Delegations, error)
 	SaveRefreshToken(uint, string, models.Delegations) error
-    FindRefreshToken(float64, models.Delegations) (models.Delegations, error)
-    DeleteRefreshToken(models.Delegations) (error)
+	FindRefreshToken(float64, models.Delegations) (models.Delegations, error)
+	DeleteRefreshToken(models.Delegations) error
 }
 
 type loginRepository struct {
@@ -71,23 +71,23 @@ func (l loginRepository) SaveRefreshToken(userid uint, refreshToken string, dele
 	err := l.DB.Save(&deleg).Error
 
 	if err != nil {
-        log.Println("[LoginRepository:SaveRefreshToken] Have To Update Token Only...")
-        return l.DB.Model(&deleg).Where("users_id = ?", userid).Update("refresh_token", refreshToken).Error
+		log.Println("[LoginRepository:SaveRefreshToken] Have To Update Token Only...")
+		return l.DB.Model(&deleg).Where("users_id = ?", userid).Update("refresh_token", refreshToken).Error
 	}
 
 	return err
 }
 
 func (l loginRepository) FindRefreshToken(userid float64, deleg models.Delegations) (models.Delegations, error) {
-    log.Println("[LoginRepository] Find Refresh Token...")
+	log.Println("[LoginRepository] Find Refresh Token...")
 
-    err := l.DB.Where("users_id = ?", userid).First(&deleg).Error
+	err := l.DB.Where("users_id = ?", userid).First(&deleg).Error
 
-    return deleg, err
+	return deleg, err
 }
 
-func (l loginRepository) DeleteRefreshToken(deleg models.Delegations) (error) {
-    log.Println("[LoginRepository] Delete Refresh Token...")
+func (l loginRepository) DeleteRefreshToken(deleg models.Delegations) error {
+	log.Println("[LoginRepository] Delete Refresh Token...")
 
 	return l.DB.Unscoped().Delete(&deleg).Error
 }
