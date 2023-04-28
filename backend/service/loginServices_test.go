@@ -1,10 +1,10 @@
 package service
 
 import (
-	"testing"
-
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
+	"testing"
+	"time"
 
 	"github.com/VolunteerOne/volunteer-one-app/backend/mocks"
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
@@ -20,7 +20,6 @@ func TestLoginService_FindUserFromEmail(t *testing.T) {
 	exampleUser.Email = email
 	exampleUser.Password = "password"
 
-	// new mock repo object
 	mockRepo := new(mocks.LoginRepository)
 	mockRepo.On("FindUserFromEmail", email, user).Return(exampleUser, nil)
 
@@ -38,7 +37,6 @@ func TestLoginService_SaveResetCodeToUser(t *testing.T) {
 	var user models.Users
 	fakeCode := uuid.New()
 
-	// new mock repo object
 	mockRepo := new(mocks.LoginRepository)
 	mockRepo.On("SaveResetCodeToUser", fakeCode, user).Return(nil)
 
@@ -55,7 +53,6 @@ func TestLoginService_ChangePassword(t *testing.T) {
 	var user models.Users
 	fakePassword := []byte("")
 
-	// new mock repo object
 	mockRepo := new(mocks.LoginRepository)
 	mockRepo.On("ChangePassword", fakePassword, user).Return(nil)
 
@@ -70,7 +67,6 @@ func TestLoginService_ChangePassword(t *testing.T) {
 func TestLoginService_HashPassword(t *testing.T) {
 	password := "mypass"
 
-	// new mock repo object
 	mockRepo := new(mocks.LoginRepository)
 	loginService := NewLoginService(mockRepo)
 	res, err := loginService.HashPassword([]byte(password))
@@ -82,7 +78,6 @@ func TestLoginService_HashPassword(t *testing.T) {
 func TestLoginService_CompareHashedAndUserPass(t *testing.T) {
 	password := "mypass"
 
-	// new mock repo object
 	mockRepo := new(mocks.LoginRepository)
 	loginService := NewLoginService(mockRepo)
 
@@ -99,16 +94,163 @@ func TestLoginService_CompareHashedAndUserPass(t *testing.T) {
 }
 
 func TestLoginService_ErrorWhenSigningToken(t *testing.T) {
-	// accessExpire := jwt.NewNumericDate(time.Now().Add(time.Minute * 15))
-	// refreshExpire := jwt.NewNumericDate(time.Now().Add(time.Hour * 24))
-
-	// new mock repo object
 	mockRepo := new(mocks.LoginRepository)
 	loginService := NewLoginService(mockRepo)
 
 	claims := jwt.MapClaims{}
 
 	_, err := loginService.GenerateJWT(jwt.SigningMethodRS384, claims, "")
+
+	assert.NotNil(t, err)
+}
+
+func TestLoginService_GoodJWTSigning(t *testing.T) {
+	mockRepo := new(mocks.LoginRepository)
+	loginService := NewLoginService(mockRepo)
+
+	claims := jwt.MapClaims{}
+
+	token, err := loginService.GenerateJWT(jwt.SigningMethodHS256, claims, "")
+
+	assert.EqualValues(t, token, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.LwimMJA3puF3ioGeS-tfczR3370GXBZMIL-bdpu4hOU")
+	assert.Nil(t, err)
+}
+
+func TestLoginService_GenerateExpiresJWT(t *testing.T) {
+	mockRepo := new(mocks.LoginRepository)
+	loginService := NewLoginService(mockRepo)
+
+	accessExpire, refreshExpire := loginService.GenerateExpiresJWT()
+
+	diffAccess := accessExpire.Sub(time.Now())
+	assert.LessOrEqual(t, diffAccess.Minutes(), float64(15))
+
+	diffRefresh := refreshExpire.Sub(time.Now())
+	assert.LessOrEqual(t, diffRefresh.Hours(), float64(24))
+}
+
+func TestLoginService_ValidateJWT(t *testing.T) {
+	mockRepo := new(mocks.LoginRepository)
+	loginService := NewLoginService(mockRepo)
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"sub": "admin",
+	})
+	tokenString, _ := token.SignedString([]byte(""))
+
+	returnedToken, error := loginService.ValidateJWT(tokenString, "")
+
+	assert.True(t, returnedToken.Valid)
+	assert.Nil(t, error)
+}
+
+func TestLoginService_ValidateJWTError(t *testing.T) {
+	mockRepo := new(mocks.LoginRepository)
+	loginService := NewLoginService(mockRepo)
+
+	token := jwt.NewWithClaims(jwt.SigningMethodRS256, jwt.MapClaims{
+		"sub": "admin",
+	})
+	tokenString, _ := token.SignedString([]byte(""))
+
+	_, error := loginService.ValidateJWT(tokenString, "")
+
+	assert.NotNil(t, error)
+}
+
+func TestLoginService_MapJWTClaims(t *testing.T) {
+	mockRepo := new(mocks.LoginRepository)
+	loginService := NewLoginService(mockRepo)
+
+	token := jwt.NewWithClaims(jwt.SigningMethodRS256, jwt.MapClaims{
+		"sub": "admin",
+	})
+
+	res, ok := loginService.MapJWTClaims(*token)
+
+	assert.IsType(t, jwt.MapClaims{}, res)
+	assert.True(t, ok)
+}
+
+func TestLoginService_SaveRefreshToken(t *testing.T) {
+	var d models.Delegations
+
+	mockRepo := new(mocks.LoginRepository)
+	mockRepo.On("SaveRefreshToken", uint(0), "", d).Return(nil)
+
+	// run actual handler
+	loginService := NewLoginService(mockRepo)
+	err := loginService.SaveRefreshToken(uint(0), "", d)
+
+	// checks
+	mockRepo.AssertExpectations(t)
+	assert.Nil(t, err)
+}
+
+func TestLoginService_FindRefreshToken(t *testing.T) {
+	var d models.Delegations
+
+	mockRepo := new(mocks.LoginRepository)
+	mockRepo.On("FindRefreshToken", float64(0), d).Return(d, nil)
+
+	loginService := NewLoginService(mockRepo)
+	res, err := loginService.FindRefreshToken(float64(0), d)
+
+	mockRepo.AssertExpectations(t)
+	assert.Equal(t, res, d)
+	assert.Nil(t, err)
+}
+
+func TestLoginService_DeleteRefreshToken(t *testing.T) {
+	var d models.Delegations
+
+	mockRepo := new(mocks.LoginRepository)
+	mockRepo.On("DeleteRefreshToken", d).Return(nil)
+
+	loginService := NewLoginService(mockRepo)
+	err := loginService.DeleteRefreshToken(d)
+
+	mockRepo.AssertExpectations(t)
+	assert.Nil(t, err)
+}
+
+func TestLoginService_ParseUUID(t *testing.T) {
+	mockRepo := new(mocks.LoginRepository)
+
+	loginService := NewLoginService(mockRepo)
+	ans, err := loginService.ParseUUID("00000000-0000-0000-0000-000000000000")
+
+	assert.IsType(t, uuid.UUID{}, ans)
+	mockRepo.AssertExpectations(t)
+	assert.Nil(t, err)
+}
+
+func TestLoginService_ParseUUIDFail(t *testing.T) {
+	mockRepo := new(mocks.LoginRepository)
+
+	loginService := NewLoginService(mockRepo)
+	_, err := loginService.ParseUUID("00-0000-0000-0000-000000000000")
+
+	mockRepo.AssertExpectations(t)
+	assert.NotNil(t, err)
+}
+
+func TestLoginService_GenerateUUID(t *testing.T) {
+	mockRepo := new(mocks.LoginRepository)
+
+	loginService := NewLoginService(mockRepo)
+
+	res := loginService.GenerateUUID()
+
+	assert.IsType(t, uuid.UUID{}, res)
+}
+
+func TestLoginService_SendResetCodeToEmail(t *testing.T) {
+	mockRepo := new(mocks.LoginRepository)
+
+	loginService := NewLoginService(mockRepo)
+
+	err := loginService.SendResetCodeToEmail("", "")
 
 	assert.NotNil(t, err)
 }

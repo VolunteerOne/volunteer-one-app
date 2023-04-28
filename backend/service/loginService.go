@@ -82,45 +82,10 @@ func (l loginService) ValidateJWT(token string, secret string) (*jwt.Token, erro
 	return middleware.Validate(token, secret)
 }
 
-//func (l loginService) GenerateJWT(
-//	userid uint,
-//	accessExp *jwt.NumericDate,
-//	refreshExp *jwt.NumericDate,
-//	secret string,
-//	c *gin.Context) (string, string, error) {
-//
-//	accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-//		"sub":  userid,
-//		"exp":  accessExp,
-//		"type": "access",
-//	})
-//	accessTokenString, err := accessToken.SignedString([]byte(secret))
-//
-//	if err != nil {
-//		c.JSON(http.StatusBadRequest, gin.H{
-//			"error":   "Failed to create access token",
-//			"success": false,
-//		})
-//		return "", "", err
-//	}
-//
-//	refreshToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-//		"sub":  userid,
-//		"exp":  refreshExp,
-//		"type": "refresh",
-//	})
-//	refreshTokenString, err := refreshToken.SignedString([]byte(secret))
-//
-//	if err != nil {
-//		c.JSON(http.StatusBadRequest, gin.H{
-//			"error":   "Failed to create refresh token",
-//			"success": false,
-//		})
-//		return "", "", err
-//	}
-//
-//	return accessTokenString, refreshTokenString, err
-//}
+func (l loginService) MapJWTClaims(token jwt.Token) (jwt.MapClaims, bool) {
+	claims, ok := token.Claims.(jwt.MapClaims)
+	return claims, ok
+}
 
 func (l loginService) SaveRefreshToken(userid uint, refreshToken string, deleg models.Delegations) error {
 	return l.loginRepository.SaveRefreshToken(userid, refreshToken, deleg)
@@ -136,11 +101,6 @@ func (l loginService) DeleteRefreshToken(deleg models.Delegations) error {
 
 func (l loginService) ParseUUID(s string) (uuid.UUID, error) {
 	return uuid.Parse(s)
-}
-
-func (l loginService) MapJWTClaims(token jwt.Token) (jwt.MapClaims, bool) {
-	claims, ok := token.Claims.(jwt.MapClaims)
-	return claims, ok
 }
 
 func (l loginService) GenerateUUID() uuid.UUID {
