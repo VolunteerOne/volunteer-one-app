@@ -12,11 +12,15 @@ type Model interface {
 // Register all models into this table
 var tables = []Model{
 	&Organization{},
+	&Friend{},
 	&OrgUsers{},
 	&Users{},
 	&Event{},
-    &Delegations{},
 	&EventMember{},
+	&Delegations{},
+	&Posts{},
+	&Comments{},
+	&Likes{},
 }
 
 func Init() {
