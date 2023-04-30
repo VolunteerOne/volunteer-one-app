@@ -355,7 +355,7 @@ func (controller likesController) CreateLike(c *gin.Context) {
 		Handle  string
 		PostsID uint
 	}
-	err = c.Bind(&body)
+	err = controller.likesService.Bind(c, &body)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Request body is invalid",
