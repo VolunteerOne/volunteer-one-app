@@ -3,9 +3,7 @@
 package mocks
 
 import (
-	gin "github.com/gin-gonic/gin"
 	jwt "github.com/golang-jwt/jwt/v5"
-
 	mock "github.com/stretchr/testify/mock"
 
 	models "github.com/VolunteerOne/volunteer-one-app/backend/models"
@@ -108,35 +106,72 @@ func (_m *LoginService) FindUserFromEmail(_a0 string, _a1 models.Users) (models.
 	return r0, r1
 }
 
-// GenerateJWT provides a mock function with given fields: _a0, _a1, _a2, _a3, _a4
-func (_m *LoginService) GenerateJWT(_a0 uint, _a1 *jwt.NumericDate, _a2 *jwt.NumericDate, _a3 string, _a4 *gin.Context) (string, string, error) {
-	ret := _m.Called(_a0, _a1, _a2, _a3, _a4)
+// GenerateExpiresJWT provides a mock function with given fields:
+func (_m *LoginService) GenerateExpiresJWT() (*jwt.NumericDate, *jwt.NumericDate) {
+	ret := _m.Called()
+
+	var r0 *jwt.NumericDate
+	var r1 *jwt.NumericDate
+	if rf, ok := ret.Get(0).(func() (*jwt.NumericDate, *jwt.NumericDate)); ok {
+		return rf()
+	}
+	if rf, ok := ret.Get(0).(func() *jwt.NumericDate); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*jwt.NumericDate)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func() *jwt.NumericDate); ok {
+		r1 = rf()
+	} else {
+		if ret.Get(1) != nil {
+			r1 = ret.Get(1).(*jwt.NumericDate)
+		}
+	}
+
+	return r0, r1
+}
+
+// GenerateJWT provides a mock function with given fields: _a0, _a1, _a2
+func (_m *LoginService) GenerateJWT(_a0 jwt.SigningMethod, _a1 jwt.Claims, _a2 string) (string, error) {
+	ret := _m.Called(_a0, _a1, _a2)
 
 	var r0 string
-	var r1 string
-	var r2 error
-	if rf, ok := ret.Get(0).(func(uint, *jwt.NumericDate, *jwt.NumericDate, string, *gin.Context) (string, string, error)); ok {
-		return rf(_a0, _a1, _a2, _a3, _a4)
+	var r1 error
+	if rf, ok := ret.Get(0).(func(jwt.SigningMethod, jwt.Claims, string) (string, error)); ok {
+		return rf(_a0, _a1, _a2)
 	}
-	if rf, ok := ret.Get(0).(func(uint, *jwt.NumericDate, *jwt.NumericDate, string, *gin.Context) string); ok {
-		r0 = rf(_a0, _a1, _a2, _a3, _a4)
+	if rf, ok := ret.Get(0).(func(jwt.SigningMethod, jwt.Claims, string) string); ok {
+		r0 = rf(_a0, _a1, _a2)
 	} else {
 		r0 = ret.Get(0).(string)
 	}
 
-	if rf, ok := ret.Get(1).(func(uint, *jwt.NumericDate, *jwt.NumericDate, string, *gin.Context) string); ok {
-		r1 = rf(_a0, _a1, _a2, _a3, _a4)
+	if rf, ok := ret.Get(1).(func(jwt.SigningMethod, jwt.Claims, string) error); ok {
+		r1 = rf(_a0, _a1, _a2)
 	} else {
-		r1 = ret.Get(1).(string)
+		r1 = ret.Error(1)
 	}
 
-	if rf, ok := ret.Get(2).(func(uint, *jwt.NumericDate, *jwt.NumericDate, string, *gin.Context) error); ok {
-		r2 = rf(_a0, _a1, _a2, _a3, _a4)
+	return r0, r1
+}
+
+// GenerateUUID provides a mock function with given fields:
+func (_m *LoginService) GenerateUUID() uuid.UUID {
+	ret := _m.Called()
+
+	var r0 uuid.UUID
+	if rf, ok := ret.Get(0).(func() uuid.UUID); ok {
+		r0 = rf()
 	} else {
-		r2 = ret.Error(2)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(uuid.UUID)
+		}
 	}
 
-	return r0, r1, r2
+	return r0
 }
 
 // HashPassword provides a mock function with given fields: _a0
@@ -157,6 +192,58 @@ func (_m *LoginService) HashPassword(_a0 []byte) ([]byte, error) {
 	}
 
 	if rf, ok := ret.Get(1).(func([]byte) error); ok {
+		r1 = rf(_a0)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// MapJWTClaims provides a mock function with given fields: _a0
+func (_m *LoginService) MapJWTClaims(_a0 jwt.Token) (jwt.MapClaims, bool) {
+	ret := _m.Called(_a0)
+
+	var r0 jwt.MapClaims
+	var r1 bool
+	if rf, ok := ret.Get(0).(func(jwt.Token) (jwt.MapClaims, bool)); ok {
+		return rf(_a0)
+	}
+	if rf, ok := ret.Get(0).(func(jwt.Token) jwt.MapClaims); ok {
+		r0 = rf(_a0)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(jwt.MapClaims)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(jwt.Token) bool); ok {
+		r1 = rf(_a0)
+	} else {
+		r1 = ret.Get(1).(bool)
+	}
+
+	return r0, r1
+}
+
+// ParseUUID provides a mock function with given fields: _a0
+func (_m *LoginService) ParseUUID(_a0 string) (uuid.UUID, error) {
+	ret := _m.Called(_a0)
+
+	var r0 uuid.UUID
+	var r1 error
+	if rf, ok := ret.Get(0).(func(string) (uuid.UUID, error)); ok {
+		return rf(_a0)
+	}
+	if rf, ok := ret.Get(0).(func(string) uuid.UUID); ok {
+		r0 = rf(_a0)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(uuid.UUID)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(string) error); ok {
 		r1 = rf(_a0)
 	} else {
 		r1 = ret.Error(1)
@@ -191,6 +278,46 @@ func (_m *LoginService) SaveResetCodeToUser(_a0 uuid.UUID, _a1 models.Users) err
 	}
 
 	return r0
+}
+
+// SendResetCodeToEmail provides a mock function with given fields: _a0, _a1
+func (_m *LoginService) SendResetCodeToEmail(_a0 string, _a1 string) error {
+	ret := _m.Called(_a0, _a1)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(string, string) error); ok {
+		r0 = rf(_a0, _a1)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// ValidateJWT provides a mock function with given fields: _a0, _a1
+func (_m *LoginService) ValidateJWT(_a0 string, _a1 string) (*jwt.Token, error) {
+	ret := _m.Called(_a0, _a1)
+
+	var r0 *jwt.Token
+	var r1 error
+	if rf, ok := ret.Get(0).(func(string, string) (*jwt.Token, error)); ok {
+		return rf(_a0, _a1)
+	}
+	if rf, ok := ret.Get(0).(func(string, string) *jwt.Token); ok {
+		r0 = rf(_a0, _a1)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*jwt.Token)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func(string, string) error); ok {
+		r1 = rf(_a0, _a1)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
 }
 
 type mockConstructorTestingTNewLoginService interface {

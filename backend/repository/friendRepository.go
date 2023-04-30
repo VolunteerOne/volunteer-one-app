@@ -43,7 +43,8 @@ func (f friendRepository) AcceptFriend(friend models.Friend) (models.Friend, err
 }
 
 func (f friendRepository) RejectFriend(friend models.Friend) error {
-	result := f.DB.Delete(&friend)
+	// more explicit for testing -> f.DB.Delete(&friend) would do the same but it trickier to test
+	result := f.DB.Where("ID = ?", friend.ID).Delete(&friend)
 	if result.Error != nil {
 		return errors.New("could not delete friend")
 	}

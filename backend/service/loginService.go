@@ -1,14 +1,14 @@
 package service
 
 import (
-	"net/http"
-
+	"github.com/VolunteerOne/volunteer-one-app/backend/middleware"
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
 	"github.com/VolunteerOne/volunteer-one-app/backend/repository"
-	"github.com/gin-gonic/gin"
+	"github.com/go-gomail/gomail"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
+	"time"
 )
 
 type LoginService interface {
@@ -17,10 +17,16 @@ type LoginService interface {
 	ChangePassword([]byte, models.Users) error
 	HashPassword([]byte) ([]byte, error)
 	CompareHashedAndUserPass([]byte, string) error
-	GenerateJWT(uint, *jwt.NumericDate, *jwt.NumericDate, string, *gin.Context) (string, string, error)
+	GenerateJWT(jwt.SigningMethod, jwt.Claims, string) (string, error)
+	GenerateExpiresJWT() (*jwt.NumericDate, *jwt.NumericDate)
+	ValidateJWT(string, string) (*jwt.Token, error)
 	SaveRefreshToken(uint, string, models.Delegations) error
-    FindRefreshToken(float64, models.Delegations) (models.Delegations, error)
-    DeleteRefreshToken(models.Delegations) (error)
+	FindRefreshToken(float64, models.Delegations) (models.Delegations, error)
+	DeleteRefreshToken(models.Delegations) error
+	ParseUUID(string) (uuid.UUID, error)
+	MapJWTClaims(jwt.Token) (jwt.MapClaims, bool)
+	GenerateUUID() uuid.UUID
+	SendResetCodeToEmail(string, string) error
 }
 
 type loginService struct {
@@ -47,63 +53,65 @@ func (l loginService) ChangePassword(newPassword []byte, user models.Users) erro
 }
 
 func (l loginService) HashPassword(password []byte) ([]byte, error) {
-	hash, err := bcrypt.GenerateFromPassword([]byte(password), 10)
-	return hash, err
+	return bcrypt.GenerateFromPassword([]byte(password), 10)
 }
 
 func (l loginService) CompareHashedAndUserPass(hashedPassword []byte, stringPassword string) error {
-	err := bcrypt.CompareHashAndPassword(hashedPassword, []byte(stringPassword))
-	return err
+	return bcrypt.CompareHashAndPassword(hashedPassword, []byte(stringPassword))
 }
 
-func (l loginService) GenerateJWT(userid uint,
-	accessExp *jwt.NumericDate,
-	refreshExp *jwt.NumericDate,
-	secret string,
-	c *gin.Context) (string, string, error) {
+func (l loginService) GenerateJWT(
+	signingMethod jwt.SigningMethod,
+	claims jwt.Claims,
+	secret string) (string, error) {
 
-	accessToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub": userid,
-		"exp": accessExp,
-        "type": "access",
-	})
-	accessTokenString, err := accessToken.SignedString([]byte(secret))
+	token := jwt.NewWithClaims(signingMethod, claims)
+	return token.SignedString([]byte(secret))
+}
 
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error":   "Failed to create access token",
-			"success": false,
-		})
-		return "", "", err
-	}
+func (l loginService) GenerateExpiresJWT() (*jwt.NumericDate, *jwt.NumericDate) {
+	// 15 minute expire for accessToken
+	accessExpire := jwt.NewNumericDate(time.Now().Add(time.Minute * 15))
+	// 1 day expire for refreshToken
+	refreshExpire := jwt.NewNumericDate(time.Now().Add(time.Hour * 24))
+	return accessExpire, refreshExpire
+}
 
-	refreshToken := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub": userid,
-        "exp": refreshExp,
-        "type": "refresh",
-	})
-	refreshTokenString, err := refreshToken.SignedString([]byte(secret))
+func (l loginService) ValidateJWT(token string, secret string) (*jwt.Token, error) {
+	// hooks into middleware
+	return middleware.Validate(token, secret)
+}
 
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error":   "Failed to create refresh token",
-			"success": false,
-		})
-		return "", "", err
-	}
-
-	return accessTokenString, refreshTokenString, err
+func (l loginService) MapJWTClaims(token jwt.Token) (jwt.MapClaims, bool) {
+	claims, ok := token.Claims.(jwt.MapClaims)
+	return claims, ok
 }
 
 func (l loginService) SaveRefreshToken(userid uint, refreshToken string, deleg models.Delegations) error {
 	return l.loginRepository.SaveRefreshToken(userid, refreshToken, deleg)
 }
 
-
 func (l loginService) FindRefreshToken(userid float64, deleg models.Delegations) (models.Delegations, error) {
-    return l.loginRepository.FindRefreshToken(userid, deleg)
+	return l.loginRepository.FindRefreshToken(userid, deleg)
 }
 
-func (l loginService) DeleteRefreshToken(deleg models.Delegations) (error) {
+func (l loginService) DeleteRefreshToken(deleg models.Delegations) error {
 	return l.loginRepository.DeleteRefreshToken(deleg)
+}
+
+func (l loginService) ParseUUID(s string) (uuid.UUID, error) {
+	return uuid.Parse(s)
+}
+
+func (l loginService) GenerateUUID() uuid.UUID {
+	return uuid.New()
+}
+
+func (l loginService) SendResetCodeToEmail(email string, resetCode string) error {
+	mailer := gomail.NewMessage()
+	mailer.SetHeader("From", "edwardsung4217@gmail.com") //need to replace this with proper volunteer email
+	mailer.SetHeader("To", email)
+	mailer.SetHeader("Subject", "Password Reset Code")
+	mailer.SetBody("text/plain", "Your password reset code is "+resetCode)
+	return gomail.NewDialer("smtp.sendgrid.net", 465, "apikey", "APIKEY").DialAndSend(mailer)
 }
