@@ -116,7 +116,7 @@ func (r commentsRepository) CreateComment(comment models.Comments) (models.Comme
 
 func (r commentsRepository) DeleteComment(comment models.Comments) error {
 
-	result := r.DB.Delete(&comment)
+	result := r.DB.Where("ID = ?", comment.ID).Delete(&comment)
 	if result.Error != nil {
 		return errors.New("could not delete comment")
 	}
