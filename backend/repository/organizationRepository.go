@@ -12,7 +12,7 @@ type OrganizationRepository interface {
 	GetOrganizations() ([]models.Organization, error)
 	GetOrganizationById(string) (models.Organization, error)
 	UpdateOrganization(models.Organization) (models.Organization, error)
-	DeleteOrganization(models.Organization) (error)
+	DeleteOrganization(models.Organization) error
 }
 
 type organizationRepository struct {
@@ -20,7 +20,7 @@ type organizationRepository struct {
 }
 
 func NewOrganizationRepository(db *gorm.DB) OrganizationRepository {
-	return organizationRepository {
+	return organizationRepository{
 		DB: db,
 	}
 }
@@ -49,7 +49,7 @@ func (r organizationRepository) GetOrganizations() ([]models.Organization, error
 func (r organizationRepository) GetOrganizationById(id string) (models.Organization, error) {
 	var org models.Organization
 
-	result := r.DB.First(&org, id) 
+	result := r.DB.First(&org, id)
 
 	if result.Error != nil {
 		return models.Organization{}, errors.New("could not retrieve organization")
@@ -58,18 +58,17 @@ func (r organizationRepository) GetOrganizationById(id string) (models.Organizat
 	return org, nil
 }
 
-
 func (r organizationRepository) UpdateOrganization(org models.Organization) (models.Organization, error) {
 	result := r.DB.Save(&org)
 
-	if result.Error != nil { 
+	if result.Error != nil {
 		return models.Organization{}, errors.New("could not update organization")
 	}
 
 	return org, nil
 }
 
-func (r organizationRepository) DeleteOrganization(org models.Organization) (error) {
+func (r organizationRepository) DeleteOrganization(org models.Organization) error {
 	result := r.DB.Delete(&org)
 	if result.Error != nil {
 		return errors.New("could not delete organization")
