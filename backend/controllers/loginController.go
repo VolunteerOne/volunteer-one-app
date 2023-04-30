@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -10,9 +9,7 @@ import (
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
 	"github.com/VolunteerOne/volunteer-one-app/backend/service"
 	"github.com/gin-gonic/gin"
-	"github.com/go-gomail/gomail"
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/google/uuid"
 )
 
 // All Controller methods should be defined in the interface
@@ -75,12 +72,37 @@ func (l loginController) Login(c *gin.Context) {
 	// 30 day expire for refreshToken
 	refreshExpire := jwt.NewNumericDate(time.Now().Add(time.Hour * 24 * 30))
 
-	accessToken, refreshToken, err := l.loginService.GenerateJWT(user.ID,
-		accessExpire, refreshExpire, os.Getenv("JWT_SECRET"), c)
+	// generate the access token
+	accessTokenClaims := jwt.MapClaims{
+		"sub":  user.ID,
+		"exp":  accessExpire,
+		"type": "access",
+	}
+	accessToken, err := l.loginService.GenerateJWT(jwt.SigningMethodHS256, accessTokenClaims, os.Getenv("JWT_SECRET"))
 
 	if err != nil {
 		log.Println(err)
-		// json status already set in GenerateJWT
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "Failed to create access token",
+			"success": false,
+		})
+		return
+	}
+
+	// generate the refreshToken
+	refreshTokenClaims := jwt.MapClaims{
+		"sub":  user.ID,
+		"exp":  refreshExpire,
+		"type": "refresh",
+	}
+	refreshToken, err := l.loginService.GenerateJWT(jwt.SigningMethodHS256, refreshTokenClaims, os.Getenv("JWT_SECRET"))
+
+	if err != nil {
+		log.Println(err)
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error":   "Failed to create refresh token",
+			"success": false,
+		})
 		return
 	}
 
@@ -128,17 +150,21 @@ func (l loginController) SendEmailForPassReset(c *gin.Context) {
 	}
 
 	//Generate reset code
-	resetCode := uuid.New()
+	resetCode := l.loginService.GenerateUUID()
 
 	err = l.loginService.SaveResetCodeToUser(resetCode, user)
 
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Could not save reset code to user",
+			"success": false,
+		})
+		return
+	}
 	//Send reset code to user's email address
-	mailer := gomail.NewMessage()
-	mailer.SetHeader("From", "edwardsung4217@gmail.com") //need to replace this with proper volunteer email
-	mailer.SetHeader("To", user.Email)
-	mailer.SetHeader("Subject", "Password Reset Code")
-	mailer.SetBody("text/plain", "Your password reset code is "+resetCode.String())
-	if err := gomail.NewDialer("smtp.sendgrid.net", 465, "apikey", "APIKEY").DialAndSend(mailer); err != nil {
+	err = l.loginService.SendResetCodeToEmail(user.Email, resetCode.String())
+
+	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "Failed to send email",
 			"success": false,
@@ -158,7 +184,16 @@ func (l loginController) SendEmailForPassReset(c *gin.Context) {
 func (l loginController) PasswordReset(c *gin.Context) {
 	email := c.Param("email")
 	resetCode := c.Param("resetcode")
-	resetCodeParsed, err := uuid.Parse(resetCode)
+	resetCodeParsed, err := l.loginService.ParseUUID(resetCode)
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Could not parse UUID",
+			"success": false,
+		})
+		return
+	}
+
 	newPassword := c.Param("newpassword")
 
 	var user models.Users
@@ -180,8 +215,8 @@ func (l loginController) PasswordReset(c *gin.Context) {
 		})
 		return
 	}
-	hash, err := l.loginService.HashPassword([]byte(newPassword))
-	if changePasswordErr := l.loginService.ChangePassword(hash, user); err != nil {
+	hash, _ := l.loginService.HashPassword([]byte(newPassword))
+	if changePasswordErr := l.loginService.ChangePassword(hash, user); changePasswordErr != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message":        "Failed to change password",
 			"success":        false,
@@ -222,22 +257,19 @@ func (l loginController) RefreshToken(c *gin.Context) {
 	}
 
 	// Decode/validate it
-	token, err := jwt.Parse(refreshToken[0], func(token *jwt.Token) (interface{}, error) {
-		// Don't forget to validate the alg is what you expect:
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
-		}
+	token, err := l.loginService.ValidateJWT(refreshToken[0], os.Getenv("JWT_SECRET"))
 
-		// hmacSampleSecret is a []byte containing your secret, e.g. []byte("my_secret_key")
-		return []byte(os.Getenv("JWT_SECRET")), nil
-	})
-
-	if err != nil {
-		log.Println("Error: Something went wrong when parsing the token")
+	if err != nil || !token.Valid {
+		log.Println(err)
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"message": err,
+			"success": false,
+		})
+		c.AbortWithStatus(http.StatusUnauthorized)
+		return
 	}
 
-	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-
+	if claims, ok := l.loginService.MapJWTClaims(*token); ok {
 		// Check if refresh
 		if claims["type"] != "refresh" {
 			log.Println("Must provide refresh token")
@@ -249,21 +281,20 @@ func (l loginController) RefreshToken(c *gin.Context) {
 			return
 		}
 
-		// Check if expired
-		if float64(time.Now().Unix()) > claims["exp"].(float64) {
-			log.Println("Refresh token is expired")
+		var delegations models.Delegations
+
+		// Get refresh token from DB
+		delegations, err = l.loginService.FindRefreshToken(claims["sub"].(float64), delegations)
+
+		if err != nil {
+			log.Println(err)
 			c.JSON(http.StatusUnauthorized, gin.H{
-				"message": "Refresh token is expired",
+				"message": err,
 				"success": false,
 			})
 			c.AbortWithStatus(http.StatusUnauthorized)
 			return
 		}
-
-		var delegations models.Delegations
-
-		// Get refresh token from DB
-		delegations, err = l.loginService.FindRefreshToken(claims["sub"].(float64), delegations)
 
 		// Check that they match -> invalidate the token if so and require user to reauthenticate
 		if delegations.RefreshToken != refreshToken[0] {
@@ -275,57 +306,83 @@ func (l loginController) RefreshToken(c *gin.Context) {
 			c.AbortWithStatus(http.StatusUnauthorized)
 
 			// Delete the refresh token from db -> user will have to reauthenticate
-            // User will have access for rest of life of access token but no longer
-			l.loginService.DeleteRefreshToken(delegations)
+			// User will have access for rest of life of access token but no longer
+			err = l.loginService.DeleteRefreshToken(delegations)
 
+			if err != nil {
+				log.Println("Could not delete token")
+				c.JSON(http.StatusUnauthorized, gin.H{
+					"message": "Could not delete refresh token from db",
+					"success": false,
+				})
+				c.AbortWithStatus(http.StatusUnauthorized)
+			}
 			return
 		}
 
 		// They do match so it's valid
-		// 15 minute expire for accessToken
-		accessExpire := jwt.NewNumericDate(time.Now().Add(time.Minute * 15))
-		// 1 day expire for refreshToken
-		refreshExpire := jwt.NewNumericDate(time.Now().Add(time.Hour * 24))
+		accessExpire, refreshExpire := l.loginService.GenerateExpiresJWT()
 
-		accessToken, refreshToken, err := l.loginService.GenerateJWT(delegations.UsersID,
-			accessExpire, refreshExpire, os.Getenv("JWT_SECRET"), c)
+		// generate the access token
+		accessTokenClaims := jwt.MapClaims{
+			"sub":  delegations.ID,
+			"exp":  accessExpire,
+			"type": "access",
+		}
+		accessToken, err := l.loginService.GenerateJWT(jwt.SigningMethodHS256, accessTokenClaims, os.Getenv("JWT_SECRET"))
 
 		if err != nil {
 			log.Println(err)
-			// json status already set in GenerateJWT
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error":   "Failed to create access token",
+				"success": false,
+			})
 			return
 		}
 
-        // Save the code
-        err = l.loginService.SaveRefreshToken(delegations.UsersID, refreshToken, delegations)
+		// generate the refreshToken
+		refreshTokenClaims := jwt.MapClaims{
+			"sub":  delegations.ID,
+			"exp":  refreshExpire,
+			"type": "refresh",
+		}
+		refreshToken, err := l.loginService.GenerateJWT(jwt.SigningMethodHS256, refreshTokenClaims, os.Getenv("JWT_SECRET"))
 
-        if err != nil {
-            log.Println(err)
-            c.JSON(http.StatusBadRequest, gin.H{
-                "message": "Failed to save refresh token to DB",
-                "success": false,
-            })
-            return
-        }
+		if err != nil {
+			log.Println(err)
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error":   "Failed to create refresh token",
+				"success": false,
+			})
+			return
+		}
 
-        // Send the access/refresh token
-        c.JSON(http.StatusOK, gin.H{
-            "message":       "Token refresh success",
-            "access_token":  accessToken,
-            "refresh_token": refreshToken,
-            "success":       true,
-        })
+		// Save the code
+		err = l.loginService.SaveRefreshToken(delegations.UsersID, refreshToken, delegations)
 
+		if err != nil {
+			log.Println(err)
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"message": "Failed to save refresh token to DB",
+				"success": false,
+			})
+			return
+		}
+
+		// Send the access/refresh token
+		c.JSON(http.StatusOK, gin.H{
+			"message":       "Token refresh success",
+			"access_token":  accessToken,
+			"refresh_token": refreshToken,
+			"success":       true,
+		})
 
 	} else {
-		log.Println("Could not validate refresh token. Authenticate again")
-		c.JSON(http.StatusUnauthorized, gin.H{
-			"message": "Could not validate refresh token. Authenticate again",
+		log.Println("Could not map JWT Claims")
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Could not map JWT Claims",
 			"success": false,
 		})
-		c.AbortWithStatus(http.StatusUnauthorized)
+		c.AbortWithStatus(http.StatusInternalServerError)
 	}
-
-	// TODO
-
 }
