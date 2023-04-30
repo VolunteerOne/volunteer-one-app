@@ -163,7 +163,7 @@ func (r likesRepository) CreateLike(like models.Likes) (models.Likes, error) {
 
 func (r likesRepository) DeleteLike(like models.Likes) error {
 
-	result := r.DB.Delete(&like)
+	result := r.DB.Where("ID = ?", like.ID).Delete(&like)
 	if result.Error != nil {
 		return errors.New("could not delete like")
 	}
@@ -194,7 +194,13 @@ func (r likesRepository) AllLikes() ([]models.Likes, error) {
 func (r likesRepository) GetLikes(id string) (int64, error) {
 	var likes models.Likes
 	var count int64
-	result := r.DB.Where("PostID=?", id).Find(&likes).Count(&count)
+	result := r.DB.Where("PostID=?", id).Find(&likes)
+
+	if result.Error != nil {
+		return 0, errors.New("could not find likes")
+	}
+
+	result = result.Count(&count)
 
 	if result.Error != nil {
 		return count, errors.New("could not retrive like")
