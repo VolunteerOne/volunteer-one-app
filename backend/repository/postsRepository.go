@@ -69,7 +69,7 @@ func (r postsRepository) CreatePost(post models.Posts) (models.Posts, error) {
 
 func (r postsRepository) DeletePost(post models.Posts) error {
 
-	result := r.DB.Delete(&post)
+	result := r.DB.Where("ID = ?", post.ID).Delete(&post)
 	if result.Error != nil {
 		return errors.New("could not delete post")
 	}
