@@ -194,7 +194,7 @@ func (controller commentsController) CreateComment(c *gin.Context) {
 		Handle             string
 		CommentDescription string
 	}
-	err = c.Bind(&body)
+	err = controller.commentsService.Bind(c, &body)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Request body is invalid",
@@ -259,22 +259,23 @@ func (controller commentsController) EditComment(c *gin.Context) {
 	id := c.Param("id")
 	result, err1 := controller.commentsService.FindComment(id)
 
-	var err error
-	var body struct {
-		CommentDescription string
-	}
-	err = c.Bind(&body)
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Request body is invalid",
-		})
-		return
-	}
 	if err1 != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Could not retrieve object",
 		})
 
+		return
+	}
+
+	var err error
+	var body struct {
+		CommentDescription string
+	}
+	err = controller.commentsService.Bind(c, &body)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Request body is invalid",
+		})
 		return
 	}
 
