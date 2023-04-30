@@ -46,7 +46,7 @@ const Comment = ({commentCount}) => {
                 alignSelf: 'baseline',
                 paddingBottom: -50,
                 height: 40,
-                marginLeft: 10
+                marginLeft: 10,
               }}
               onChangeText={newComment => setComment(newComment)}
               value={comment}
@@ -118,8 +118,8 @@ const styles = StyleSheet.create({
       borderColor: "#32325D",
       backgroundColor: "#FFFFFF",
       borderRadius: 8,
-      width: 343,
-      marginLeft: -89,
+      width: 320,
+      marginLeft: -82,
       marginTop: -0,
       height: 40,
       zIndex: 5,
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     },
     submit: {
       position: 'absolute',
-      marginLeft: 315,
+      marginLeft: 290,
       height: 30,
       marginTop: 12
     },
