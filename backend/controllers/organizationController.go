@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type OrganizationController interface{
+type OrganizationController interface {
 	Create(*gin.Context)
 	All(*gin.Context)
 	One(*gin.Context)
@@ -20,28 +20,28 @@ type organizationController struct {
 	organizationService service.OrganizationService
 }
 
-func NewOrganizationController(s service.OrganizationService) OrganizationController{
-	return organizationController {
+func NewOrganizationController(s service.OrganizationService) OrganizationController {
+	return organizationController{
 		organizationService: s,
 	}
 }
 
 // var organizationModel = new(models.Organization)
 
-//Create ...
+// Create ...
 func (controller organizationController) Create(c *gin.Context) {
 	var err error
 
 	// Declare a struct for the desired request body
 	var body struct {
-		Name string
-		Description string 
-		Verified bool 
-		Interests string 
+		Name        string
+		Description string
+		Verified    bool
+		Interests   string
 	}
 
 	// Bind struct to context and check for error
-	err = c.Bind(&body)
+	err = controller.organizationService.Bind(c, &body)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Request body is invalid",
@@ -52,10 +52,10 @@ func (controller organizationController) Create(c *gin.Context) {
 
 	// Create the object in the database
 	object := models.Organization{
-		Name:  body.Name,
+		Name:        body.Name,
 		Description: body.Description,
-		Verified: body.Verified,
-		Interests: body.Interests,
+		Verified:    body.Verified,
+		Interests:   body.Interests,
 	}
 
 	res, err := controller.organizationService.CreateOrganization(object)
@@ -114,7 +114,7 @@ func (controller organizationController) Update(c *gin.Context) {
 	id := c.Param("id")
 
 	org, err := controller.organizationService.GetOrganizationById(id)
-	
+
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Could not retrieve object",
@@ -125,13 +125,13 @@ func (controller organizationController) Update(c *gin.Context) {
 
 	// Get updates from the body
 	var body struct {
-		Name string
-		Description string 
-		Verified bool 
-		Interests string 
+		Name        string
+		Description string
+		Verified    bool
+		Interests   string
 	}
 
-	if err := c.Bind(&body); err != nil {
+	if err = controller.organizationService.Bind(c, &body); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Request body is invalid",
 		})
