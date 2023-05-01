@@ -33,7 +33,6 @@ func (u usersRepository) CreateUser(user models.Users) (models.Users, error) {
 	return user, err
 }
 
-
 // Add the user to the DB
 func (u usersRepository) OneUser(id string, user models.Users) (models.Users, error) {
 	log.Println("[UsersRepository] One user...")
@@ -47,7 +46,7 @@ func (u usersRepository) OneUser(id string, user models.Users) (models.Users, er
 func (u usersRepository) UpdateUser(user models.Users) (models.Users, error) {
 	log.Println("[UsersRepository] Update User...")
 
-	err := u.DB.Update("Update", &user).Error
+	err := u.DB.Save(&user).Error
 
 	return user, err
 }
@@ -55,8 +54,7 @@ func (u usersRepository) UpdateUser(user models.Users) (models.Users, error) {
 // Delete user from the DB
 func (u usersRepository) DeleteUser(user models.Users) (models.Users, error) {
 	log.Println("[UsersRepository] Delete User...")
-
-	err := u.DB.Delete(&user).Error
+	err := u.DB.Where("ID = ?", user.ID).Delete(&user).Error
 
 	return user, err
 }
