@@ -40,7 +40,7 @@ jobs:
       - name: Build
         run: |
           cd backend
-          go get . 
+          go mod download
         env:
           GOPATH: /home/runner/work/volunteer-one-app/go
 
