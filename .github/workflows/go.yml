@@ -24,7 +24,7 @@ jobs:
       - name: Build
         run: |
           cd backend
-          go build -v ./...
+          go get . 
 
       - name: Test
         run: go test -v ./...
