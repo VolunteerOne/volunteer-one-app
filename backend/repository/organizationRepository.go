@@ -69,7 +69,7 @@ func (r organizationRepository) UpdateOrganization(org models.Organization) (mod
 }
 
 func (r organizationRepository) DeleteOrganization(org models.Organization) error {
-	result := r.DB.Delete(&org)
+	result := r.DB.Where("ID = ?", org.ID).Delete(&org)
 	if result.Error != nil {
 		return errors.New("could not delete organization")
 	}
