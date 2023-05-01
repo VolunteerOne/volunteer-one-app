@@ -3,6 +3,7 @@ package service
 import (
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
 	"github.com/VolunteerOne/volunteer-one-app/backend/repository"
+	"github.com/gin-gonic/gin"
 )
 
 type OrganizationService interface {
@@ -11,6 +12,7 @@ type OrganizationService interface {
 	GetOrganizationById(string) (models.Organization, error)
 	UpdateOrganization(models.Organization) (models.Organization, error)
 	DeleteOrganization(models.Organization) error
+	Bind(*gin.Context, any) error
 }
 
 type organizationService struct {
@@ -46,4 +48,8 @@ func NewOrganizationService(r repository.OrganizationRepository) OrganizationSer
 	return organizationService{
 		organizationRepository: r,
 	}
+}
+
+func (s organizationService) Bind(c *gin.Context, obj any) error {
+	return c.Bind(obj)
 }

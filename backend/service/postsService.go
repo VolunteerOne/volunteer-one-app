@@ -3,6 +3,7 @@ package service
 import (
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
 	"github.com/VolunteerOne/volunteer-one-app/backend/repository"
+	"github.com/gin-gonic/gin"
 )
 
 type PostsService interface {
@@ -11,6 +12,7 @@ type PostsService interface {
 	EditPost(post models.Posts) (models.Posts, error)
 	FindPost(id string) (models.Posts, error)
 	AllPosts() ([]models.Posts, error)
+	Bind(*gin.Context, any) error
 }
 
 type postsService struct {
@@ -29,6 +31,7 @@ type CommentsService interface {
 	EditComment(comment models.Comments) (models.Comments, error)
 	FindComment(id string) (models.Comments, error)
 	AllComments() ([]models.Comments, error)
+	Bind(*gin.Context, any) error
 }
 
 type commentsService struct {
@@ -47,6 +50,7 @@ type LikesService interface {
 	FindLike(id string) (models.Likes, error)
 	AllLikes() ([]models.Likes, error)
 	GetLikes(id string) (int64, error)
+	Bind(*gin.Context, any) error
 }
 
 type likesService struct {
@@ -79,6 +83,10 @@ func (f postsService) AllPosts() ([]models.Posts, error) {
 	return f.postsRepository.AllPosts()
 }
 
+func (f postsService) Bind(c *gin.Context, obj any) error {
+	return c.Bind(obj)
+}
+
 func (f commentsService) CreateComment(comment models.Comments) (models.Comments, error) {
 	return f.commentsRepository.CreateComment(comment)
 }
@@ -99,6 +107,10 @@ func (f commentsService) AllComments() ([]models.Comments, error) {
 	return f.commentsRepository.AllComments()
 }
 
+func (f commentsService) Bind(c *gin.Context, obj any) error {
+	return c.Bind(obj)
+}
+
 func (f likesService) CreateLike(like models.Likes) (models.Likes, error) {
 	return f.likesRepository.CreateLike(like)
 }
@@ -117,4 +129,8 @@ func (f likesService) AllLikes() ([]models.Likes, error) {
 
 func (f likesService) GetLikes(id string) (int64, error) {
 	return f.likesRepository.GetLikes(id)
+}
+
+func (f likesService) Bind(c *gin.Context, obj any) error {
+	return c.Bind(obj)
 }
