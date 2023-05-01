@@ -3,6 +3,7 @@ package service
 import (
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
 	"github.com/VolunteerOne/volunteer-one-app/backend/repository"
+	"github.com/gin-gonic/gin"
 )
 
 type EventService interface {
@@ -11,6 +12,7 @@ type EventService interface {
 	GetEventById(string) (models.Event, error)
 	UpdateEvent(models.Event) (models.Event, error)
 	DeleteEvent(models.Event) error
+	Bind(*gin.Context, any) error
 }
 
 type eventService struct {
@@ -19,31 +21,35 @@ type eventService struct {
 
 // CreateEvent implements EventService
 func (s eventService) CreateEvent(event models.Event) (models.Event, error) {
-	return s.eventRepository.CreateEvent(event);
+	return s.eventRepository.CreateEvent(event)
 }
 
 // DeleteEvent implements EventService
 func (s eventService) DeleteEvent(event models.Event) error {
-	return s.eventRepository.DeleteEvent(event);
+	return s.eventRepository.DeleteEvent(event)
 }
 
 // GetEventById implements EventService
 func (s eventService) GetEventById(id string) (models.Event, error) {
-	return s.eventRepository.GetEventById(id);
+	return s.eventRepository.GetEventById(id)
 }
 
 // GetEvents implements EventService
 func (s eventService) GetEvents() ([]models.Event, error) {
-	return s.eventRepository.GetEvents();
+	return s.eventRepository.GetEvents()
 }
 
 // UpdateEvent implements EventService
 func (s eventService) UpdateEvent(event models.Event) (models.Event, error) {
-	return s.eventRepository.UpdateEvent(event);
+	return s.eventRepository.UpdateEvent(event)
 }
 
 func NewEventService(r repository.EventRepository) EventService {
 	return eventService{
 		eventRepository: r,
 	}
+}
+
+func (s eventService) Bind(c *gin.Context, obj any) error {
+	return c.Bind(obj)
 }

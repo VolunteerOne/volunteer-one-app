@@ -21,7 +21,7 @@ type eventRepository struct {
 
 // CreateEvent implements EventRepository
 func (r eventRepository) CreateEvent(event models.Event) (models.Event, error) {
-	result := r.DB.Create(&event);
+	result := r.DB.Create(&event)
 	r.DB.Preload("Organization").Find(&event)
 
 	if result.Error != nil {
@@ -33,13 +33,12 @@ func (r eventRepository) CreateEvent(event models.Event) (models.Event, error) {
 
 // DeleteEvent implements EventRepository
 func (r eventRepository) DeleteEvent(event models.Event) error {
-	result := r.DB.Delete(&event)
-
+	result := r.DB.Where("ID = ?", event.ID).Delete(&event)
 	if result.Error != nil {
-		return errors.New("deletion failed");
+		return errors.New("deletion failed")
 	}
 
-	return nil;
+	return nil
 }
 
 // GetEventById implements EventRepository
@@ -50,9 +49,9 @@ func (r eventRepository) GetEventById(id string) (models.Event, error) {
 	r.DB.Preload("Organization").Find(&event)
 
 	if result.Error != nil {
-		return models.Event{}, errors.New("get failed");
+		return models.Event{}, errors.New("get failed")
 	}
-	
+
 	return event, nil
 }
 
@@ -63,7 +62,7 @@ func (r eventRepository) GetEvents() ([]models.Event, error) {
 	r.DB.Preload("Organization").Find(&events)
 
 	if result.Error != nil {
-		return []models.Event{}, errors.New("get failed");
+		return []models.Event{}, errors.New("get failed")
 	}
 
 	return events, nil
@@ -71,15 +70,15 @@ func (r eventRepository) GetEvents() ([]models.Event, error) {
 
 // UpdateEvent implements EventRepository
 func (r eventRepository) UpdateEvent(event models.Event) (models.Event, error) {
-	result := r.DB.Save(&event) 
+	result := r.DB.Save(&event)
 	r.DB.Preload("Organization").Find(&event)
 
 	if result.Error != nil {
-		return models.Event{}, errors.New("update failed");
+		return models.Event{}, errors.New("update failed")
 	}
 
 	return event, nil
-}	
+}
 
 func NewEventRepository(db *gorm.DB) EventRepository {
 	return eventRepository{
