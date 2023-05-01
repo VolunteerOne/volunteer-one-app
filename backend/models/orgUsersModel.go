@@ -4,8 +4,8 @@ import "gorm.io/gorm"
 
 type OrgUsers struct {
 	gorm.Model
-	UsersID        uint `gorm:"not null"`
-	OrganizationID uint `gorm:"not null"`
+	UsersID        uint `gorm:"not null" binding:"required"`
+	OrganizationID uint `gorm:"not null" binding:"required"`
 	Verified       bool `gorm:"default:0;not null"`
 
 	// Lower values take priority.
