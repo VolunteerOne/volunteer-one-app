@@ -16,6 +16,7 @@ var tables = []Model{
 	&OrgUsers{},
 	&Users{},
 	&Event{},
+	&EventMember{},
 	&Delegations{},
 	&Posts{},
 	&Comments{},
