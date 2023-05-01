@@ -34,7 +34,7 @@ func (o orgUsersController) CreateOrgUser(c *gin.Context) {
 
 	// Declare a struct for the desired request body
 	var body struct {
-		UserId         uint
+		UsersId        uint
 		OrganizationId uint
 		Role           uint
 	}
@@ -51,7 +51,7 @@ func (o orgUsersController) CreateOrgUser(c *gin.Context) {
 
 	// Create orgUser object model, send to next layer
 	orgUser := models.OrgUsers{
-		UsersID:        body.UserId,
+		UsersID:        body.UsersId,
 		OrganizationID: body.OrganizationId,
 		Role:           body.Role,
 	}
@@ -104,7 +104,7 @@ func (o orgUsersController) FindOrgUser(c *gin.Context) {
 	}
 
 	// Bind struct to context and check for errors
-	err = c.Bind(&body)
+	err = c.BindJSON(&body)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Request body is invalid.",
@@ -126,7 +126,7 @@ func (o orgUsersController) FindOrgUser(c *gin.Context) {
 	}
 
 	// Return the object
-	c.JSON(http.StatusAccepted, result)
+	c.JSON(http.StatusOK, result)
 }
 
 func (o orgUsersController) UpdateOrgUser(c *gin.Context) {
