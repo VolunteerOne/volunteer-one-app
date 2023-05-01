@@ -21,10 +21,30 @@ jobs:
         with:
           go-version: 1.20
 
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+          path: go/src/github.com/VolunteerOne/volunteer-one-app
+
+      - name: Debug
+        run: |
+          pwd
+          echo ${HOME}
+          echo ${GITHUB_WORKSPACE}
+          echo ${GOPATH}
+          echo ${GOROOT}
+        env:
+          GOPATH: /home/runner/work/volunteer-one-app/go
+
       - name: Build
         run: |
           cd backend
           go get . 
+        env:
+          GOPATH: /home/runner/work/volunteer-one-app/go
 
       - name: Test
         run: go test -v ./...
+        env:
+          GOPATH: /home/runner/work/volunteer-one-app/go
