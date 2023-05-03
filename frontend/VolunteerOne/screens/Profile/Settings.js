@@ -29,13 +29,7 @@ const Settings = ({ navigation }) => {
   const [userName, setUserName] = useState(user.name);
   const [userLocation, setUserLocation] = useState();
   const [userBio, setUserBio] = useState();
-  const [userSkills, setUserSkills] = useState([
-    "Crafts",
-    "Drawing",
-    "Handiwork",
-    "Computer",
-    "Painting",
-  ]);
+  const [userSkills, setUserSkills] = useState(mockData[JESSICA].skills);
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleAddNewSkill = (skillObj) => {
@@ -169,9 +163,7 @@ const Settings = ({ navigation }) => {
             />
           )}
         </View>
-        <Button onPress={()=>Alert.alert('Settings saved!')}>
-          Save
-        </Button>
+        <Button onPress={() => Alert.alert("Settings saved!")}>Save</Button>
       </Block>
     </ScrollView>
   );
