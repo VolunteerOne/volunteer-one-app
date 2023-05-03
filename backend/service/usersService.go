@@ -1,6 +1,7 @@
 package service
 
 import (
+	"github.com/gin-gonic/gin"
 	"log"
 
 	"github.com/VolunteerOne/volunteer-one-app/backend/models"
@@ -14,6 +15,7 @@ type UsersService interface {
 	UpdateUser(user models.Users) (models.Users, error)
 	DeleteUser(user models.Users) (models.Users, error)
 	HashPassword(password []byte) ([]byte, error)
+	Bind(*gin.Context, any) error
 }
 
 type usersService struct {
@@ -53,4 +55,8 @@ func (u usersService) DeleteUser(user models.Users) (models.Users, error) {
 func (u usersService) HashPassword(password []byte) ([]byte, error) {
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), 10)
 	return hash, err
+}
+
+func (u usersService) Bind(c *gin.Context, obj any) error {
+	return c.Bind(obj)
 }

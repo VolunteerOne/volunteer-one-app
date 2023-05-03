@@ -111,7 +111,7 @@ func (o orgUsersRepository) DeleteOrgUser(userId uint, orgId uint) error {
 		return err
 	}
 
-	err = o.DB.Delete(&orgUser).Error
+	err = o.DB.Where("users_id = ? AND organization_id = ?").Delete(&orgUser).Error
 
 	return err
 }
