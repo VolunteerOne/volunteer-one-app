@@ -27,6 +27,7 @@ func NewRouter() *gin.Engine {
 	postsRepository := repository.NewPostsRepository(database.GetDatabase())
 	commentsRepository := repository.NewCommentsRepository(database.GetDatabase())
 	likesRepository := repository.NewLikesRepository(database.GetDatabase())
+	messagesRepository := repository.NewMessagesRepository(database.GetDatabase())
 
 	// *********************************************************
 	// INITIALIZE SERVICES HERE
@@ -41,7 +42,7 @@ func NewRouter() *gin.Engine {
 	postsService := service.NewPostsService(postsRepository)
 	commentsService := service.NewCommentsService(commentsRepository)
 	likesService := service.NewLikesService(likesRepository)
-
+	messagesService := service.NewMessagesService(messagesRepository)
 
 	// *********************************************************
 	// INITIALIZE CONTROLLERS HERE
@@ -56,6 +57,7 @@ func NewRouter() *gin.Engine {
 	postsController := controllers.NewPostsController(postsService)
 	commentsController := controllers.NewCommentsController(commentsService)
 	likesController := controllers.NewLikesController(likesService)
+	messagesController := controllers.NewMessagesController(messagesService)
 
 	userGroup := router.Group("user")
 
@@ -125,6 +127,14 @@ func NewRouter() *gin.Engine {
 	likesGroup.GET("/", likesController.AllLikes)
 	likesGroup.GET("/:id", likesController.FindLike)
 	likesGroup.DELETE("/:id", likesController.DeleteLike)
+
+	messagesGroup := router.Group("messages")
+	messagesGroup.POST("/", messagesController.CreateMessage)
+	messagesGroup.GET("/userId", messagesController.ListAllMessagesForUser)
+	messagesGroup.GET("/:id", messagesController.FindMessage)
+	messagesGroup.PUT("/:id", messagesController.UpdateMessageReadStatus)
+	messagesGroup.DELETE("/:id", messagesController.DeleteMessage)
+
 	// objectGroup := router.Group("object")
 	// {
 	// 	object := new(controllers.ObjectController)
