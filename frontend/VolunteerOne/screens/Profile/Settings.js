@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
   Pressable,
+  Alert,
 } from "react-native";
 import { Block, theme, Text } from "galio-framework";
 const { width, height } = Dimensions.get("screen");
@@ -168,6 +169,9 @@ const Settings = ({ navigation }) => {
             />
           )}
         </View>
+        <Button onPress={()=>Alert.alert('Settings saved!')}>
+          Save
+        </Button>
       </Block>
     </ScrollView>
   );

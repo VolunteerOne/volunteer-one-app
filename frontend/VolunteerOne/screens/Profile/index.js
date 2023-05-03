@@ -8,6 +8,7 @@ import {
   ImageBackground,
   Platform,
   TouchableOpacity,
+  View,
 } from "react-native";
 import { Block, Text, theme } from "galio-framework";
 import { Button } from "../../components";
@@ -15,7 +16,7 @@ import { Images, argonTheme } from "../../constants";
 import { HeaderHeight } from "../../constants/utils";
 import RecentActivityCard from "../../components/RecentActivityCard";
 import UpcomingEventsCard from "../../components/UpcomingEventsCard";
-import { useRoute } from '@react-navigation/native';
+import { useRoute } from "@react-navigation/native";
 
 // constants
 import mockData from "../../constants/ProfileTab/profile";
@@ -28,15 +29,15 @@ const thumbMeasure = (width - 48 - 32) / 3;
 
 const ProfileScreen = ({ route, navigation }) => {
   // pass user name param when navigating to a profile - matt
-  let anotherUser = false;    // false if viewing own profile
-  let theUser = "Jessica Jones";    // default user
-  if(typeof route.params !== "undefined") {
+  let anotherUser = false; // false if viewing own profile
+  let theUser = "Jessica Jones"; // default user
+  const [userSkills, setUserSkills] = useState(typeof route.params === "undefined" ? mockData[theUser].skills : mockData[route.params.theUser].skills);
+
+  if (typeof route.params !== "undefined") {
     theUser = route.params.theUser;
-    anotherUser = true;   // viewing a different user
-    
+    anotherUser = true; // viewing a different user
   }
   console.log("Viewing user: ", theUser);
-
 
   let isVolunteer = true;
   if (mockData[theUser].userType == "organization") {
@@ -56,8 +57,6 @@ const ProfileScreen = ({ route, navigation }) => {
     setFollowText("UNFOLLOW");
     Alert.alert("Followed!");
   };
-
-
 
   // const handleViewAllRecentActivityBtn = () => {
   //   console.log("handleViewAllRecentActivityBtn");
@@ -94,36 +93,33 @@ const ProfileScreen = ({ route, navigation }) => {
                     space="evenly"
                     style={{ marginTop: 20, paddingBottom: 24 }}
                   >
-                    {isVolunteer ? 
-                    <Button
-                      small
-                      style={{ backgroundColor: argonTheme.COLORS.INFO }}
-                      onPress={handleConnectBtnPress}
-                    >
-                      CONNECT
-                    </Button> :
-                    null
-                    }
+                    {isVolunteer ? (
+                      <Button
+                        small
+                        style={{ backgroundColor: argonTheme.COLORS.INFO }}
+                        onPress={handleConnectBtnPress}
+                      >
+                        CONNECT
+                      </Button>
+                    ) : null}
 
-                      {isVolunteer ?
-                        <Button
-                          small
-                          style={{ backgroundColor: argonTheme.COLORS.DEFAULT }}
-                          onPress={handleMessageBtnPress}
-                        >
-                          {"MESSAGE"}                      
-                        </Button>
-                      :
-                        <Button
-                          small
-                          style={{ backgroundColor: argonTheme.COLORS.DEFAULT }}
-                          onPress={() =>
-                            handleFollowBtnPress()}
-                        >
+                    {isVolunteer ? (
+                      <Button
+                        small
+                        style={{ backgroundColor: argonTheme.COLORS.DEFAULT }}
+                        onPress={handleMessageBtnPress}
+                      >
+                        {"MESSAGE"}
+                      </Button>
+                    ) : (
+                      <Button
+                        small
+                        style={{ backgroundColor: argonTheme.COLORS.DEFAULT }}
+                        onPress={() => handleFollowBtnPress()}
+                      >
                         {followText}
-                        </Button>
-                      }
-
+                      </Button>
+                    )}
                   </Block>
                   {isVolunteer && (
                     <Block
@@ -146,7 +142,11 @@ const ProfileScreen = ({ route, navigation }) => {
                         </Text>
                       </Block>
                       <TouchableOpacity
-                        onPress={() => navigation.navigate("ViewFriends", {theUser: theUser})}
+                        onPress={() =>
+                          navigation.navigate("ViewFriends", {
+                            theUser: theUser,
+                          })
+                        }
                       >
                         <Block middle>
                           <Text
@@ -163,7 +163,11 @@ const ProfileScreen = ({ route, navigation }) => {
                         </Block>
                       </TouchableOpacity>
                       <TouchableOpacity
-                        onPress={() => navigation.navigate("ViewFollowing", {theUser: theUser})}
+                        onPress={() =>
+                          navigation.navigate("ViewFollowing", {
+                            theUser: theUser,
+                          })
+                        }
                       >
                         <Block middle>
                           <Text
@@ -195,7 +199,7 @@ const ProfileScreen = ({ route, navigation }) => {
                   <Block middle style={{ marginTop: 30, marginBottom: 16 }}>
                     <Block style={styles.divider} />
                   </Block>
-                  <Block middle style={{ marginBottom: 30 }}>
+                  <Block middle style={{ marginBottom: 5 }}>
                     {!isVolunteer && (
                       <Text
                         bold
@@ -247,6 +251,41 @@ const ProfileScreen = ({ route, navigation }) => {
                       </Block>
                     </>
                   )}
+
+                  { isVolunteer &&
+                    <Block space="between" style={{ marginTop: 12 }}>
+                    <Text
+                      bold
+                      size={16}
+                      color="#525F7F"
+                      style={{ marginTop: 12 }}
+                    >
+                      Skills
+                    </Text>
+                    <View
+                      style={{
+                        // padding: 5,
+                        width: "100%",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                        // justifyContent: "center",
+                      }}
+                    >
+                      {userSkills.map((skill) => (
+                        <Button
+                          key={skill}
+                          small
+                          style={{ backgroundColor: argonTheme.COLORS.DEFAULT }}
+                        >
+                          <Text size={12} color="white">
+                            {skill}
+                          </Text>
+                        </Button>
+                      ))}
+                    </View>
+                  </Block>
+                  }
+
                   <Block row space="between" style={{ marginTop: 12 }}>
                     <Text
                       bold
