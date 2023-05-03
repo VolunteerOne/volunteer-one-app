@@ -1,8 +1,9 @@
 
 import React, { useState }  from "react";
 import { Block, Button, Card, Text, Input, theme} from "galio-framework";
-import { StyleSheet, TextInput, View, TouchableOpacity, Pressable, Dimensions } from "react-native";
+import { StyleSheet, View, TextInput, TouchableOpacity, Pressable, Dimensions } from "react-native";
 import Icon from "../Icon";
+import { argonTheme } from "../../constants";
 
 
 const Comment = ({commentCount}) => {
@@ -39,19 +40,15 @@ const Comment = ({commentCount}) => {
           </Block>
     </TouchableOpacity>
 
-      <View style={styles.comment}>
-          <TextInput
-              placeholder="Write a comment..."
-              style={{
-                alignSelf: 'baseline',
-                paddingBottom: -50,
-                height: 40,
-                marginLeft: 10
-              }}
-              onChangeText={newComment => setComment(newComment)}
-              value={comment}
-          />
-
+      <View >
+        <Input placeholder="Write a comment..."
+            style={{marginLeft: -80,
+            width: 320,
+            }}
+            color = "black"
+            onChangeText={newComment => setComment(newComment)}
+            value={comment}
+        />
     <View style={styles.submit}>
       <Pressable onPress={() => {sendValues(comment); setComment('')}}>
       <Icon
@@ -82,7 +79,6 @@ const Comment = ({commentCount}) => {
       <View>
         <Text>{comment}</Text>
         </View>
-
           : null }
     </View>
 
@@ -95,7 +91,6 @@ const styles = StyleSheet.create({
   view: {
     position: 'absolute',
     marginLeft: 75,
-
   },
     titleText: {
         fontSize: 15,
@@ -103,6 +98,9 @@ const styles = StyleSheet.create({
         textAlign: 'right',
         marginLeft: 7,
         marginTop: -1
+      },
+      container: {
+        flex: 1,
       },
     button: {
         borderless: true,
@@ -114,25 +112,11 @@ const styles = StyleSheet.create({
         marginTop: -60,
         zIndex : 1,
     },
-    comment: {
-      borderColor: "#32325D",
-      backgroundColor: "#FFFFFF",
-      borderRadius: 8,
-      width: 343,
-      marginLeft: -89,
-      marginTop: -0,
-      height: 40,
-      zIndex: 5,
-      flexDirection: 'row',
-      borderColor: "#CAD1D7",
-      borderWidth: 1
-
-    },
     submit: {
       position: 'absolute',
-      marginLeft: 315,
+      marginLeft: 210,
       height: 30,
-      marginTop: 12
+      marginTop: 23
     },
     close: {
       position: 'absolute',
