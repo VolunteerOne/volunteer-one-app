@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
   Pressable,
+  Alert,
 } from "react-native";
 import { Block, theme, Text } from "galio-framework";
 const { width, height } = Dimensions.get("screen");
@@ -162,12 +163,15 @@ const Settings = ({ navigation }) => {
           </View>
           {modalVisible && (
             <AddNewSkillModal
-              visible={modalVisible}
-              setState={setModalVisible}
-              addSkill={handleAddNewSkill}
+            visible={modalVisible}
+            setState={setModalVisible}
+            addSkill={handleAddNewSkill}
             />
           )}
         </View>
+            <Button onPress={() => Alert.alert("Settings saved!")}>
+              Save
+            </Button>
       </Block>
     </ScrollView>
   );
@@ -234,7 +238,7 @@ const styles = StyleSheet.create({
     flex: 1,
     // paddingTop: 10,
     // paddingLeft: 5,
-    padding: 10,
+    paddingBottom: 10,
     shadowRadius: 8,
     shadowOpacity: 0.1,
     alignItems: "flex-start",
