@@ -20,6 +20,7 @@ var tables = []Model{
 	&Posts{},
 	&Comments{},
 	&Likes{},
+	&Messages{},
 }
 
 func Init() {
