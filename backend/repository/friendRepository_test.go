@@ -49,7 +49,7 @@ func (suite *FriendRepositoryUnitTestSuite) AfterTest(_, _ string) {
 	}
 }
 
-func TestSQLMockSuite(t *testing.T) {
+func TestFriendRepositoryUnitTestSuite(t *testing.T) {
 	suite.Run(t, new(FriendRepositoryUnitTestSuite))
 }
 

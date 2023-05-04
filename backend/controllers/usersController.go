@@ -49,7 +49,7 @@ func (controller usersController) Create(c *gin.Context) {
 	}
 
 	// Bind struct to context and check for error
-	err = c.Bind(&body)
+	err = controller.usersService.Bind(c, &body)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Request body is invalid",
@@ -151,7 +151,7 @@ func (controller usersController) Update(c *gin.Context) {
 		Interests string
 		Verified  uint
 	}
-	if err := c.Bind(&body); err != nil {
+	if err = controller.usersService.Bind(c, &body); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Request body is invalid",
 		})

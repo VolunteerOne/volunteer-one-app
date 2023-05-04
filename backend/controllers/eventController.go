@@ -23,11 +23,11 @@ type eventController struct {
 
 // All implements EventController
 func (controller eventController) All(c *gin.Context) {
-	events, err := controller.eventService.GetEvents();
+	events, err := controller.eventService.GetEvents()
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error" : err.Error(),
+			"error": err.Error(),
 		})
 
 		return
@@ -41,50 +41,50 @@ func (controller eventController) Create(c *gin.Context) {
 	var err error
 
 	var body struct {
-		OrganizationID  uint
-		Name        	string
-		Address			string
-		Date 			time.Time
-		Description 	string
-		Interests		string
-		Skills			string
-		GoodFor			string
-		CauseAreas		string
-		Requirements 	string	
+		OrganizationID uint
+		Name           string
+		Address        string
+		Date           time.Time
+		Description    string
+		Interests      string
+		Skills         string
+		GoodFor        string
+		CauseAreas     string
+		Requirements   string
 	}
 
-	err = c.Bind(&body)
+	err = controller.eventService.Bind(c, &body)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error" : err.Error(),
+			"error": err.Error(),
 		})
 
 		return
 	}
 
-	event := models.Event {
+	event := models.Event{
 		OrganizationID: body.OrganizationID,
-		Name: body.Name,
-		Address: body.Address,
-		Date: body.Date,
-		Description: body.Description,
-		Interests: body.Interests,
-		Skills: body.Skills,
-		GoodFor: body.GoodFor,
-		CauseAreas: body.CauseAreas,
-		Requirements: body.Requirements,
+		Name:           body.Name,
+		Address:        body.Address,
+		Date:           body.Date,
+		Description:    body.Description,
+		Interests:      body.Interests,
+		Skills:         body.Skills,
+		GoodFor:        body.GoodFor,
+		CauseAreas:     body.CauseAreas,
+		Requirements:   body.Requirements,
 	}
 
-	res, err := controller.eventService.CreateEvent(event);
+	res, err := controller.eventService.CreateEvent(event)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error" : err.Error(),
+			"error": err.Error(),
 		})
 
 		return
 	}
-	
+
 	c.JSON(http.StatusOK, res)
 }
 
@@ -115,7 +115,8 @@ func (controller eventController) Delete(c *gin.Context) {
 	// Respond
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Object deleted successfully",
-	})}
+	})
+}
 
 // One implements EventController
 func (controller eventController) One(c *gin.Context) {
@@ -134,14 +135,15 @@ func (controller eventController) One(c *gin.Context) {
 	}
 
 	// Return the object
-	c.JSON(http.StatusAccepted, event)}
+	c.JSON(http.StatusAccepted, event)
+}
 
 // Update implements EventController
 func (controller eventController) Update(c *gin.Context) {
 	id := c.Param("id")
 
 	event, err := controller.eventService.GetEventById(id)
-	
+
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
@@ -152,19 +154,19 @@ func (controller eventController) Update(c *gin.Context) {
 
 	// Get updates from the body
 	var body struct {
-		OrganizationID  uint
-		Name        	string
-		Address			string
-		Date 			time.Time
-		Description 	string
-		Interests		string
-		Skills			string
-		GoodFor			string
-		CauseAreas		string
-		Requirements 	string
+		OrganizationID uint
+		Name           string
+		Address        string
+		Date           time.Time
+		Description    string
+		Interests      string
+		Skills         string
+		GoodFor        string
+		CauseAreas     string
+		Requirements   string
 	}
 
-	if err := c.Bind(&body); err != nil {
+	if err = controller.eventService.Bind(c, &body); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
 		})
@@ -178,10 +180,10 @@ func (controller eventController) Update(c *gin.Context) {
 	event.Date = body.Date
 	event.Description = body.Description
 	event.Interests = body.Interests
-	event.Skills = body.Skills			
-	event.GoodFor = body.GoodFor			
-	event.CauseAreas = body.CauseAreas		
-	event.Requirements = body.Requirements 	
+	event.Skills = body.Skills
+	event.GoodFor = body.GoodFor
+	event.CauseAreas = body.CauseAreas
+	event.Requirements = body.Requirements
 
 	// Update the object
 	result, err := controller.eventService.UpdateEvent(event)

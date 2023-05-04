@@ -140,7 +140,13 @@ class Header extends React.Component {
         />,
         ];
       case "Feed":
-        
+        return [
+          <BellButton
+          key="notification"
+          navigation={navigation}
+          isWhite={white}
+        />
+        ];
       default:
         break;
     }
