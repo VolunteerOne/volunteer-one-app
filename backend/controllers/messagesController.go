@@ -81,6 +81,7 @@ func (m messagesController) ListAllMessagesForUser(c *gin.Context) {
 
 	// Bind struct to context and check for error
 	err := c.BindJSON(&body)
+  
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Request body is invalid.",
