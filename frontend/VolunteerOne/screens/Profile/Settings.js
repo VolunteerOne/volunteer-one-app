@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
   Pressable,
+  Alert,
 } from "react-native";
 import { Block, theme, Text } from "galio-framework";
 const { width, height } = Dimensions.get("screen");
@@ -28,13 +29,7 @@ const Settings = ({ navigation }) => {
   const [userName, setUserName] = useState(user.name);
   const [userLocation, setUserLocation] = useState();
   const [userBio, setUserBio] = useState();
-  const [userSkills, setUserSkills] = useState([
-    "Crafts",
-    "Drawing",
-    "Handiwork",
-    "Computer",
-    "Painting",
-  ]);
+  const [userSkills, setUserSkills] = useState(mockData[JESSICA].skills);
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleAddNewSkill = (skillObj) => {
@@ -168,6 +163,7 @@ const Settings = ({ navigation }) => {
             />
           )}
         </View>
+        <Button onPress={() => Alert.alert("Settings saved!")}>Save</Button>
       </Block>
     </ScrollView>
   );

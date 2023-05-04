@@ -56,6 +56,7 @@ const Register = ({ route, navigation }) => {
     setShowPasswordStrength(false);
     console.log(name, email, password);
     Alert.alert("Account created!\n\nCheck your email for login instructions.");
+    navigation.navigate('Login')
   }
 
   return (
