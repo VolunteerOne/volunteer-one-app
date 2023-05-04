@@ -72,20 +72,22 @@ func (m messagesController) CreateMessage(c *gin.Context) {
 
 // Lists all messages for a specific user (like an inbox)
 func (m messagesController) ListAllMessagesForUser(c *gin.Context) {
-	// Get the user ID
-	userId64, err := strconv.ParseUint(c.Param("userId"), 10, 64)
+	// Declare a struct for the desired request body
+	var body struct {
+		userId uint
+	}
 
+	// Bind struct to context and check for error
+	err := c.Bind(&body)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "userId field must be an unsigned integer.",
+			"error": "Request body is invalid.",
 		})
 
 		return
 	}
 
-	// Get object from the database
-	userId := uint(userId64)
-	result, err := m.messagesService.ListAllMessagesForUser(userId)
+	result, err := m.messagesService.ListAllMessagesForUser(body.userId)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{

@@ -130,7 +130,7 @@ func NewRouter() *gin.Engine {
 
 	messagesGroup := router.Group("messages")
 	messagesGroup.POST("/", messagesController.CreateMessage)
-	messagesGroup.GET("/userId", messagesController.ListAllMessagesForUser)
+	messagesGroup.GET("/", messagesController.ListAllMessagesForUser)
 	messagesGroup.GET("/:id", messagesController.FindMessage)
 	messagesGroup.PUT("/:id", messagesController.UpdateMessageReadStatus)
 	messagesGroup.DELETE("/:id", messagesController.DeleteMessage)

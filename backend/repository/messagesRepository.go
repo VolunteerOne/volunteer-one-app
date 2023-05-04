@@ -102,13 +102,13 @@ func (m messagesRepository) DeleteMessage(messageId uint) error {
 		messageIdStr + ")...")
 
 	var message models.Messages
-	err := m.DB.Where("id = ?", messageId).Find(&message).Error
+	err := m.DB.Find(&message).Error
 
 	if err != nil {
 		return err
 	}
 
-	err = m.DB.Where("id = ?").Delete(&message).Error
+	err = m.DB.Delete(&message).Error
 
 	return err
 }
