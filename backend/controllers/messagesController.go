@@ -36,6 +36,7 @@ func (m messagesController) CreateMessage(c *gin.Context) {
 	var body struct {
 		FromUserId uint
 		ToUserId   uint
+		Subject    string
 		Message    string
 	}
 
@@ -53,6 +54,7 @@ func (m messagesController) CreateMessage(c *gin.Context) {
 	message := models.Messages{
 		FromUsersID: body.FromUserId,
 		ToUsersID:   body.ToUserId,
+		Subject:     body.Subject,
 		Message:     body.Message,
 	}
 
@@ -74,11 +76,11 @@ func (m messagesController) CreateMessage(c *gin.Context) {
 func (m messagesController) ListAllMessagesForUser(c *gin.Context) {
 	// Declare a struct for the desired request body
 	var body struct {
-		userId uint
+		UserId uint
 	}
 
 	// Bind struct to context and check for error
-	err := c.Bind(&body)
+	err := c.BindJSON(&body)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Request body is invalid.",
@@ -87,7 +89,7 @@ func (m messagesController) ListAllMessagesForUser(c *gin.Context) {
 		return
 	}
 
-	result, err := m.messagesService.ListAllMessagesForUser(body.userId)
+	result, err := m.messagesService.ListAllMessagesForUser(body.UserId)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
