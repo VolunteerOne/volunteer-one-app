@@ -110,8 +110,8 @@ const styles = StyleSheet.create({
         shadowColor: '#fff',
         backgroundColor: '#fff',
         height: 30,
-        marginLeft: 110,
-        marginTop: -60,
+        marginLeft: width*0.25,
+        marginTop: -59,
         zIndex : 1,
     },
     submit: {
