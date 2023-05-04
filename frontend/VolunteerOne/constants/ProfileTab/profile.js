@@ -3,6 +3,13 @@ export default {
   "Jessica Jones": {
     name: "Jessica Jones",
     userType: "volunteer",
+    skills: [
+      "Crafts",
+      "Drawing",
+      "Handiwork",
+      "Computer",
+      "Painting",
+    ],
     image:
       "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?fit=crop&w=1650&q=80",
     age: "23",
@@ -112,6 +119,7 @@ export default {
   "Jane Hollis": {
     name: "Jane Hollis",
     userType: "volunteer",
+    skills: ['Art', 'Crafts', 'Cooking'],
     image:
       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1287&q=80",
     age: "29",
@@ -221,6 +229,7 @@ export default {
   "Doug Salas": {
     name: "Doug Salas",
     userType: "volunteer",
+    skills: ['Fitness', 'Mentor'],
     image:
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=400&q=60",
     age: "34",
@@ -330,6 +339,7 @@ export default {
   "Aliya Diwa": {
     name: "Aliya Diwa",
     userType: "volunteer",
+    skills: ['Teacher', 'Speaking'],
     image:
       "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDV8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=400&q=60",
     age: "27",
@@ -439,6 +449,7 @@ export default {
   "Noah Fernandez": {
     name: "Noah Fernandez",
     userType: "volunteer",
+    skills: ['Cooking'],
     image:
       "https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1326&q=80",
     age: "36",
@@ -548,6 +559,7 @@ export default {
   "Bryce Hansen": {
     name: "Bryce Hansen",
     userType: "volunteer",
+    skills: ['Lecture', 'Speaking'],
     image:
       "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE4fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=400&q=60",
     age: "37",

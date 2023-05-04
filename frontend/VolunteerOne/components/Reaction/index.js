@@ -21,7 +21,7 @@ const Reaction = ({ likeCount, commentCount }) => {
         style={[styles.card]}>
       <Block flex row>
 
-      <LikeButton likeCount={likeCount}></LikeButton>
+      <LikeButton style={{flex: 1}} likeCount={likeCount}></LikeButton>
       <Comment commentCount={commentCount}></Comment>
       </Block>
       
