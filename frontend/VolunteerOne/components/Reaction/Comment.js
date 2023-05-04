@@ -5,6 +5,8 @@ import { StyleSheet, View, TextInput, TouchableOpacity, Pressable, Dimensions } 
 import Icon from "../Icon";
 import { argonTheme } from "../../constants";
 
+const { width } = Dimensions.get("screen");
+
 
 const Comment = ({commentCount}) => {
   const [show, setShow] = useState(false);
@@ -43,7 +45,7 @@ const Comment = ({commentCount}) => {
       <View >
         <Input placeholder="Write a comment..."
             style={{marginLeft: -80,
-            width: 320,
+            width: width * 0.835,
             }}
             color = "black"
             onChangeText={newComment => setComment(newComment)}
@@ -114,7 +116,7 @@ const styles = StyleSheet.create({
     },
     submit: {
       position: 'absolute',
-      marginLeft: 210,
+      marginLeft: width * 0.585,
       height: 30,
       marginTop: 23
     },
